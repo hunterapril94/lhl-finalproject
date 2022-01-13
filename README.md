@@ -1,8 +1,8 @@
 # Next Door Lenders
 
 ### Description
-    In this time of rising housing and living costs, people are becoming less inclined to buy expensive equipment and housewares that they know will spend most of their time sitting in storage. In high density cities such as Vancouver, living spaces are increasingly being designed with little to no storage space. Along with a growing awareness of climate change and the environmental impact of over-consumption, many people are looking to new ways to share resources, tools, and even furniture. The bottom line: We have too much stuff! 
-    Next Door Lenders helps users both find and share stuff around their neighborhood and beyond.
+In this time of rising housing and living costs, people are becoming less inclined to buy expensive equipment and housewares that they know will spend most of their time sitting in storage. In high density cities such as Vancouver, living spaces are increasingly being designed with little to no storage space. Along with a growing awareness of climate change and the environmental impact of over-consumption, many people are looking to new ways to share resources, tools, and even furniture. The bottom line: We have too much stuff! 
+Next Door Lenders helps users both find and share stuff around their neighborhood and beyond.
 
 ### Target Audience
   - Vancouver Metro Area
