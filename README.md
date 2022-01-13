@@ -1,4 +1,11 @@
-# lhl-finalproject
+# Next Door Lenders
+
+### Description
+
+
+### Target Audience
+  - Vancouver Metro Area
+  - Particularly small apt owners who want to own fewer items
 
 
 ### ERD
