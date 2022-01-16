@@ -6,6 +6,13 @@ console.log("the script started");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+// const cookieSession = require("cookie-session");
+// PG database client/connection setup
+const { Pool } = require("pg");
+const dbParams = require("./lib/db.js");
+const db = new Pool(dbParams);
+db.connect();
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
   res.header(
@@ -22,7 +29,6 @@ app.get("/home", (req, res) => {
     message: "user is logged in",
   });
 });
-// const cookieSession = require("cookie-session");
 
 // // PG database client/connection setup
 // const { Pool } = require("pg");
