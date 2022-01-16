@@ -16,7 +16,7 @@ db.connect();
 const dbHelpers = require("./db/db-queries")(db);
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Origin", "http://localhost:3002"); // update to match the domain you will make the request from
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
 });
 
 app.get("/home", (req, res) => {
-  console.log("frome inside of the root in server.js");
+  console.log("from inside of the root in server.js");
   dbHelpers.getUserByEmail("test@test.com").then((user) => {
     console.log(user);
     return res.json({
