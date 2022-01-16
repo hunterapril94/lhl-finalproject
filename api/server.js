@@ -6,14 +6,14 @@ console.log("the script started");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "http://localhost.3000"); // update to match the domain you will make the request from
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 app.get("/home", (req, res) => {
   console.log("frome inside of the root in server.js");
