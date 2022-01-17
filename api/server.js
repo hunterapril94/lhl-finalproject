@@ -28,12 +28,6 @@ db.connect();
 
 const dbQueries = require("./db/db-queries")(db);
 
-//import routes send queies along to them, then add to express
-
-const usersRoutes = require("./routes/users");
-
-app.use("./routes/users.js", usersRoutes(dbQueries));
-
 //a fix for CORS errors
 
 app.use(function (req, res, next) {
@@ -47,6 +41,11 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+//import routes send queies along to them, then add to express
+
+const usersRoutes = require("./routes/users");
+app.use("/api/users", usersRoutes(dbQueries));
 
 //middleware to check if the user is logged in or not
 //it passes req.isLoggedin to all routes

@@ -3,7 +3,7 @@ const router = express.Router();
 //const isUserLoggedIn = require("./helpers/isUserLoggedIn");
 //const fakeUser = require("../fake-data/user.json");
 
-module.exports = (dbQueries) => {
+module.exports = (db) => {
   //   //-----------------------------------------------------------------
   //   // /api/users/auth
   //   //-----------------------------------------------------------------
@@ -64,54 +64,55 @@ module.exports = (dbQueries) => {
   //   // /api/users/login
   //   //-----------------------------------------------------------------
 
-  //   router.post("/login", (req, res) => {
-  //     const { isLoggedIn } = req; //gets this from middleware
-  //     if (isLoggedIn) {
-  //       return res.json({
-  //         auth: true,
-  //         message: "already logged in",
-  //       });
-  //     }
-  //     // user is not logged in
+  router.post("/login", (req, res) => {
+    console.log("login route");
+    const { isLoggedIn } = req; //gets this from middleware
+    if (isLoggedIn) {
+      return res.json({
+        auth: true,
+        message: "already logged in",
+      });
+    }
+    // user is not logged in
 
-  //     db.getUserByEmail(req.body.email)
-  //       .then((user) => {
-  //         console.log(user, "db user");
-  //         if (!user) {
-  //           //user does not exist in db as per email
-  //           console.log("email does not exist");
-  //           return res.json({
-  //             auth: false,
-  //             message: "User information is incorrect",
-  //           });
-  //         }
-  //         if (req.body.password !== user.password) {
-  //           //check the user password vs the form password
+    db.getUserByEmail(req.body.email)
+      .then((user) => {
+        console.log(user, "db user");
+        if (!user) {
+          //user does not exist in db as per email
+          console.log("email does not exist");
+          return res.json({
+            auth: false,
+            message: "User information is incorrect",
+          });
+        }
+        if (req.body.password !== user.password) {
+          //check the user password vs the form password
 
-  //           return res.json({
-  //             auth: false,
-  //             message: "User information is incorrect",
-  //           });
-  //         }
-  //         req.session.user_id = user.id;
-  //         //sets the cookie for the client
-  //         console.log(req.session.user_id);
-  //         console.log("authenticated");
-  //         res.json({
-  //           auth: true,
-  //           message: "success",
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         //db error
-  //         console.log("db error");
-  //         console.log(err);
-  //         res.status(500).json({
-  //           auth: false,
-  //           message: "internal server error",
-  //         });
-  //       });
-  //   });
+          return res.json({
+            auth: false,
+            message: "User information is incorrect",
+          });
+        }
+        req.session.user_id = user.id;
+        //sets the cookie for the client
+        console.log(req.session.user_id);
+        console.log("authenticated");
+        res.json({
+          auth: true,
+          message: "success",
+        });
+      })
+      .catch((err) => {
+        //db error
+        console.log("db error");
+        console.log(err);
+        res.status(500).json({
+          auth: false,
+          message: "internal server error",
+        });
+      });
+  });
 
   //   //-----------------------------------------------------------------
   //   // /api/users/logout
