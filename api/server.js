@@ -1,6 +1,6 @@
 require("dotenv").config();
 // Web server config
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8001;
 // const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
@@ -39,7 +39,7 @@ app.use("./routes/users.js", usersRoutes(dbQueries));
 app.use(function (req, res, next) {
   res.header(
     "Access-Control-Allow-Origin",
-    `http://localhost:${process.env.CLIENT_PORT || 3002}`
+    `http://localhost:${process.env.CLIENT_PORT || 3000}`
   ); // update to match the domain you will make the request from
   res.header(
     "Access-Control-Allow-Headers",
