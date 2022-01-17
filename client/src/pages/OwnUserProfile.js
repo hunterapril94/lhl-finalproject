@@ -1,8 +1,22 @@
-function OwnUserProfile() {
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
+function OwnUserProfile(props) {
+  const { id } = props.match;
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    axios.get(`http://localhost:8001/api/users/${id}`).then((user) => {
+      setUser(user);
+    });
+  }, []);
+  console.log("from inside of product details:", user);
   return (
     <>
-      <h1>This page will handle user's own profile</h1>
-      <h3>will redirect to login if not logged</h3>
+      <p> {user.name}</p>
+      <p>{user.email}</p>
+      <Link to="/users/:id/products">My products</Link>
+      <Link to="/users/:id/requests">My products</Link>
     </>
   );
 }

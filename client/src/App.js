@@ -6,12 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Products from "./components/Products";
 import About from "./pages/About";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
-import UserProfile from "./pages/UserProfile";
 import OwnUserProfile from "./pages/OwnUserProfile";
-import Product from "./components/Product";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -27,19 +25,20 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Header />
-        <Products products={products} />
       </div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="products" element={<Products />}>
-          <Route path=":id" element={<Product />} />
+        <Route path="/" element={<Products products={products} exact />} />
+        <Route path="/products" element={<Products products={products} />}>
+          <Route path="/products/:id" element={<ProductDetail />} />
         </Route>
 
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
-        <Route path="users" element={<Users />}>
-          <Route path="me" element={<OwnUserProfile />} />
-          <Route path=":id" element={<UserProfile />} />
+        <Route path="/users" element={<Users />}>
+          <Route path="/users/:id" element={<OwnUserProfile />}>
+            <Route path="/users/:id/products" />
+            <Route path="/users/:id/requests" />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

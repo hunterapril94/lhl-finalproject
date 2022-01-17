@@ -1,8 +1,0 @@
-DB_HOST=localhost
-DB_USER=renter
-DB_PASS=renter
-DB_NAME=final_project
-# Uncomment and set to true for Heroku
-# DB_SSL=true if heroku
-DB_PORT=5432
-PORT = 8001
