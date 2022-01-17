@@ -1,11 +1,14 @@
 require("dotenv").config();
 // Web server config
 const PORT = process.env.PORT || 8080;
-console.log("the script started");
 // const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 const morgan = require("morgan");
+
+//configure cookies
+
 const cookieSession = require("cookie-session");
 
 app.use(
@@ -21,9 +24,11 @@ const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
 db.connect();
 
+//go get db queries to send along to routes
+
 const dbQueries = require("./db/db-queries")(db);
 
-app.use(express.urlencoded({ extended: true }));
+//import routes send queies along to them, then add to express
 
 const usersRoutes = require("./routes/users");
 
@@ -32,7 +37,10 @@ app.use("./routes/users.js", usersRoutes(dbQueries));
 //a fix for CORS errors
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3002"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Origin",
+    `http://localhost:${process.env.CLIENT_PORT || 3000}`
+  ); // update to match the domain you will make the request from
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -65,6 +73,8 @@ app.use(function (req, res, next) {
 //       });
 //     });
 // });
+
+//test route
 
 app.get("/home", (req, res) => {
   console.log("from inside of the root in server.js");
