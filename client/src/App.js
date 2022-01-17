@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 function App() {
   const [state, setState] = useState("");
   useEffect(() => {
-    axios.get("http://localhost:8080/home").then((res) => {
+    axios.get("http://localhost:8001/home").then((res) => {
       console.log(res);
       setState(res.data.message);
-    });
+    }).catch((err)=> console.log(err.message));
   }, []);
   return (
     <div className="App">
