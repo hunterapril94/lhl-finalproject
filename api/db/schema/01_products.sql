@@ -7,5 +7,5 @@ CREATE TABLE products (
   price_per_day_cents INTEGER NOT NULL,
   description TEXT,
   deposit_amount_cents INTEGER NOT NULL,
-  image VARCHAR(255) NOT NULL
+  image TEXT NOT NULL
 );

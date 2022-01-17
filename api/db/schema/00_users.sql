@@ -10,6 +10,6 @@ CREATE TABLE users (
   lender BOOLEAN NOT NULL,
   email VARCHAR(255) NOT NULL UNIQUE,
   cash_balance_cents INTEGER NOT NULL,
-  phone INTEGER NOT NULL,
+  phone VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL
 );
