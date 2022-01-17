@@ -1,6 +1,6 @@
 const categories = ["Tools", "Kitchenware", "Furniture", "Craft Equipment", "Appliances", "Other"]
 
-const rentalStatuses = ["pending", "accepted", "rented", "returned"]
+const rentalStatuses = ["pending", "approved", "rented", "returned"]
 
 const neighborhoods = [
   "Downtown", "Kitsilano", "West End", "Yaletown", "East Vancouver", "Mount Pleasant", 
