@@ -18,6 +18,10 @@ app.use(
   })
 );
 
+//helper function
+
+const isUserLoggedIn = require("./helpers/isUserLoggedIn");
+
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
@@ -50,28 +54,28 @@ app.use("/api/users", usersRoutes(dbQueries));
 //middleware to check if the user is logged in or not
 //it passes req.isLoggedin to all routes
 
-// app.use((req, res, next) => {
-//   const userID = req.session.user_id; //get users cookie
+app.use((req, res, next) => {
+  const userID = req.session.user_id; //get users cookie
 
-//   isUserLoggedIn(userID, dbHelpers)
-//     .then((isLoggedIn) => {
-//       if (!isLoggedIn) {
-//         //user is already logged in
-//         req.isLoggedIn = false;
-//       } else {
-//         req.isLoggedIn = true;
-//         req.userID = userID;
-//       }
-//       next();
-//     })
-//     .catch((err) => {
-//       console.log("auth error:", err);
-//       res.status(500).json({
-//         auth: true,
-//         message: "internal server error",
-//       });
-//     });
-// });
+  isUserLoggedIn(userID, dbQueries)
+    .then((isLoggedIn) => {
+      if (!isLoggedIn) {
+        //user is already logged in
+        req.isLoggedIn = false;
+      } else {
+        req.isLoggedIn = true;
+        req.userID = userID;
+      }
+      next();
+    })
+    .catch((err) => {
+      console.log("auth error:", err);
+      res.status(500).json({
+        auth: true,
+        message: "internal server error",
+      });
+    });
+});
 
 //test route
 
@@ -85,8 +89,6 @@ app.get("/home", (req, res) => {
     });
   });
 });
-
-// app.use(express.urlencoded({ extended: true }));
 
 // app.use(
 //   "/styles",
