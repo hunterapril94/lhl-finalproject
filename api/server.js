@@ -51,6 +51,9 @@ app.use(function (req, res, next) {
 const usersRoutes = require("./routes/users");
 app.use("/api/users", usersRoutes(dbQueries));
 
+const productsRoutes = require("./routes/products");
+app.use("/api/products", productsRoutes(dbQueries));
+
 //middleware to check if the user is logged in or not
 //it passes req.isLoggedin to all routes
 
