@@ -114,17 +114,17 @@ module.exports = (db) => {
       });
   });
 
-  //   //-----------------------------------------------------------------
-  //   // /api/users/logout
-  //   //-----------------------------------------------------------------
+  //-----------------------------------------------------------------
+  // /api/users/logout
+  //-----------------------------------------------------------------
 
-  //   router.post("/logout", (req, res) => {
-  //     req.session = null; //deletes user cookies
-  //     res.json({
-  //       auth: false,
-  //       message: "sucessfully logged out user",
-  //     });
-  //   });
+  router.post("/logout", (req, res) => {
+    req.session = null; //deletes user cookies
+    res.json({
+      auth: false,
+      message: "sucessfully logged out user",
+    });
+  });
 
   //   //-----------------------------------------------------------------
   //   // /api/users/signup
