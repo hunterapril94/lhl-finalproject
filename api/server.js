@@ -6,14 +6,30 @@ console.log("the script started");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-// const cookieSession = require("cookie-session");
+const cookieSession = require("cookie-session");
+
+app.use(
+  cookieSession({
+    name: "user",
+    keys: ["key1", "key2"],
+  })
+);
+
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
 db.connect();
 
-const dbHelpers = require("./db/db-queries")(db);
+const dbQueries = require("./db/db-queries")(db);
+
+app.use(express.urlencoded({ extended: true }));
+
+const usersRoutes = require("./routes/users");
+
+app.use("./routes/users.js", usersRoutes(dbQueries));
+
+//a fix for CORS errors
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3002"); // update to match the domain you will make the request from
@@ -24,9 +40,35 @@ app.use(function (req, res, next) {
   next();
 });
 
+//middleware to check if the user is logged in or not
+//it passes req.isLoggedin to all routes
+
+// app.use((req, res, next) => {
+//   const userID = req.session.user_id; //get users cookie
+
+//   isUserLoggedIn(userID, dbHelpers)
+//     .then((isLoggedIn) => {
+//       if (!isLoggedIn) {
+//         //user is already logged in
+//         req.isLoggedIn = false;
+//       } else {
+//         req.isLoggedIn = true;
+//         req.userID = userID;
+//       }
+//       next();
+//     })
+//     .catch((err) => {
+//       console.log("auth error:", err);
+//       res.status(500).json({
+//         auth: true,
+//         message: "internal server error",
+//       });
+//     });
+// });
+
 app.get("/home", (req, res) => {
   console.log("from inside of the root in server.js");
-  dbHelpers.getUserByEmail("test@test.com").then((user) => {
+  dbQueries.getUserByEmail("test@test.com").then((user) => {
     console.log(user);
     return res.json({
       auth: "isLoggedIn",
@@ -35,26 +77,6 @@ app.get("/home", (req, res) => {
   });
 });
 
-// // PG database client/connection setup
-// const { Pool } = require("pg");
-// const dbParams = require("./lib/db.js");
-// const db = new Pool(dbParams);
-// db.connect();
-
-// const isUserLoggedIn = require("./routes/helpers/isUserLoggedIn");
-
-// // Load the logger first so all (static) HTTP requests are logged to STDOUT
-// // 'dev' = Concise output colored by response status for development use.
-// //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-// app.use(morgan("dev"));
-// app.use(
-//   cookieSession({
-//     name: "user",
-//     keys: ["key1", "key2"],
-//   })
-// );
-
-// // app.set("view engine", "ejs"); dont neecd for SPA
 // app.use(express.urlencoded({ extended: true }));
 
 // app.use(
