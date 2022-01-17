@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS transactions CASCADE;
+CREATE TABLE transactions (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  subtotal INTEGER NOT NULL,
+  deposit_total INTEGER NOT NULL
+);
