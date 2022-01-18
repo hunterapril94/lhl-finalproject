@@ -119,7 +119,7 @@ export const Header = (props) => {
               >
               
                   <MenuItem key='logout' onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{props.login ? "Log out" : "Login"}</Typography>
+                    <Typography textAlign="center">{props.auth ? "Log out" : "Login"}</Typography>
                   </MenuItem>
               </Menu>
             </Box>

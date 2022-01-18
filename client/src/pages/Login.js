@@ -1,10 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const submitHandler = (event) => {
     event.preventDefault();
     console.log("from inside of submit handler");
@@ -18,6 +19,13 @@ function Login() {
       .then((res) => {
         console.log(res);
         console.log(res.data);
+
+        if (res.data.auth) {
+          props.auth(true);
+          navigate("/user");
+        } else {
+          props.auth(false);
+        }
       });
   };
   return (
