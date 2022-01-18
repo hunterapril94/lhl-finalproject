@@ -1,4 +1,4 @@
-import { createTheme, Link } from "@mui/material";
+import { createTheme, MenuItem, IconButton } from "@mui/material";
 
 
 const theme = createTheme({
@@ -14,8 +14,16 @@ const theme = createTheme({
       main: "#EDF5E1"
     }
   },
-  Link: {
+  components: {
+    Link: {
       color: "#EDF5E1"
+    },
+    IconButton: {
+      color: '#EDF5E1'
+    },
+    Grid: {
+      color: '#EDF5E1'
+    }
   }
 
 });

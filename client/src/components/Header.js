@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from "react";
 import { color } from "@mui/system";
 import theme from "./styles";
+import { Grid } from '@mui/material';
 
 
 
@@ -44,10 +45,11 @@ export const Header = (props) => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, color: '#EDF5E1' }}
               
             >
-              <Link to="/">LOGO</Link>
+              <Link className='navItems' to="/">
+                  <Grid color={theme.palette.secondary.light} container>LOGO</Grid></Link>
             </Typography>
   
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -70,7 +72,11 @@ export const Header = (props) => {
               >
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center" ><Link className="navItems" to={`/${page}`}>{page}</Link></Typography>
+                    <Typography textAlign="center">
+                      <Link className="navItems" to={`/${page}`}>
+                        <Grid color={theme.palette.secondary.light} container>{page}</Grid>
+                      </Link>
+                  </Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -90,15 +96,17 @@ export const Header = (props) => {
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
-                  <Link to={`/${page}`}>{page}</Link>
+                  <Link className='navItems' to={`/${page}`}>
+                  <Grid color={theme.palette.secondary.light} container>{page}</Grid></Link>
                 </Button>
               ))}
             </Box>
   
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* {user.first_name.charAt(0) + user.last_name.charAt(0)} */} AL
+                  <Grid color={theme.palette.secondary.light} container>AL</Grid>
+                  {/* {user.first_name.charAt(0) + user.last_name.charAt(0)} */}
                 </IconButton>
               </Tooltip>
               <Menu
