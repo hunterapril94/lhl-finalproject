@@ -27,6 +27,7 @@ const ProductDetail = () => {
       <h3>Price: ${price_per_day_cents / 100}</h3>
       <h3>Deposit Amount: ${deposit_amount_cents / 100}</h3>
       <h3>Description: {description}</h3>
+      <button>Add</button>
     </>
   );
 };
