@@ -126,63 +126,69 @@ module.exports = (db) => {
     });
   });
 
-  //   //-----------------------------------------------------------------
-  //   // /api/users/signup
-  //   //-----------------------------------------------------------------
+  //-----------------------------------------------------------------
+  // /api/users/signup
+  //-----------------------------------------------------------------
 
-  //   router.post("/signup", (req, res) => {
-  //     const user = {
-  //       first_name: req.body.FirstName,
-  //       last_name: req.body.LastName,
-  //       email: req.body.email,
-  //       password: req.body.password,
-  //     };
+  router.post("/signup", (req, res) => {
+    const user = {
+      first_name: req.body.FirstName,
+      last_name: req.body.LastName,
+      address: req.body.address,
+      neighborhood: req.body.neighborhood,
+      borrower: false,
+      lender: false,
+      email: req.body.email,
+      cash_balance_cents: 0,
+      phone: req.body.phone,
+      password: req.body.password,
+    };
 
-  //     //makes sure the sign up form is complete
+    //makes sure the sign up form is complete
 
-  //     if (!(user.first_name && user.last_name && user.email && user.password)) {
-  //       return res.json({
-  //         auth: false,
-  //         message: "Please fill in all required fields",
-  //       });
-  //     }
+    if (!(user.first_name && user.last_name && user.email && user.password)) {
+      return res.json({
+        auth: false,
+        message: "Please fill in all required fields",
+      });
+    }
 
-  //     //second thing is to check if the user is already logged in
+    //second thing is to check if the user is already logged in
 
-  //     const { isLoggedIn } = req; //gets this from middleware
+    const { isLoggedIn } = req; //gets this from middleware
 
-  //     if (isLoggedIn) {
-  //       return res.json({
-  //         auth: true,
-  //         message: "already logged in",
-  //       });
-  //     }
+    if (isLoggedIn) {
+      return res.json({
+        auth: true,
+        message: "already logged in",
+      });
+    }
 
-  //     //if they arent logged in we can then go about creating a user
+    //if they arent logged in we can then go about creating a user
 
-  //     db.addUser(user)
-  //       .then((result) => {
-  //         if (!result) {
-  //           return res.json({
-  //             auth: false,
-  //             message: "Email already in use",
-  //           });
-  //         }
-  //         console.log("successfully added user to db: ", result);
-  //         req.session.user_id = result.id; //set the cookie according to the userid returned from the database
-  //         res.json({
-  //           auth: true,
-  //           message: "succesful registration",
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         console.log("db error", err);
-  //         res.status(500).json({
-  //           auth: false,
-  //           message: "internal server error",
-  //         });
-  //       });
-  //   });
+    db.addUser(user)
+      .then((result) => {
+        if (!result) {
+          return res.json({
+            auth: false,
+            message: "Email already in use",
+          });
+        }
+        console.log("successfully added user to db: ", result);
+        req.session.user_id = result.id; //set the cookie according to the userid returned from the database
+        res.json({
+          auth: true,
+          message: "succesful registration",
+        });
+      })
+      .catch((err) => {
+        console.log("db error", err);
+        res.status(500).json({
+          auth: false,
+          message: "internal server error",
+        });
+      });
+  });
 
   //   //-----------------------------------------------------------------
   //   // /api/users/:id/edit
