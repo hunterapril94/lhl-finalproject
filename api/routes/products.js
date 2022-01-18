@@ -20,21 +20,39 @@ module.exports = (db) => {
       .then((products) => {
         res.json({
           auth: isLoggedIn,
-          message: "successfully got all pins",
+          message: "successfully got all products",
           products,
         });
       })
       .catch((err) => {
         res.status(500).json({
-          auth: false,
+          auth: isLoggedIn,
           message: "internal server error",
         });
       });
   });
 
   //-----------------------------------------------------------------
-  // POST /api/pins/ --  add new pin
+  // GET /api/products/:id
   //-----------------------------------------------------------------
 
+  router.get("/:id", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    console.log(req.params.id);
+    db.getProducyById(req.params.id)
+      .then((product) => {
+        res.json({
+          auth: isLoggedIn,
+          message: "successfully got product",
+          product,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: isLoggedIn,
+          message: "internal server error",
+        });
+      });
+  });
   return router;
 };

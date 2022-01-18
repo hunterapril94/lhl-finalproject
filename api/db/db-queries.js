@@ -66,10 +66,30 @@ module.exports = (db) => {
       });
   };
 
+  //-----------------------------------------------------------------
+  // Products Queries
+  //-----------------------------------------------------------------
+
   const getAllProducts = function () {
     return db.query(`SELECT * FROM products`).then((result) => {
       return result.rows;
     });
+  };
+
+  const getProducyById = function (id) {
+    return db
+      .query(
+        `
+    SELECT * FROM products WHERE id = $1;`,
+        [id]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
   };
   // three table join, returns pin information owned by a specific user
   // const getOwnedPins = function (id) {
@@ -394,5 +414,6 @@ module.exports = (db) => {
     addUser,
     getUserById,
     getAllProducts,
+    getProducyById,
   };
 };
