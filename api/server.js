@@ -4,7 +4,8 @@ const PORT = process.env.PORT || 8001;
 // const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 const morgan = require("morgan");
 
 //configure cookies
