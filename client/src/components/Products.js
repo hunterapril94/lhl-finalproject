@@ -6,7 +6,7 @@ import { ThemeProvider } from "@emotion/react";
 export default function Products(props) {
 
   const products = props.products.map((product)=> {
-    return(    <Grid color={theme.palette.primary.main} backgroundColor={theme.palette.tertiary.main} item m={3}><Product key={product.id} name={product.name} 
+    return( <Grid item m={3}><Product key={product.id} name={product.name} 
       category={product.category}
       price={product.price_per_day_cents}
       deposit_amount={product.deposit_amount_cents}
