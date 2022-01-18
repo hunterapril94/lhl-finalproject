@@ -136,10 +136,10 @@ module.exports = (db) => {
       last_name: req.body.LastName,
       address: req.body.address,
       neighborhood: req.body.neighborhood,
-      borrower: false,
-      lender: false,
+      borrower: false, //not sent by axios
+      lender: false, //not sent by axios
       email: req.body.email,
-      cash_balance_cents: 0,
+      cash_balance_cents: 0, //not sent along  by axios
       phone: req.body.phone,
       password: req.body.password,
     };
