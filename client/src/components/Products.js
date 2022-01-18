@@ -18,14 +18,16 @@ export default function Products(props) {
   Array.isArray(products)
   return( 
     <ThemeProvider theme={theme}>    
-    <Grid color={theme.palette.primary.main} backgroundColor={theme.palette.tertiary.main} container direction="column" >
-      <div className="products" >
+    <div className="products" >
+
+      <Grid color={theme.palette.primary.main} backgroundColor={theme.palette.tertiary.main} container direction="column" alignItems={"center"} >
         <h1>Products</h1>
         <Grid container direction="row" spacing={0}>
           {props.products.length > 1 ? products : <Product key={4000} name="No Products Available" />}
         </Grid>
+      </Grid>
       </div>
-    </Grid> 
+ 
     </ThemeProvider> 
  
 

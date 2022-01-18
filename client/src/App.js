@@ -28,11 +28,12 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
+    <ThemeProvider theme={theme}>      
       <div className="App">
-        <Header />
-        <button onClick={() => setLogin(!login)}>
+        <Header onClick={() => setLogin(!login)} login={login}/>
+        {/* <button >
           {login ? "Log out" : "Login"}
-        </button>
+        </button> */}
         <Routes>
           <Route path="/" element={<Products products={products} />} />
           <Route path="/products" element={<Products products={products} />} />
@@ -47,6 +48,8 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      </ThemeProvider>
+
     </BrowserRouter>
   );
 }

@@ -1,4 +1,5 @@
-import { createTheme } from "@mui/material";
+import { createTheme, Link } from "@mui/material";
+
 
 const theme = createTheme({
   palette: {
@@ -12,7 +13,11 @@ const theme = createTheme({
     tertiary: {
       main: "#EDF5E1"
     }
+  },
+  Link: {
+      color: "#EDF5E1"
   }
+
 });
 
 export default theme;
