@@ -12,10 +12,11 @@ function UserDetail() {
   }, []);
   return (
     <>
+      <h2>This is the profile page!</h2>
       <p> {user.name}</p>
       <p>{user.email}</p>
-      <Link to="/users/:id/products">My products</Link>
-      <Link to="/users/:id/requests">My products</Link>
+      <Link to="/user/:id/products">My products</Link>
+      <Link to="/user/:id/requests">My products</Link>
     </>
   );
 }

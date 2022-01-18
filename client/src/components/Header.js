@@ -11,7 +11,7 @@ export const Header = () => {
           <Link to="/about">About</Link>
         </li>
         <li>
-          <Link to="/users/:id">profile</Link>
+          <Link to="/user">profile</Link>
         </li>
       </ul>
     </>
