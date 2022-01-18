@@ -96,10 +96,10 @@ module.exports = (db) => {
             message: "User information is incorrect",
           });
         }
+        console.log("loggin in user id :" + user.id);
         req.session.user_id = user.id;
         //sets the cookie for the client
-        console.log(req.session.user_id);
-        console.log("authenticated");
+
         res.json({
           auth: true,
           message: "success",

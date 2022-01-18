@@ -16,6 +16,9 @@ module.exports = (db) => {
     //   });
     // }
 
+    console.log("log in status: " + isLoggedIn);
+    console.log("auth status" + isLoggedIn);
+
     db.getAllProducts()
       .then((products) => {
         res.json({

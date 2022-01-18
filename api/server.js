@@ -1,10 +1,11 @@
 require("dotenv").config();
+const cors = require("cors");
 // Web server config
 const PORT = process.env.PORT || 8001;
 // const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const morgan = require("morgan");
 
@@ -35,36 +36,38 @@ const dbQueries = require("./db/db-queries")(db);
 
 //a fix for CORS errors
 
-app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    `http://localhost:${process.env.CLIENT_PORT || 3000}`
-  ); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+app.use(
+  cors({
+    origin: `http://localhost:${process.env.CLIENT_PORT || 3000}`,
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    credentials: true,
+  })
+);
 
-//import routes send queies along to them, then add to express
-
-const usersRoutes = require("./routes/users");
-app.use("/api/users", usersRoutes(dbQueries));
-
-const productsRoutes = require("./routes/products");
-app.use("/api/products", productsRoutes(dbQueries));
+// app.use(function (req, res, next) {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     `http://localhost:${process.env.CLIENT_PORT || 3000}`
+//   ); // update to match the domain you will make the request from
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 
 //middleware to check if the user is logged in or not
 //it passes req.isLoggedin to all routes
 
 app.use((req, res, next) => {
   const userID = req.session.user_id; //get users cookie
+  console.log(req.session);
 
   isUserLoggedIn(userID, dbQueries)
     .then((isLoggedIn) => {
       if (!isLoggedIn) {
         //user is already logged in
+        console.log("checking status");
         req.isLoggedIn = false;
       } else {
         req.isLoggedIn = true;
@@ -81,6 +84,13 @@ app.use((req, res, next) => {
     });
 });
 
+//import routes send queies along to them, then add to express
+
+const usersRoutes = require("./routes/users");
+app.use("/api/users", usersRoutes(dbQueries));
+
+const productsRoutes = require("./routes/products");
+app.use("/api/products", productsRoutes(dbQueries));
 //test route
 
 app.get("/home", (req, res) => {

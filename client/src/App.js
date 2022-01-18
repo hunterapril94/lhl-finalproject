@@ -11,6 +11,7 @@ import theme from "./components/styles";
 
 import About from "./pages/About";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import UserDetail from "./pages/Profile";
 import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";

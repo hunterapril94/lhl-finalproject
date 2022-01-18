@@ -2,14 +2,14 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
+
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("from inside of submit handler");
-    console.log(email, password);
 
     axios
       .post(`http://localhost:8001/api/users/login`, {
