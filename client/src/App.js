@@ -15,6 +15,8 @@ import UserDetail from "./pages/Profile";
 import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
 import { useNavigate } from "react-router";
+import ViewProfile from "./components/ViewProfile";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -31,30 +33,34 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-    <ThemeProvider theme={theme}>      
-      <div className="App">
-        <Header auth={login} />
-        {/* <button onClick={() => useNavigate("/login")}>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Header auth={login} />
+          {/* <button onClick={() => useNavigate("/login")}>
           {login ? "Log out" : "Login"}
         </button> */}
 
-        <Routes>
-          <Route path="/" element={<Products products={products} />} />
-          <Route path="/products" element={<Products products={products} />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
+          <Routes>
+            <Route path="/" element={<Products products={products} />} />
+            <Route
+              path="/products"
+              element={<Products products={products} />}
+            />
+            <Route path="/products/:id" element={<ProductDetail />} />
 
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login auth={setLogin} />} />
-          <Route path="/logout" element={<Login auth={setLogin} />} />
-          <Route
-            path="/user"
-            element={login ? <UserDetail /> : <Navigate to="/" />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
+            <Route
+              path="/profile"
+              element={login ? <UserDetail /> : <Navigate to="/" />}
+            />
+            <Route path="/profile/view" element={<ViewProfile />} />
+            <Route path="/profile/edit" element={<EditProfile />} />
+            <Route path="/login" element={<Login auth={setLogin} />} />
+            <Route path="/logout" element={<Login auth={setLogin} />} />
+            <Route path="" />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </ThemeProvider>
-
     </BrowserRouter>
   );
 }
