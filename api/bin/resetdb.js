@@ -1,4 +1,5 @@
 require("dotenv").config();
+console.log(process.env.DB_HOST);
 
 // other dependencies
 const fs = require("fs");

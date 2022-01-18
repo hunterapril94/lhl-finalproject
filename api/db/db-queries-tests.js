@@ -1,4 +1,5 @@
 //paste into server.js for now do not commit server.js to git when testing like this
+
 //users
 
 user = {
@@ -26,3 +27,14 @@ dbQueries
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
+
+//products
+
+dbQueries
+  .getProducyById(1)
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
