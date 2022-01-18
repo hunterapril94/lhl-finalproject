@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-function OwnUserProfile(props) {
-  const { id } = props.match;
+function UserDetail() {
+  const { id } = useParams;
   const [user, setUser] = useState({});
   useEffect(() => {
     axios.get(`http://localhost:8001/api/users/${id}`).then((user) => {
       setUser(user);
     });
   }, []);
-  console.log("from inside of product details:", user);
   return (
     <>
       <p> {user.name}</p>
@@ -20,4 +19,4 @@ function OwnUserProfile(props) {
     </>
   );
 }
-export default OwnUserProfile;
+export default UserDetail;

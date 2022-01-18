@@ -7,9 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Products from "./components/Products";
 import About from "./pages/About";
 import Login from "./pages/Login";
-import Users from "./pages/Users";
-import OwnUserProfile from "./pages/OwnUserProfile";
+import UserDetail from "./pages/UserDetail";
 import ProductDetail from "./pages/ProductDetail";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -27,19 +27,17 @@ function App() {
         <Header />
       </div>
       <Routes>
-        <Route path="/" element={<Products products={products} exact />} />
-        <Route path="/products" element={<Products products={products} />}>
-          <Route path="/products/:id" element={<ProductDetail />} />
-        </Route>
+        <Route path="/" element={<Products products={products} />} />
+        <Route path="/products" element={<Products products={products} />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
 
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/users" element={<Users />}>
-          <Route path="/users/:id" element={<OwnUserProfile />}>
-            <Route path="/users/:id/products" />
-            <Route path="/users/:id/requests" />
-          </Route>
+        <Route path="/users/:id" element={<UserDetail />}>
+          <Route path="/users/:id/products" />
+          <Route path="/users/:id/requests" />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
