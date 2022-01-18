@@ -11,6 +11,7 @@ import theme from "./components/styles";
 
 import About from "./pages/About";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import UserDetail from "./pages/Profile";
 import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
@@ -31,30 +32,32 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-    <ThemeProvider theme={theme}>      
-      <div className="App">
-        <Header auth={login} />
-        {/* <button onClick={() => useNavigate("/login")}>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Header auth={login} />
+          {/* <button onClick={() => useNavigate("/login")}>
           {login ? "Log out" : "Login"}
         </button> */}
 
-        <Routes>
-          <Route path="/" element={<Products products={products} />} />
-          <Route path="/products" element={<Products products={products} />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
+          <Routes>
+            <Route path="/" element={<Products products={products} />} />
+            <Route
+              path="/products"
+              element={<Products products={products} />}
+            />
+            <Route path="/products/:id" element={<ProductDetail />} />
 
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login auth={setLogin} />} />
-          <Route path="/logout" element={<Login auth={setLogin} />} />
-          <Route
-            path="/user"
-            element={login ? <UserDetail /> : <Navigate to="/" />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login auth={setLogin} />} />
+            <Route path="/logout" element={<Logout auth={setLogin} />} />
+            <Route
+              path="/user"
+              element={login ? <UserDetail /> : <Navigate to="/" />}
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </ThemeProvider>
-
     </BrowserRouter>
   );
 }
