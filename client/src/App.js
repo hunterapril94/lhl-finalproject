@@ -3,6 +3,9 @@ import "./App.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Products from "./components/Products";
+import { ThemeProvider } from '@mui/material';
+import theme from "./components/styles";
+
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -13,12 +16,12 @@ function App() {
     }).catch((err)=> console.log(err.message))
   }, []);
   return (
-    <div className="App">
-      <Products products={products} />
-      {/* <h1>Hello!</h1>
+    <ThemeProvider theme={theme}>    
+      <div className="App" >
+      <Products products={products} key={1} />
+      </div>
+    </ThemeProvider>
 
-      <h1>{state}</h1> */}
-    </div>
   );
 }
 
