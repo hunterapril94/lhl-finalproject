@@ -11,6 +11,8 @@ import Logout from "./pages/Logout";
 import About from "./pages/About";
 import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+import SignUp from "./pages/SignUp";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -19,10 +21,13 @@ ReactDOM.render(
         <Route index element={<ProductsAll />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route>
+
         <Route path="/my-product-edit" element={<MyProductEdit />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   </BrowserRouter>,

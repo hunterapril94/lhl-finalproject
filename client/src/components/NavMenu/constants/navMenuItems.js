@@ -11,6 +11,7 @@ export const navMenuItems = (authStatus) => {
     return [
       { id: 0, icon: "", label: "Products", route: "/" },
       { id: 1, icon: "", label: "login", route: "login" },
+      { id: 7, icon: "", label: "sign-up", route: "signup" },
     ];
   }
 };

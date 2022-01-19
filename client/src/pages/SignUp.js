@@ -1,55 +1,16 @@
-// import { useState } from "react";
-// import axios from "axios";
-// import { useNavigate, useOutletContext } from "react-router-dom";
-
-// axios.defaults.withCredentials = true;
-
-// function Login() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [auth, setAuth] = useOutletContext();
-//   const navigate = useNavigate();
-//   const submitHandler = (event) => {
-//     event.preventDefault();
-
-//     axios
-//       .post(`http://localhost:8001/api/users/login`, {
-//         email: email,
-//         password: password,
-//       })
-//       .then((res) => {
-//         if (res.data.auth) {
-//           setAuth(true);
-//           navigate("/");
-//         } else {
-//           setAuth(false);
-//         }
-//       });
+// we need:
+// const user = {
+//     first_name: req.body.FirstName,
+//     last_name: req.body.LastName,
+//     address: req.body.address,
+//     neighborhood: req.body.neighborhood,
+//     borrower: false, //not sent by axios
+//     lender: false, //not sent by axios
+//     email: req.body.email,
+//     cash_balance_cents: 0, //not sent along  by axios
+//     phone: req.body.phone,
+//     password: req.body.password,
 //   };
-//   return (
-//     <form autoComplete="off" onSubmit={submitHandler}>
-//       <input
-//         className=""
-//         name="email"
-//         type="email"
-//         placeholder="Enter email"
-//         value={email}
-//         onChange={(event) => setEmail(event.target.value)}
-//       />
-//       <input
-//         className=""
-//         name="password"
-//         type="text"
-//         placeholder="Enter password"
-//         value={password}
-//         onChange={(event) => setPassword(event.target.value)}
-//       />
-//       <button>Submit</button>
-//     </form>
-//   );
-// }
-
-// export default Login;
 
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
@@ -91,7 +52,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function LogIn() {
+export default function SignUp() {
   const [auth, setAuth] = useOutletContext();
   const navigate = useNavigate();
 
@@ -131,7 +92,7 @@ export default function LogIn() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Sign Up
             </Typography>
             <Box
               component="form"
@@ -143,12 +104,23 @@ export default function LogIn() {
                 margin="normal"
                 required
                 fullWidth
+                id="FirstName"
+                label="First Name"
+                name="FirstName"
+                autoComplete="text"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
                 autoFocus
               />
+
               <TextField
                 margin="normal"
                 required
