@@ -2,17 +2,22 @@ import Product from "./Product"
 import { Grid } from "@mui/material"
 import theme from "./styles";
 import { ThemeProvider } from "@emotion/react";
+import { Link } from "react-router-dom";
 
 export default function Products(props) {
 
   const products = props.products.map((product)=> {
-    return( <Grid item m={3}><Product key={product.id} name={product.name} 
-      category={product.category}
-      price={product.price_per_day_cents}
-      deposit_amount={product.deposit_amount_cents}
-      description={product.description}
-      image={product.image}
-      /></Grid> )
+    return( <Link to={`/products/${product.id}`}>
+      <Grid item m={3}>
+        <Product key={product.id} name={product.name} 
+        category={product.category}
+        price={product.price_per_day_cents}
+        deposit_amount={product.deposit_amount_cents}
+        description={product.description}
+        image={product.image}
+        />
+      </Grid>
+      </Link> )
 
   })
   Array.isArray(products)

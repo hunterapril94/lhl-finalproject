@@ -1,4 +1,5 @@
-import { createTheme, MenuItem, IconButton } from "@mui/material";
+import { createTheme, MenuItem, IconButton, CardContent } from "@mui/material";
+import { fontFamily } from "@mui/system";
 
 
 const theme = createTheme({
@@ -25,8 +26,12 @@ const theme = createTheme({
       color: '#EDF5E1'
     },
     Grid: {
-      color: '#EDF5E1'
-    }
+      color: '#EDF5E1',
+      fontFamily: 'Roboto',
+      fontWeight: 'regular',
+      backgroundColor: "#1D4528"
+    },
+    
   }
 
 });

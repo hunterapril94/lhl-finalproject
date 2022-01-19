@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import {Card, CardMedia, CardContent, Grid}  from '@mui/material';
+import theme from "../components/styles";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -20,15 +22,27 @@ const ProductDetail = () => {
     price_per_day_cents,
   } = product;
   return (
-    <>
-      <img src={image} height="300" width="300" />
-      <h2>{name}</h2>
-      <h3>{category}</h3>
-      <h3>Price: ${price_per_day_cents / 100}</h3>
-      <h3>Deposit Amount: ${deposit_amount_cents / 100}</h3>
-      <h3>Description: {description}</h3>
-      <button>Add</button>
-    </>
+    <div className="product">
+    <Grid color={theme.palette.primary.main} container direction="column">
+    <h1>{name}</h1>
+      <Card  sx={{ maxWidth:600, height: 900}}>
+    <Grid  backgroundColor={theme.palette.secondary.dark} container> 
+        <div>
+          <CardMedia component="img" image={image} width="300" alt={name} />
+        </div>          
+        <CardContent>
+        <Grid backgroundColor={theme.palette.secondary.dark} color={theme.palette.tertiary.main} container height={550} direction="column">
+          <p>Category: {category}</p>
+          <p>Price: ${price_per_day_cents/100}</p>
+          <p>Deposit Amount: ${deposit_amount_cents/100}</p>
+          <p>Description: {description}</p>
+        </Grid>
+        </CardContent>
+    </Grid>
+      </Card>
+    </Grid>
+
+    </div>
   );
 };
 
