@@ -73,6 +73,9 @@ export default function NavMenu(props) {
   const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const { auth } = props;
+
+  console.log(props.auth);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -84,25 +87,34 @@ export default function NavMenu(props) {
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor={theme.palette.tertiary.main}>
-
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-      <Grid backgroundColor={theme.palette.primary.main} container direction="row">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
+        <Grid
+          backgroundColor={theme.palette.primary.main}
+          container
+          direction="row"
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: "none" }) }}
             >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            <Link to='/'><img src="../logo.png" alt='Next Door Lenders logo' height='75'/></Link>
-          </Typography>
-        </Toolbar>
-      </Grid>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              <Link to="/">
+                <img
+                  src="../logo.png"
+                  alt="Next Door Lenders logo"
+                  height="75"
+                />
+              </Link>
+            </Typography>
+          </Toolbar>
+        </Grid>
       </AppBar>
       <Drawer
         sx={{
@@ -112,30 +124,30 @@ export default function NavMenu(props) {
             width: drawerWidth,
             boxSizing: "border-box",
           },
-          color: "#d5d6d8"
+          color: "#d5d6d8",
         }}
         variant="persistent"
         anchor="left"
         open={open}
-        >
+      >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-                )}
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {navMenuItems.map((item, index) => (
+          {navMenuItems(auth).map((item, index) => (
             <ListItem
-            button
-            key={item.id}
-            onClick={() => {
-              navigate(item.route);
-            }}
+              button
+              key={item.id}
+              onClick={() => {
+                navigate(item.route);
+              }}
             >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -156,7 +168,7 @@ export default function NavMenu(props) {
           ))}
         </List>
       </Drawer>
-      <Main open={open}>        
+      <Main open={open}>
         <DrawerHeader />
         {props.children}
         {/* <Typography paragraph>
@@ -189,7 +201,6 @@ export default function NavMenu(props) {
           posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography> */}
       </Main>
-
     </Box>
   );
 }

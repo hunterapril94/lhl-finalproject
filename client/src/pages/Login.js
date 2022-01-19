@@ -18,12 +18,9 @@ function Login() {
         password: password,
       })
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
-
         if (res.data.auth) {
           setAuth(true);
-          navigate("/profile");
+          navigate("/");
         } else {
           setAuth(false);
         }
