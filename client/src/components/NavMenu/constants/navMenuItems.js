@@ -4,17 +4,17 @@ export const navMenuItems = (authStatus) => {
       { id: 0, icon: "", label: "Products", route: "/" },
       { id: 3, icon: "", label: "My Products", route: "my-product-edit" },
       { id: 4, icon: "", label: "about", route: "about" },
-      { id: 5, icon: "", label: "Profile", route: "profile" },
 
+      { id: 8, icon: "", label: "My Lent Items", route: "my-lent-items" },
+      { id: 9, icon: "", label: "My Borrowed Items", route: "my-borrowed" },
+      { id: 10, icon: "", label: "Pending Requests", route: "my-requests" },
       {
         id: 7,
         icon: "",
         label: "Transaction History",
         route: "my-completed-transactions",
       },
-      { id: 8, icon: "", label: "My Lent Items", route: "my-lent-items" },
-      { id: 9, icon: "", label: "My Borrowed Items", route: "my-borrowed" },
-      { id: 10, icon: "", label: "Requests", route: "my-requests" },
+      { id: 5, icon: "", label: "Profile", route: "profile" },
       { id: 2, icon: "", label: "logout", route: "logout" },
     ];
   } else {
@@ -37,5 +37,5 @@ export const navMenuItems = (authStatus) => {
 //   { id: 7, icon: "", label: "Completed Treansactions", route: "my-completed-transactions" },
 //   { id: 8, icon: "", label: "My Lent Items", route: "my-lent-items" }
 //   { id: 9, icon: "", label: "My Borrowed Items", route: "my-borrowed" }
-//   { id: 10, icon: "", label: "", route: "my-requests" },
+//   { id: 10, icon: "", label: "Pending Requests", route: "my-requests" },
 // ];

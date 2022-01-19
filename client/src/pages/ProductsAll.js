@@ -16,7 +16,6 @@ const ProductsAll = () => {
       .then((all) => {
         // console.log(res.data.products);
         setProducts(all[0].data.products);
-        console.log(all[0].data);
         setAuth(all[0].data.auth);
       })
       .catch((err) => console.log(err.message));
