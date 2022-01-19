@@ -8,6 +8,7 @@ import "./App.css";
 
 const App = () => {
   const [auth, setAuth] = useState(false);
+  console.log("re renders app");
   return (
     <ThemeProvider theme={theme}>
       <NavMenu auth={auth} setAuth={setAuth}>
