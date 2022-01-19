@@ -16,21 +16,40 @@ module.exports = (db) => {
     console.log(
       "#############userid for  GET /api/requests/pending: " + userID
     );
-    db.getPendingLendRequestsByUserId(userID)
-      .then((requests) => {
+
+    // getBorrowRequestsByUserId --- requesting to borrow something
+    // getPendingLendRequestsByUserId -- incomming request from someone
+
+    Promise.all([
+      db.getPendingLendRequestsByUserId(userID),
+      db.getBorrowRequestsByUserId(userID),
+    ])
+      .then((values) => {
+        console.log(values);
+        if (!values[0] || !values[1]) {
+          res.json({
+            auth: true,
+            message: "not successfull in getting users requests",
+            pendingIncommingLendRequests: null,
+            pendingOutgoingBorrowRequests: null,
+          });
+        }
         res.json({
-          auth: isLoggedIn,
-          message: "successfully got all requests for user: " + userID,
-          requests,
+          auth: true,
+          message: "successfully retrieved user by ID",
+          pendingIncommingLendRequests: values[0],
+          pendingOutgoingBorrowRequests: values[1],
         });
       })
       .catch((err) => {
-        console.log("db error", err);
         res.status(500).json({
-          auth: isLoggedIn,
+          auth: true,
           message: "internal server error",
+          pendingIncommingLendRequests: null,
+          pendingOutgoingBorrowRequests: null,
         });
       });
   });
+
   return router;
 };
