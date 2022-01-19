@@ -50,7 +50,7 @@ function Login() {
         value={password}
         onChange={(event) => setPassword(event.target.value)}
       />
-      <Grid margin='10px 10px 10px 0px'  item><Button variant='contained'>Submit</Button></Grid>
+      <Grid margin='10px 10px 10px 0px'  item><Button variant='contained' type="submit">Submit</Button></Grid>
       </form>
     </Grid>
 
