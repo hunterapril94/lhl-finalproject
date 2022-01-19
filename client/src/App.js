@@ -16,6 +16,12 @@ import UserDetail from "./pages/Profile";
 import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
 import { useNavigate } from "react-router";
+import ViewProfile from "./pages/ViewProfile";
+import EditProfile from "./pages/EditProfile";
+import PendingRequest from "./pages/PendingRequests";
+import MyProducts from "./pages/MyProducts";
+import MyProductEdit from "./pages/MyProductEdit";
+import MyProductDetail from "./pages/MyProductDetail";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -47,13 +53,27 @@ function App() {
             />
             <Route path="/products/:id" element={<ProductDetail />} />
 
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login auth={setLogin} />} />
-            <Route path="/logout" element={<Logout auth={setLogin} />} />
             <Route
-              path="/user"
+              path="/profile"
               element={login ? <UserDetail /> : <Navigate to="/" />}
             />
+            <Route path="/profile/view" element={<ViewProfile />} />
+            <Route path="/profile/edit" element={<EditProfile />} />
+            <Route
+              path="/profile/pending-requests"
+              element={<PendingRequest />}
+            />
+            <Route path="/profile/myproducts" element={<MyProducts />} />
+            <Route
+              path="/profile/myproducts/:id"
+              element={<MyProductDetail />}
+            />
+            <Route
+              path="/profile/products/:id/edit"
+              element={<MyProductEdit />}
+            />
+            <Route path="/login" element={<Login auth={setLogin} />} />
+            <Route path="/logout" element={<Login auth={setLogin} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

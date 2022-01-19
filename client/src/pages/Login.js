@@ -22,7 +22,7 @@ function Login(props) {
 
         if (res.data.auth) {
           props.auth(true);
-          navigate("/user");
+          navigate("/profile");
         } else {
           props.auth(false);
         }

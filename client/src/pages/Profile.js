@@ -13,10 +13,28 @@ function UserDetail() {
   return (
     <>
       <h2>This is the profile page!</h2>
+      <ul>
+        <li>
+          <Link to="/profile/view">view</Link>
+        </li>
+        <li>
+          <Link to="/profile/edit">edit</Link>
+        </li>
+        <li>
+          <Link to="/profile/pending-requests">pending requests</Link>
+        </li>
+        <li>
+          <Link to="/profile/myproducts">my products</Link>
+        </li>
+        <li>
+          <Link to="/profile/myproducts/:id">product detail</Link>
+        </li>
+        <li>
+          <Link to="/profile/myproducts/:id/edit">product edit</Link>
+        </li>
+      </ul>
       <p> {user.name}</p>
       <p>{user.email}</p>
-      <Link to="/user/:id/products">My products</Link>
-      <Link to="/user/:id/requests">My products</Link>
     </>
   );
 }
