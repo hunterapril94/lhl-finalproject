@@ -1,7 +1,16 @@
 import theme from './styles';
-import {Card, CardMedia, CardContent, Grid, Rating}  from '@mui/material';
+import {Card, CardMedia, CardContent, Grid, Rating, Button, Box}  from '@mui/material';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useOutletContext, useNavigate } from 'react-router';
 function Product(props) {
+  const [auth, setAuth] = useOutletContext();
+  const navigate = useNavigate();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    navigate(`/products/${props.id}/request`)
+  };
   return (
     
     <div className="product">
@@ -28,7 +37,19 @@ function Product(props) {
               <p>Price: ${props.price/100}</p>
               <p>Deposit Amount: ${props.deposit_amount/100}</p>
               {/* <h3>Description: {props.description}</h3> */}
+              <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx ={{ display: 'flex' }}>
               <Rating name="read-only" value={props.stars} readOnly />
+                <Button                
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                >
+                  Request Item
+                </Button>
+              </Box>
             </CardContent>
           </Grid>
         </Card>

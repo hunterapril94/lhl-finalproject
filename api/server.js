@@ -2,7 +2,6 @@ require("dotenv").config();
 const cors = require("cors");
 // Web server config
 const PORT = process.env.PORT || 8001;
-// const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -66,8 +65,6 @@ app.use((req, res, next) => {
   isUserLoggedIn(userID, dbQueries)
     .then((isLoggedIn) => {
       if (!isLoggedIn) {
-        //user is already logged in
-        console.log("checking status");
         req.isLoggedIn = false;
       } else {
         req.isLoggedIn = true;
@@ -91,28 +88,10 @@ app.use("/api/users", usersRoutes(dbQueries));
 
 const productsRoutes = require("./routes/products");
 app.use("/api/products", productsRoutes(dbQueries));
-//test route
 
-app.get("/home", (req, res) => {
-  console.log("from inside of the root in server.js");
-  dbQueries.getUserByEmail("test@test.com").then((user) => {
-    console.log(user);
-    return res.json({
-      auth: "isLoggedIn",
-      message: user.first_name,
-    });
-  });
-});
-
-// app.use(
-//   "/styles",
-//   sassMiddleware({
-//     source: __dirname + "/styles",
-//     destination: __dirname + "/public/styles",
-//     isSass: false, // false => scss, true => sass
-//   })
-// );
+const requestsRoutes = require("./routes/requests");
+app.use("/api/requests", requestsRoutes(dbQueries));
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`Example app listening on port ${PORT || 8001}`);
 });

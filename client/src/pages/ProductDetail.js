@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import {Card, CardMedia, CardContent, Grid, Rating}  from '@mui/material';
+import {Card, CardMedia, CardContent, Grid, Rating, Box, Button}  from '@mui/material';
 import theme from "../components/styles";
+import { useNavigate } from "react-router";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     axios.get(`http://localhost:8001/api/products/${id}`).then((res) => {
       console.log(product);
@@ -22,6 +24,11 @@ const ProductDetail = () => {
     price_per_day_cents,
     avg_stars
   } = product;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    navigate(`/products/${id}/request`)
+  };
   return (
     <div className="product">
     <Grid color={theme.palette.primary.main} container direction="column" alignItems={'center'}>
@@ -38,7 +45,20 @@ const ProductDetail = () => {
           <p>Deposit Amount: ${deposit_amount_cents/100}</p>
           <p>Description: {description}</p>
 
-          <Rating name="read-only" value={Number(avg_stars)} readOnly />
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx ={{ display: 'flex' }}
+          >
+            <Rating name="read-only" value={avg_stars} readOnly />
+            <Button                
+              type="submit"
+              fullWidth
+              variant="contained"
+            >
+               Request Item
+            </Button>
+          </Box>
         </Grid>
         </CardContent>
     </Grid>
