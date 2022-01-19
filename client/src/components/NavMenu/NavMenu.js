@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled, Theme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import theme from "../styles";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
+// import theme from "../styles";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -71,7 +72,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function NavMenu(props) {
   const navigate = useNavigate();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -144,7 +144,7 @@ export default function NavMenu(props) {
             </ListItem>
           ))}
         </List>
-        <Divider />
+        {/* <Divider />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem button key={text}>
@@ -154,7 +154,7 @@ export default function NavMenu(props) {
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </Drawer>
       <Main open={open}>        
         <DrawerHeader />
