@@ -4,6 +4,7 @@ import NavMenu from "./components/NavMenu/NavMenu";
 import { Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./components/styles";
+import "./App.css";
 
 const App = () => {
   const [auth, setAuth] = useState(false);
