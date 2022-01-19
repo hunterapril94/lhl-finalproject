@@ -17,6 +17,7 @@ import MyTransactions from "./pages/MyTransactions";
 import LentItems from "./pages/LentItems";
 import BorrowedItems from "./pages/BorrowedItems";
 import MyRequests from "./pages/MyRequests";
+import RequestProduct from "./pages/RequestProduct"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -39,6 +40,7 @@ ReactDOM.render(
         <Route path="/my-requests" element={<MyRequests />}></Route>
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/products/:id/request" element={<RequestProduct />} />
       </Route>
     </Routes>
   </BrowserRouter>,
