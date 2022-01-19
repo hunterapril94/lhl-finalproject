@@ -71,13 +71,17 @@ module.exports = (db) => {
   //-----------------------------------------------------------------
 
   const getAllProducts = function () {
-    return db.query(` 
+    return db
+      .query(
+        ` 
     SELECT products.*, AVG(reviews.stars) AS avg_stars 
     FROM products
     JOIN reviews on products.id = product_id
-    GROUP BY products.id;`).then((result) => {
-      return result.rows;
-    });
+    GROUP BY products.id;`
+      )
+      .then((result) => {
+        return result.rows;
+      });
   };
 
   const getProducyById = function (id) {
@@ -236,10 +240,9 @@ module.exports = (db) => {
         }
       });
   };
-  const getStarsByProductId = function(id) {
-    return db
-    .query(`SELECT AVG(stars) FROM reviews WHERE product_id=${id};`)
-  }
+  const getStarsByProductId = function (id) {
+    return db.query(`SELECT AVG(stars) FROM reviews WHERE product_id=${id};`);
+  };
 
   // three table join, returns pin information owned by a specific user
   // const getOwnedPins = function (id) {
@@ -568,7 +571,7 @@ module.exports = (db) => {
     getProductsByCategory,
     getProductsByUserId,
     getBorrowedProductsByUserId,
-    getLentProducstById,
+    getLentProducstByUserId,
     getPendingLendRequestsByUserId,
     getBorrowRequestsByUserId,
     getStarsByProductId,
