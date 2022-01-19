@@ -91,6 +91,141 @@ module.exports = (db) => {
         }
       });
   };
+
+  const getProductsByCategory = function () {
+    return db
+      .query(
+        `
+        SELECT * 
+        FROM products  
+        WHERE products.category = $1;`,
+        [category]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const getProductsByUserId = function () {
+    return db
+      .query(
+        `SELECT * FROM products 
+        JOIN users ON products.user_id = users.id
+        WHERE users.id = $1;`,
+        [userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const getBorrowedProductsByUserId = function () {
+    return db
+      .query(
+        `SELECT products_transactions.start_time AS start_time, products_transactions.end_time AS end_time, products.name,
+        users.first_name AS owner_first_name,
+        users.last_name AS owner_last_name,products.price_per_day_cents, 
+        users.email AS owner_email, users.phone AS owner_phone
+        FROM transactions 
+        JOIN products_transactions ON transactions.id = products_transactions.transaction_id
+        JOIN products ON products_transactions.product_id = products.id
+        JOIN users ON products.user_id = users.id
+        WHERE transactions.user_id = $1
+        GROUP BY products.name, start_time, end_time, users.first_name, users.last_name, transactions.user_id, products.price_per_day_cents, owner_email, owner_phone;`,
+        [userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const getLentProducstById = function () {
+    return db
+      .query(
+        `SELECT products_transactions.start_time AS start_time, products_transactions.end_time AS end_time, products.name,
+        users.first_name AS borrower_first_name, users.last_name AS borrower_last_name, users.email AS borrower_email, users.phone AS borrower_phone, products.image
+        
+        FROM transactions 
+        JOIN users ON transactions.user_id = users.id
+        JOIN products_transactions ON transactions.id = products_transactions.transaction_id
+        JOIN products ON products_transactions.product_id = products.id
+        
+        WHERE products.user_id = $1`,
+        [userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const getPendingLendRequestsByUserId = function () {
+    return db
+      .query(
+        `SELECT products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS requester_email, 
+        users.phone AS requester_phone
+        
+        FROM transactions 
+        JOIN users on transactions.user_id = users.id
+        JOIN products_transactions ON transactions.id = products_transactions.transaction_id
+        
+        JOIN products ON products_transactions.product_id = products.id
+        
+        WHERE products.user_id = $1
+        AND products_transactions.status = 'pending'
+        
+        GROUP BY products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, requester_email, requester_phone;`,
+        [userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const getBorrowRequestsByUserId = function () {
+    return db
+      .query(
+        `SELECT products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone
+
+        FROM products_transactions
+        JOIN transactions ON transaction_id = transactions.id
+        JOIN products ON products_transactions.product_id = products.id
+        JOIN users ON products.user_id = users.id
+        
+        WHERE transactions.user_id = $1
+        AND products_transactions.status = 'pending'
+        
+        GROUP BY products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, owner_email, owner_phone;`,
+        [userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
   // three table join, returns pin information owned by a specific user
   // const getOwnedPins = function (id) {
   //   return db
@@ -415,5 +550,11 @@ module.exports = (db) => {
     getUserById,
     getAllProducts,
     getProducyById,
+    getProductsByCategory,
+    getProductsByUserId,
+    getBorrowedProductsByUserId,
+    getLentProducstById,
+    getPendingLendRequestsByUserId,
+    getBorrowRequestsByUserId,
   };
 };
