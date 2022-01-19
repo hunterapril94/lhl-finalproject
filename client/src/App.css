@@ -12,8 +12,8 @@
 }
 
 body {
-  height: 100vh;
-  background-color: #d5d6d8;
+  height: 100vh !important;
+  background-color: #d5d6d8 !important;
 }
 
 /* .App-logo {
