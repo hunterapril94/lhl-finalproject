@@ -3,7 +3,7 @@ VALUES
 (1, 'Kitchenware', 'Cuisinart Mixer', 1500, 'cuisinart mixer, red, slightly used', 4000, 'https://richmedia.ca-richimage.com/ImageDelivery/imageService?profileId=12026539&id=2072402&recipeId=496'),
 (1, 'Tools', 'Power Drill', 1000, 'Black and Decker power drill, several bits included in the rental', 3000, 'https://m.media-amazon.com/images/I/711YGwfl9rS._AC_SL1500_.jpg'),
 (1, 'Tools', 'Nail Gun', 3000, 'DeWalt cordless Nail gun, useful for many different sized nails gently used', 10000, 'https://homedepot.scene7.com/is/image/homedepotcanada/p_1000851792.jpg?wid=1000&hei=1000&op_sharpen=1&product-images=l'),
-(1, 'Tools', 'Orbital Sander', 2000, 'Dewalt Orbital Sander, great for wood projects. Wireless.', 4000, 'https://images.thdstatic.com/productImages/76114bf4-f509-486c-b882-b225b278db00/svn/dewalt-disc-orbital-sanders-dcw210b-64_1000.jpg')
+(1, 'Tools', 'Orbital Sander', 2000, 'Dewalt Orbital Sander, great for wood projects. Wireless.', 4000, 'https://images.thdstatic.com/productImages/76114bf4-f509-486c-b882-b225b278db00/svn/dewalt-disc-orbital-sanders-dcw210b-64_1000.jpg'),
 (3, 'Craft Equipment', 'Singer Sewing Machine', 2000, 'Singer 4423, barely has been used', 10000, 'https://m.media-amazon.com/images/I/51JFZ7U25-L._AC_SL1100_.jpg'),
 (3, 'Tools', 'Craftsman Lawn Mower', 2500, 'Craftsman Electric Push Lawn Mower Please refill tank after using', 10000, 'https://cdn.rona.ca/images/02225396_L.jpg'),
 (4, 'Furniture', '10 folding chairs', 1000, '10 metal folding chairs available in good condition and sturdy', 2000, 'https://images.thdstatic.com/productImages/e7870b4a-02d0-456e-b673-df6d310fe11e/svn/beige-folding-chairs-sc004x001a-64_1000.jpg'),
