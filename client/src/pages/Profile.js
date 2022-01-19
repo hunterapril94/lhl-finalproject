@@ -6,7 +6,7 @@ function UserDetail() {
   const { id } = useParams;
   const [user, setUser] = useState({});
   useEffect(() => {
-    axios.get(`http://localhost:8001/api/users/${id}`).then((user) => {
+    axios.get(`http://localhost:8001/api/users/info`).then((user) => {
       setUser(user);
     });
   }, []);
