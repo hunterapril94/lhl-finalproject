@@ -89,7 +89,7 @@ app.use("/api/users", usersRoutes(dbQueries));
 const productsRoutes = require("./routes/products");
 app.use("/api/products", productsRoutes(dbQueries));
 
-const requestsRoutes = require("./routes/products");
+const requestsRoutes = require("./routes/requests");
 app.use("/api/requests", requestsRoutes(dbQueries));
 
 app.listen(PORT, () => {
