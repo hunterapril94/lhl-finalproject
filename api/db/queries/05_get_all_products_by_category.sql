@@ -1,3 +1,3 @@
 SELECT * 
 FROM products  
-WHERE products.category = 'Craft Equipment';
+WHERE products.category = $1;
