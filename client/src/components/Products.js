@@ -7,18 +7,17 @@ import { Link } from "react-router-dom";
 export default function Products(props) {
   const products = props.products.map((product) => {
     return (
-      <Grid item m={3}>
-
-      <Link to={`/products/${product.id}`}>
-        <Product
-          key={product.id}
-          name={product.name}
-          category={product.category}
-          price={product.price_per_day_cents}
-          deposit_amount={product.deposit_amount_cents}
-          description={product.description}
-          image={product.image}
-        />
+      <Grid key={product.id} m={3}>
+        <Link to={`/products/${product.id}`}>
+          <Product
+            // key={product.id}
+            name={product.name}
+            category={product.category}
+            price={product.price_per_day_cents}
+            deposit_amount={product.deposit_amount_cents}
+            description={product.description}
+            image={product.image}
+          />
         </Link>
       </Grid>
     );
