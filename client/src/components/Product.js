@@ -18,7 +18,6 @@ function Product(props) {
               {/* <h3>Description: {props.description}</h3> */}
               </CardContent>
             </Grid>
-
           </Card>
         </Grid>
         </div>   

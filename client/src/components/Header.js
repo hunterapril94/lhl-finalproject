@@ -51,7 +51,7 @@ export const Header = (props) => {
           >
             <Link className="navItems" to="/">
               <Grid color={theme.palette.secondary.light} container>
-                LOGO
+                <img src='logo.png' alt='next door lenders logo' height='75'/>
               </Grid>
             </Link>
           </Typography>
@@ -103,7 +103,7 @@ export const Header = (props) => {
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 <Link className="navItems" to={`/${page}`}>
-                  <Grid color={theme.palette.secondary.light} container>
+                  <Grid color={theme.palette.tertiary.main} container>
                     {page}
                   </Grid>
                 </Link>
@@ -114,7 +114,7 @@ export const Header = (props) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Grid color={theme.palette.secondary.light} container>
+                <Grid color={theme.palette.tertiary.main} container>
                   AL
                 </Grid>
                 {/* {user.first_name.charAt(0) + user.last_name.charAt(0)} */}
