@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { Button, Grid, InputLabel } from '@mui/material';
+import theme from "../components/styles";
 
 axios.defaults.withCredentials = true;
 
@@ -27,7 +29,10 @@ function Login() {
       });
   };
   return (
-    <form autoComplete="off" onSubmit={submitHandler}>
+    <Grid color={theme.palette.primary.main} container direction='column'>
+      <h1>Login</h1>
+      <form autoComplete="off" onSubmit={submitHandler}>
+      <InputLabel>Email</InputLabel>
       <input
         className=""
         name="email"
@@ -36,6 +41,7 @@ function Login() {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
       />
+      <InputLabel>Password</InputLabel>
       <input
         className=""
         name="password"
@@ -44,8 +50,10 @@ function Login() {
         value={password}
         onChange={(event) => setPassword(event.target.value)}
       />
-      <button>Submit</button>
-    </form>
+      <Grid margin='10px 10px 10px 0px'  item><Button variant='contained'>Submit</Button></Grid>
+      </form>
+    </Grid>
+
   );
 }
 

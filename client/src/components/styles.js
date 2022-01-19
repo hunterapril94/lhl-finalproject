@@ -1,4 +1,4 @@
-import { createTheme, MenuItem, IconButton, CardContent } from "@mui/material";
+import { createTheme, MenuItem, IconButton, CardContent, Button } from "@mui/material";
 import { fontFamily } from "@mui/system";
 
 
@@ -31,6 +31,9 @@ const theme = createTheme({
       fontWeight: 'regular',
       backgroundColor: "#1D4528"
     },
+    Button: {
+      color: '#3A8A50'
+    }
     
   }
 
