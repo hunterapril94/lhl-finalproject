@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import {Card, CardMedia, CardContent, Grid}  from '@mui/material';
+import {Card, CardMedia, CardContent, Grid, Rating}  from '@mui/material';
 import theme from "../components/styles";
 
 const ProductDetail = () => {
@@ -20,6 +20,7 @@ const ProductDetail = () => {
     deposit_amount_cents,
     description,
     price_per_day_cents,
+    avg_stars
   } = product;
   return (
     <div className="product">
@@ -36,6 +37,8 @@ const ProductDetail = () => {
           <p>Price: ${price_per_day_cents/100}</p>
           <p>Deposit Amount: ${deposit_amount_cents/100}</p>
           <p>Description: {description}</p>
+
+          <Rating name="read-only" value={Number(avg_stars)} readOnly />
         </Grid>
         </CardContent>
     </Grid>

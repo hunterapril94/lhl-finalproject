@@ -71,7 +71,11 @@ module.exports = (db) => {
   //-----------------------------------------------------------------
 
   const getAllProducts = function () {
-    return db.query(`SELECT * FROM products`).then((result) => {
+    return db.query(` 
+    SELECT products.*, AVG(reviews.stars) AS avg_stars 
+    FROM products
+    JOIN reviews on products.id = product_id
+    GROUP BY products.id;`).then((result) => {
       return result.rows;
     });
   };
@@ -79,8 +83,11 @@ module.exports = (db) => {
   const getProducyById = function (id) {
     return db
       .query(
-        `
-    SELECT * FROM products WHERE id = $1;`,
+        ` SELECT products.*, AVG(reviews.stars) AS avg_stars 
+        FROM products
+        JOIN reviews on products.id = product_id
+        WHERE products.id = $1
+        GROUP BY products.id;`,
         [id]
       )
       .then((result) => {
@@ -96,9 +103,11 @@ module.exports = (db) => {
     return db
       .query(
         `
-        SELECT * 
-        FROM products  
-        WHERE products.category = $1;`,
+        SELECT products.*, AVG(reviews.stars) AS avg_stars 
+        FROM products
+        JOIN reviews on products.id = product_id  
+        WHERE products.category = $1
+        GROUP BY products.id;`,
         [category]
       )
       .then((result) => {
@@ -113,9 +122,11 @@ module.exports = (db) => {
   const getProductsByUserId = function () {
     return db
       .query(
-        `SELECT * FROM products 
+        `SELECT (products.*), AVG(reviews.stars) AS avg_stars FROM products 
         JOIN users ON products.user_id = users.id
-        WHERE users.id = $1;`,
+        JOIN reviews ON products.id = product_id
+        WHERE users.id = $1
+        GROUP BY products.id, users.id, reviews.id;`,
         [userID]
       )
       .then((result) => {
@@ -225,6 +236,10 @@ module.exports = (db) => {
         }
       });
   };
+  const getStarsByProductId = function(id) {
+    return db
+    .query(`SELECT AVG(stars) FROM reviews WHERE product_id=${id};`)
+  }
 
   // three table join, returns pin information owned by a specific user
   // const getOwnedPins = function (id) {
@@ -556,5 +571,6 @@ module.exports = (db) => {
     getLentProducstById,
     getPendingLendRequestsByUserId,
     getBorrowRequestsByUserId,
+    getStarsByProductId,
   };
 };

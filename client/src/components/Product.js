@@ -1,5 +1,5 @@
 import theme from './styles';
-import {Card, CardMedia, CardContent, Grid}  from '@mui/material';
+import {Card, CardMedia, CardContent, Grid, Rating}  from '@mui/material';
 import { Link } from 'react-router-dom';
 function Product(props) {
   return (
