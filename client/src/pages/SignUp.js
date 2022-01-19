@@ -101,6 +101,7 @@ export default function SignUp() {
               sx={{ mt: 1 }}
             >
               <TextField
+                size="small"
                 margin="normal"
                 required
                 fullWidth
@@ -111,6 +112,18 @@ export default function SignUp() {
                 autoFocus
               />
               <TextField
+                size="small"
+                margin="normal"
+                required
+                fullWidth
+                id="LastName"
+                label="Last Name"
+                name="LastName"
+                autoComplete="text"
+                autoFocus
+              />
+              <TextField
+                size="small"
                 margin="normal"
                 required
                 fullWidth
@@ -122,6 +135,7 @@ export default function SignUp() {
               />
 
               <TextField
+                size="small"
                 margin="normal"
                 required
                 fullWidth
@@ -131,17 +145,14 @@ export default function SignUp() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign Up
               </Button>
               <Grid container>
                 {/* <Link href="#" variant="body2">
