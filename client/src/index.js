@@ -6,7 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import ProductsAll from "./pages/ProductsAll";
+import MyProductEdit from "./pages/MyProductEdit";
+import Logout from "./pages/Logout";
+import About from "./pages/About";
 import ProductDetail from "./pages/ProductDetail";
+import Profile from "./pages/Profile";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -14,6 +18,11 @@ ReactDOM.render(
       <Route path="/" element={<App />}>
         <Route index element={<ProductsAll />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/logout" element={<Logout />}></Route>
+        <Route path="/my-product-edit" element={<MyProductEdit />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/products/:id" element={<ProductDetail />} />
       </Route>
     </Routes>
   </BrowserRouter>,
