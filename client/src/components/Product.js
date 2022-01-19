@@ -28,6 +28,7 @@ function Product(props) {
               <p>Price: ${props.price/100}</p>
               <p>Deposit Amount: ${props.deposit_amount/100}</p>
               {/* <h3>Description: {props.description}</h3> */}
+              <Rating name="read-only" value={props.stars} readOnly />
             </CardContent>
           </Grid>
         </Card>

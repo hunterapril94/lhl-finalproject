@@ -18,6 +18,7 @@ export default function Products(props) {
           deposit_amount={product.deposit_amount_cents}
           description={product.description}
           image={product.image}
+          stars={product.stars}
         />
         </Link>
       </Grid>
