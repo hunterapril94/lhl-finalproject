@@ -61,9 +61,15 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
 
     axios
-      .post(`http://localhost:8001/api/users/login`, {
+      .post(`http://localhost:8001/api/users/signup`, {
         email: data.get("email"),
         password: data.get("password"),
+        address: data.get("address"),
+        neighborhood: data.get("neighborhood"),
+        FirstName: data.get("FirstName"),
+        LastName: data.get("LastName"),
+        phone: data.get("phone"),
+        LastName: data.get("LastName"),
       })
       .then((res) => {
         if (res.data.auth) {
@@ -82,15 +88,15 @@ export default function SignUp() {
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            {/* <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
               <LockOutlinedIcon />
-            </Avatar>
+            </Avatar> */}
             <Typography component="h1" variant="h5">
               Sign Up
             </Typography>
@@ -119,6 +125,39 @@ export default function SignUp() {
                 id="LastName"
                 label="Last Name"
                 name="LastName"
+                autoComplete="text"
+                autoFocus
+              />
+              <TextField
+                size="small"
+                margin="normal"
+                required
+                fullWidth
+                id="address"
+                label="address"
+                name="address"
+                autoComplete="text"
+                autoFocus
+              />
+              <TextField
+                size="small"
+                margin="normal"
+                required
+                fullWidth
+                id="neighborhood"
+                label="neighborhood"
+                name="neighborhood"
+                autoComplete="text"
+                autoFocus
+              />
+              <TextField
+                size="small"
+                margin="normal"
+                required
+                fullWidth
+                id="phone"
+                label="phone number"
+                name="phone"
                 autoComplete="text"
                 autoFocus
               />
@@ -160,8 +199,8 @@ export default function SignUp() {
                   </Link>
                 </Grid> */}
                 <Grid item xs={12} style={{ textAlign: "center" }}>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/signin" variant="body2">
+                    {"Already have an account? Sign In"}
                   </Link>
                 </Grid>
               </Grid>
