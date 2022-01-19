@@ -7,4 +7,5 @@ SET category = 'kitchen stuff' ,
     image = 'https://homedepot.scene7.com/is/image/homedepotcanada/p_1000851792.jpg?wid=1000&hei=1000&op_sharpen=1&product-images=l'
 
 WHERE id = 1 
-AND user_id = 1;
+AND user_id = 1
+RETURNING *;
