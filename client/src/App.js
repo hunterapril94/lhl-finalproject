@@ -1,17 +1,18 @@
 import React from "react";
+import { useState } from "react";
 import NavMenu from "./components/NavMenu/NavMenu";
 import { Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./components/styles";
 
 const App = () => {
+  const [auth, setAuth] = useState(false);
   return (
-    <ThemeProvider theme={theme}>    
-      <NavMenu>
-        <Outlet />
+    <ThemeProvider theme={theme}>
+      <NavMenu auth={auth} setAuth={setAuth}>
+        <Outlet context={[auth, setAuth]} />
       </NavMenu>
     </ThemeProvider>
-
   );
 };
 
