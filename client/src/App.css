@@ -11,6 +11,11 @@
   justify-content: space-evenly;
 }
 
+body {
+  height: 100vh;
+  background-color: #d5d6d8;
+}
+
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
