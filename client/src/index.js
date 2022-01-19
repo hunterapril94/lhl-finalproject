@@ -13,6 +13,10 @@ import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
+import MyTransactions from "./pages/MyTransactions";
+import LentItems from "./pages/LentItems";
+import BorrowedItems from "./pages/BorrowedItems";
+import MyRequests from "./pages/MyRequests";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -26,6 +30,13 @@ ReactDOM.render(
         <Route path="/my-product-edit" element={<MyProductEdit />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/my-lent-items" element={<LentItems />}></Route>
+        <Route
+          path="/my-completed-transactions"
+          element={<MyTransactions />}
+        ></Route>
+        <Route path="/my-borrowed" element={<BorrowedItems />}></Route>
+        <Route path="/my-requests" element={<MyRequests />}></Route>
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="*" element={<NotFound />} />
       </Route>
@@ -34,4 +45,18 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-reportWebVitals();
+//reportWebVitals();
+
+// export const navMenuItems = [
+//   { id: 0, icon: "", label: "Products", route: "/" },
+//   { id: 1, icon: "", label: "login", route: "login" },
+//   { id: 2, icon: "", label: "logout", route: "logout" },
+//   { id: 3, icon: "", label: "my-product-edit", route: "my-product-edit" },
+//   { id: 4, icon: "", label: "about", route: "about" },
+//   { id: 5, icon: "", label: "Profile", route: "profile" },
+//   { id: 6, icon: "", label: "sign-up", route: "signup" },
+//   { id: 7, icon: "", label: "Completed Treansactions", route: "my-completed-transactions" },
+//   { id: 8, icon: "", label: "My Lent Items", route: "my-lent-items" }
+//   { id: 9, icon: "", label: "My Borrowed Items", route: "my-borrowed" }
+//   { id: 10, icon: "", label: "", route: "my-requests" },
+// ];
