@@ -71,13 +71,17 @@ module.exports = (db) => {
   //-----------------------------------------------------------------
 
   const getAllProducts = function () {
-    return db.query(` 
+    return db
+      .query(
+        ` 
     SELECT products.*, AVG(reviews.stars) AS avg_stars 
     FROM products
     JOIN reviews on products.id = product_id
-    GROUP BY products.id;`).then((result) => {
-      return result.rows;
-    });
+    GROUP BY products.id;`
+      )
+      .then((result) => {
+        return result.rows;
+      });
   };
 
   const getProducyById = function (id) {
@@ -99,7 +103,7 @@ module.exports = (db) => {
       });
   };
 
-  const getProductsByCategory = function () {
+  const getProductsByCategory = function (category) {
     return db
       .query(
         `
@@ -119,7 +123,7 @@ module.exports = (db) => {
       });
   };
 
-  const getProductsByUserId = function () {
+  const getProductsByUserId = function (UserId) {
     return db
       .query(
         `SELECT (products.*), AVG(reviews.stars) AS avg_stars FROM products 
@@ -127,7 +131,7 @@ module.exports = (db) => {
         JOIN reviews ON products.id = product_id
         WHERE users.id = $1
         GROUP BY products.id, users.id, reviews.id;`,
-        [userID]
+        [userId]
       )
       .then((result) => {
         if (result) {
@@ -138,7 +142,7 @@ module.exports = (db) => {
       });
   };
 
-  const getBorrowedProductsByUserId = function () {
+  const getBorrowedProductsByUserId = function (UserId) {
     return db
       .query(
         `SELECT products_transactions.start_time AS start_time, products_transactions.end_time AS end_time, products.name,
@@ -151,7 +155,7 @@ module.exports = (db) => {
         JOIN users ON products.user_id = users.id
         WHERE transactions.user_id = $1
         GROUP BY products.name, start_time, end_time, users.first_name, users.last_name, transactions.user_id, products.price_per_day_cents, owner_email, owner_phone;`,
-        [userID]
+        [userId]
       )
       .then((result) => {
         if (result) {
@@ -162,7 +166,7 @@ module.exports = (db) => {
       });
   };
 
-  const getLentProducstById = function () {
+  const getLentProducstByUserId = function (UserId) {
     return db
       .query(
         `SELECT products_transactions.start_time AS start_time, products_transactions.end_time AS end_time, products.name,
@@ -174,7 +178,7 @@ module.exports = (db) => {
         JOIN products ON products_transactions.product_id = products.id
         
         WHERE products.user_id = $1`,
-        [userID]
+        [userId]
       )
       .then((result) => {
         if (result) {
@@ -185,7 +189,7 @@ module.exports = (db) => {
       });
   };
 
-  const getPendingLendRequestsByUserId = function () {
+  const getPendingLendRequestsByUserId = function (UserId) {
     return db
       .query(
         `SELECT products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS requester_email, 
@@ -201,7 +205,7 @@ module.exports = (db) => {
         AND products_transactions.status = 'pending'
         
         GROUP BY products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, requester_email, requester_phone;`,
-        [userID]
+        [userId]
       )
       .then((result) => {
         if (result) {
@@ -212,7 +216,7 @@ module.exports = (db) => {
       });
   };
 
-  const getBorrowRequestsByUserId = function () {
+  const getBorrowRequestsByUserId = function (UserId) {
     return db
       .query(
         `SELECT products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone
@@ -226,7 +230,7 @@ module.exports = (db) => {
         AND products_transactions.status = 'pending'
         
         GROUP BY products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, owner_email, owner_phone;`,
-        [userID]
+        [userId]
       )
       .then((result) => {
         if (result) {
@@ -236,11 +240,101 @@ module.exports = (db) => {
         }
       });
   };
-  const getStarsByProductId = function(id) {
-    return db
-    .query(`SELECT AVG(stars) FROM reviews WHERE product_id=${id};`)
-  }
+  const getStarsByProductId = function (id) {
+    return db.query(`SELECT AVG(stars) FROM reviews WHERE product_id= $1;`, [
+      id,
+    ]);
+  };
 
+  const getProductsBySearchTerm = function (searchTerm) {
+    const queryParam = `%${searchTerm}%`;
+    return db
+      .query(
+        `SELECT products.* , AVG(reviews.stars) AS stars
+    FROM products
+    JOIN reviews ON reviews.product_id = products.id
+    WHERE LOWER(products.name) LIKE LOWER($1)
+    OR LOWER(products.category) LIKE LOWER($1)
+    GROUP BY products.id;`,
+        [queryParam]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const updateProductInfo = function (id, object) {
+    const queryParams = [
+      id,
+      object.category,
+      object.name,
+      object.price_per_day_cents,
+      object.description,
+      object.deposit_amount_cents,
+      object.image,
+      object.id,
+    ];
+    return db
+      .query(
+        `
+  UPDATE products
+    SET category = $2 ,
+    name = $3 ,
+    price_per_day_cents = $4,
+    description = $5,
+    deposit_amount_cents = $6,
+    image = $7
+  WHERE id = $8
+  AND user_id = $1
+  RETURNING *;`,
+        queryParams
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const updateUserInfo = function (id, object) {
+    const queryParams = [
+      id,
+      object.first_name,
+      object.last_name,
+      object.address,
+      object.neighborhood,
+      object.email,
+      object.phone,
+    ];
+    return db
+      .query(
+        `
+        UPDATE users
+        SET first_name = $2 ,
+            last_name = $3 ,
+            address = $4,
+            neighborhood = $5,
+            email = $6,
+            phone = $7
+        
+        WHERE id = $1
+  RETURNING *;`,
+        queryParams
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
   // three table join, returns pin information owned by a specific user
   // const getOwnedPins = function (id) {
   //   return db
@@ -568,9 +662,13 @@ module.exports = (db) => {
     getProductsByCategory,
     getProductsByUserId,
     getBorrowedProductsByUserId,
-    getLentProducstById,
+    getLentProducstByUserId,
+    getLentProducstByUserId,
     getPendingLendRequestsByUserId,
     getBorrowRequestsByUserId,
     getStarsByProductId,
+    getProductsBySearchTerm,
+    updateProductInfo,
+    updateUserInfo,
   };
 };
