@@ -4,14 +4,17 @@ import { createTheme, MenuItem, IconButton } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#05386B"
+      main: "#05386B",
+      light: "#6987A6",
+      dark: "#032140"
     },
     secondary: {
-      main: "#8EE4AF",
-      light: "#EDF5E1"
+      main: "#3A8A50",
+      light: "#BFF5CE",
+      dark: "#1D4528"
     },
     tertiary: {
-      main: "#EDF5E1"
+      main: "#d5d6d8"
     }
   },
   components: {
