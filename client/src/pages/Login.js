@@ -1,12 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
-function Login(props) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [auth, setAuth] = useOutletContext();
   const navigate = useNavigate();
   const submitHandler = (event) => {
     event.preventDefault();
@@ -21,10 +22,10 @@ function Login(props) {
         console.log(res.data);
 
         if (res.data.auth) {
-          props.auth(true);
+          setAuth(true);
           navigate("/profile");
         } else {
-          props.auth(false);
+          setAuth(false);
         }
       });
   };
