@@ -1,12 +1,17 @@
 import React from "react";
 import NavMenu from "./components/NavMenu/NavMenu";
 import { Outlet } from "react-router-dom";
+import { ThemeProvider } from "@mui/material";
+import theme from "./components/styles";
 
 const App = () => {
   return (
-    <NavMenu>
-      <Outlet />
-    </NavMenu>
+    <ThemeProvider theme={theme}>    
+      <NavMenu>
+        <Outlet />
+      </NavMenu>
+    </ThemeProvider>
+
   );
 };
 

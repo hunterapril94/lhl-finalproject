@@ -19,7 +19,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { navMenuItems } from "./constants/navMenuItems";
 import { useNavigate } from "react-router-dom";
-
+import theme from "../styles";
+import { Grid } from "@mui/material";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -81,9 +82,11 @@ export default function NavMenu(props) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} backgroundColor={theme.palette.tertiary.main}>
+
       <CssBaseline />
       <AppBar position="fixed" open={open}>
+      <Grid backgroundColor={theme.palette.primary.main} container direction="row">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -91,13 +94,14 @@ export default function NavMenu(props) {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
+            >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            <img src="logo.png" alt='Next Door Lenders logo' height='75'/>
           </Typography>
         </Toolbar>
+      </Grid>
       </AppBar>
       <Drawer
         sx={{
@@ -107,29 +111,30 @@ export default function NavMenu(props) {
             width: drawerWidth,
             boxSizing: "border-box",
           },
+          color: "#d5d6d8"
         }}
         variant="persistent"
         anchor="left"
         open={open}
-      >
+        >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+              ) : (
+                <ChevronRightIcon />
+                )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           {navMenuItems.map((item, index) => (
             <ListItem
-              button
-              key={item.id}
-              onClick={() => {
-                navigate(item.route);
-              }}
+            button
+            key={item.id}
+            onClick={() => {
+              navigate(item.route);
+            }}
             >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -150,7 +155,7 @@ export default function NavMenu(props) {
           ))}
         </List>
       </Drawer>
-      <Main open={open}>
+      <Main open={open}>        
         <DrawerHeader />
         {props.children}
         {/* <Typography paragraph>
@@ -167,8 +172,8 @@ export default function NavMenu(props) {
           vivamus at augue. At augue eget arcu dictum varius duis at consectetur
           lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
           faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
+          </Typography>
+          <Typography paragraph>
           Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
           ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
           elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
@@ -183,6 +188,7 @@ export default function NavMenu(props) {
           posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography> */}
       </Main>
+
     </Box>
   );
 }

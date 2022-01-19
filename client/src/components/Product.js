@@ -1,8 +1,9 @@
-
 import theme from './styles';
 import {Card, CardMedia, CardContent, Grid}  from '@mui/material';
+import { Link } from 'react-router-dom';
 function Product(props) {
   return (
+    
     <div className="product">
       <Grid container>
         <Card sx={{ maxWidth: 300 }}>
@@ -11,16 +12,15 @@ function Product(props) {
             color={theme.palette.tertiary.main}
             container
             height={550}
-          >
+            >
             <div>
               <CardMedia
-                className={styles.Media}
                 component="img"
                 image={props.image}
                 height="100%"
                 width="100%"
                 alt={props.name}
-              />
+                />
             </div>        
             <CardContent >
               <p>{props.name}</p>
@@ -31,7 +31,7 @@ function Product(props) {
             </CardContent>
           </Grid>
         </Card>
-      </Grid>
+      </Grid>     
     </div>
   );
 }

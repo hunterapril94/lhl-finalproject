@@ -8,6 +8,8 @@ export default function Products(props) {
   const products = props.products.map((product) => {
     return (
       <Grid item m={3}>
+
+      <Link to={`/products/${product.id}`}>
         <Product
           key={product.id}
           name={product.name}
@@ -17,6 +19,7 @@ export default function Products(props) {
           description={product.description}
           image={product.image}
         />
+        </Link>
       </Grid>
     );
   });
