@@ -21,6 +21,7 @@ import { navMenuItems } from "./constants/navMenuItems";
 import { useNavigate } from "react-router-dom";
 import theme from "../styles";
 import { Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -98,7 +99,7 @@ export default function NavMenu(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            <img src="logo.png" alt='Next Door Lenders logo' height='75'/>
+            <Link to='/'><img src="../logo.png" alt='Next Door Lenders logo' height='75'/></Link>
           </Typography>
         </Toolbar>
       </Grid>

@@ -23,7 +23,7 @@ const ProductDetail = () => {
   } = product;
   return (
     <div className="product">
-    <Grid color={theme.palette.primary.main} container direction="column">
+    <Grid color={theme.palette.primary.main} container direction="column" alignItems={'center'}>
     <h1>{name}</h1>
       <Card  sx={{ maxWidth:600, height: 900}}>
     <Grid  backgroundColor={theme.palette.secondary.dark} container> 
