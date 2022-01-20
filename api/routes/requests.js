@@ -13,9 +13,6 @@ module.exports = (db) => {
         message: "not authorized",
       });
     }
-    console.log(
-      "#############userid for  GET /api/requests/pending: " + userID
-    );
 
     // getBorrowRequestsByUserId --- requesting to borrow something
     // getPendingLendRequestsByUserId -- incomming request from someone
@@ -51,15 +48,6 @@ module.exports = (db) => {
       });
   });
 
-  // 1. generate transaction  first
-  // from the cart
-  // {user_id known
-  // subtotal + can calculate from all products
-  // deposit total + can calculate from from all products
-  // db [return the transaction id]
-
-  // products_transactions : [ {transaction_id[from step1], product_id[from cart], start_time (cant be in past), end_time} , ... }}
-
   //-----------------------------------------------------------------
   // POST  /api/requests/
   //-----------------------------------------------------------------
@@ -74,13 +62,43 @@ module.exports = (db) => {
     }
 
     const lineItems = req.body.products_transactions;
-    console.log(lineItems);
 
-    const transaction = { subTotal: 100, deposit_total: 1000, user_id: userID };
-
-    db.getAllProducts().then((products) => {
-      console.log(products);
+    itemsId = lineItems.map((item) => {
+      return item.product_id;
     });
+
+    const transaction = {
+      subtotal: null,
+      deposit_total: null,
+      user_id: userID,
+    };
+
+    db.getAllProducts()
+      .then((products) => {
+        const result = products.filter((product) =>
+          itemsId.includes(product.id)
+        );
+        result.forEach((res) => {
+          transaction.subtotal += res.price_per_day_cents;
+          transaction.deposit_total += res.deposit_amount_cents;
+        });
+        console.log("transaction", transaction);
+        return db.createTransaction(transaction);
+      })
+      .then((res) => {
+        txID = res.id;
+        console.log(lineItems);
+        console.log("txid:" + txID);
+        const lineItemsWithID = lineItems.map((item) => {
+          return { ...item, transaction_id: txID };
+        });
+
+        return db.createPendingProductTransaction(lineItemsWithID);
+      })
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
 
     console.log("should happen last");
 

@@ -7,3 +7,6 @@ CREATE TABLE products_transactions (
   end_time DATE NOT NULL,
   status VARCHAR(255) NOT NULL
 )
+
+
+

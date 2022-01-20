@@ -98,6 +98,7 @@ module.exports = (db) => {
         }
       });
   };
+
   //-----------------------------------------------------------------
   // Products Queries
   //-----------------------------------------------------------------
@@ -340,16 +341,12 @@ module.exports = (db) => {
   // TRANSACTION QUERIES
 
   const createTransaction = function (object) {
-    const queryParams = [
-      object.user_id,
-      object.subtotal,
-      object.desposit_total,
-    ];
+    const queryParams = [object.user_id, object.subtotal, object.deposit_total];
     return db
       .query(
         `INSERT INTO transactions
     (user_id, subtotal, deposit_total)
-    VALUES ($1, $2, $3, $4)
+    VALUES ($1, $2, $3)
     RETURNING *;
     `,
         queryParams
@@ -380,23 +377,26 @@ module.exports = (db) => {
       });
   };
 
-  const createPendingProductTransaction = function (object) {
-    const queryParams = [
-      object.transacton_id,
-      object.product_id,
-      object.start_time,
-      object.end_time,
-    ];
+  const createPendingProductTransaction = function (productTransaction) {
+    let n = 1;
+    let queryString = `INSERT INTO products_transactions
+              (transaction_id, product_id, start_time, end_time, status)
+                VALUES `;
+    const queryParams = [];
+    productTransaction.forEach((element) => {
+      queryParams.push(
+        element.transaction_id,
+        element.product_id,
+        element.start_time,
+        element.end_time
+      );
+      queryString += ` ($${n++}, $${n++}, $${n++}, $${n++}, 'pending'),`;
+    });
+    queryString = queryString.slice(0, -1);
+    console.log(queryString);
     if (getTransactionByid(queryParams[0])) {
       return db
-        .query(
-          `
-          INSERT INTO 
-          (transaction_id, product_id, start_time, end_time, status)
-          VALUES ($1, $2, $3, $4, 'pending')
-          RETURNING *;`,
-          queryParams
-        )
+        .query(`${queryString}RETURNING *;`, queryParams)
         .then((result) => {
           if (result) {
             return result.rows[0];
@@ -412,7 +412,7 @@ module.exports = (db) => {
       .query(
         `UPDATE products_transactions
          SET status = $2 
-         WHERE id = $1
+         WHERE id =
          `,
         [id, status]
       )
@@ -488,6 +488,7 @@ module.exports = (db) => {
     subtractFromBalance,
   };
 };
+
 // three table join, returns pin information owned by a specific user
 // const getOwnedPins = function (id) {
 //   return db
@@ -764,3 +765,10 @@ module.exports = (db) => {
 // };
 
 // };
+
+// {
+//   user_id: 1,
+//   subtotal: 8000
+//   desposit_total:10000000
+//   products_transactions: [{product_id: 1 , start_time: 'February 24, 2022' , end_time: 'February 25, 2022'}, {product_id: 2 , start_time: 'February 26, 2022' , end_time: 'February 28, 2022'}]
+// }
