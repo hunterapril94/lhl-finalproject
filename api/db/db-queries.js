@@ -521,6 +521,7 @@ module.exports = (db) => {
     createPendingProductTransaction,
     updateProductTransactionStatus,
     updateBalance,
+    // getBalanceByUserID,
     // addToBalance,
     // subtractFromBalance,
   };
