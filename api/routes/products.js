@@ -42,7 +42,7 @@ module.exports = (db) => {
   router.get("/:id", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware
     console.log(req.params.id);
-    db.getProducyById(req.params.id)
+    db.getProductById(req.params.id)
       .then((product) => {
         res.json({
           auth: isLoggedIn,
@@ -53,7 +53,7 @@ module.exports = (db) => {
       .catch((err) => {
         res.status(500).json({
           auth: isLoggedIn,
-          message: "internal server error",
+          message: "hellooooo internal server error",
         });
       });
   });

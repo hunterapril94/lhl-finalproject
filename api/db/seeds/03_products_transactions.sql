@@ -14,4 +14,3 @@ VALUES
 (9,1, 'February 12, 2022', 'February 15, 2022', 'pending');
 
 
-[{}]

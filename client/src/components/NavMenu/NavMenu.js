@@ -73,7 +73,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function NavMenu(props) {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  const { auth } = props;
+  const auth = props.auth;
 
   console.log(props.auth);
 
