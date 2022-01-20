@@ -3,6 +3,10 @@ import { useNavigate, useOutletContext } from "react-router";
 import DeleteIcon from '@mui/icons-material/Delete';
 import theme from "../components/styles";
 import axios from "axios";
+
+
+axios.defaults.withCredentials = true;
+
 export default function Cart() {
   const [appState, setAppState] = useOutletContext();
   let subtotal = 0
@@ -10,12 +14,14 @@ export default function Cart() {
   let total = 0;
   const navigate =  useNavigate()
   console.log(appState)
-  const handleSubmit = function() {
+  const handleSubmit = function(event) {
+    event.preventDefault();
     const products_transactions = function() {
       const cart = appState.cart
-      let finalJson = { products_transactions: []}
-      for(const item in cart) {
-        finalJson.products_transactions.push({product_id: item.product.id, start_time: item.start_date, end_time: item.end_time})
+      let finalJson = []
+      for(let item of appState.cart) {
+        console.log(item)
+        finalJson.push({product_id: item.product.id, start_time: item.start_date, end_time: item.end_time})
       }
       console.log(finalJson)
       return finalJson

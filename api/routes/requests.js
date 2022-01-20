@@ -60,7 +60,7 @@ module.exports = (db) => {
         message: "not authorized",
       });
     }
-
+    // console.log(req.body)
     const lineItems = req.body.products_transactions;
 
     itemsId = lineItems.map((item) => {
