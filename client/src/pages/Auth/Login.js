@@ -68,8 +68,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import theme from '../components/styles'
-
+import theme from "../../components/styles";
 
 axios.defaults.withCredentials = true;
 
@@ -91,7 +90,6 @@ function Copyright(props) {
   );
 }
 
-
 export default function LogIn() {
   const [appState, setAppState] = useOutletContext();
   const navigate = useNavigate();
@@ -105,16 +103,16 @@ export default function LogIn() {
         password: data.get("password"),
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.data.auth) {
-          setAppState((prev)=>{
-            return {...prev, auth: true}
+          setAppState((prev) => {
+            return { ...prev, auth: true };
           });
           navigate("/");
         } else {
-          setAppState((prev)=>{
-            return {...prev, auth: false}
-          })
+          setAppState((prev) => {
+            return { ...prev, auth: false };
+          });
         }
       });
   };
@@ -172,7 +170,11 @@ export default function LogIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.primary.main }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: theme.palette.primary.main,
+                }}
               >
                 Sign In
               </Button>
