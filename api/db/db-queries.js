@@ -390,8 +390,10 @@ module.exports = (db) => {
         element.start_time,
         element.end_time
       );
-      queryString += ` ($${n++}, $${n++}, $${n++}, $${n++}, 'pending') `;
+      queryString += ` ($${n++}, $${n++}, $${n++}, $${n++}, 'pending'),`;
     });
+    queryString = queryString.slice(0, -1);
+    console.log(queryString);
     if (getTransactionByid(queryParams[0])) {
       return db
         .query(`${queryString}RETURNING *;`, queryParams)
