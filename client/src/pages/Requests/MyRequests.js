@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
 import { Box, flexbox } from "@mui/system";
+import { Button } from "@mui/material";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -40,15 +41,16 @@ export default function MyRequests() {
           marginTop: 5,
         }}
       >
-        <TableContainer component={Paper} sx={{ width: 800 }}>
+        <TableContainer component={Paper} sx={{ width: 900 }}>
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Pending Requests To Rent</TableCell>
+                <TableCell>Pending Requests</TableCell>
                 <TableCell align="right">Item Description</TableCell>
                 <TableCell align="right">cost per day</TableCell>
                 <TableCell align="right">days requested</TableCell>
                 <TableCell align="right">total revenue</TableCell>
+                <TableCell align="right">More Details</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -64,6 +66,9 @@ export default function MyRequests() {
                   <TableCell align="right">{row.fat}</TableCell>
                   <TableCell align="right">{row.carbs}</TableCell>
                   <TableCell align="right">{row.protein}</TableCell>
+                  <TableCell align="right">
+                    <Button>Details</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
