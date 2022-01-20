@@ -116,7 +116,7 @@ module.exports = (db) => {
       });
   };
 
-  const getProducyById = function (id) {
+  const getProductById = function (id) {
     return db
       .query(
         ` SELECT products.*, AVG(reviews.stars) AS avg_stars 
@@ -349,7 +349,8 @@ module.exports = (db) => {
       .query(
         `INSERT INTO transactions
     (user_id, subtotal, deposit_total)
-    VALUES ($1, $2, $3, $4); 
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;
     `,
         queryParams
       )
@@ -407,14 +408,59 @@ module.exports = (db) => {
   };
 
   const updateProductTransactionStatus = function (id, status) {
-    return db.query(
-      `UPDATE products_transactions
+    return db
+      .query(
+        `UPDATE products_transactions
          SET status = $2 
          WHERE id = $1
          `,
-      [id, status]
-    );
+        [id, status]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
   };
+
+  const addToBalance = function (id, amount) {
+    return db
+      .query(
+        `UPDATE users
+         SET  cash_balance_cents + $2 
+         WHERE id = $1
+         `,
+        [id, Number(amount)]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const subtractFromBalance = function (id, amount) {
+    return db
+      .query(
+        `UPDATE users
+         SET  cash_balance_cents - $2 
+         WHERE id = $1
+         `,
+        [id, Number(amount)]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
+  };
+
   return {
     getUserByEmail,
     updateUserInfo,
@@ -422,7 +468,7 @@ module.exports = (db) => {
     getUserById,
     // products
     getAllProducts,
-    getProducyById,
+    getProductById,
     getProductsByCategory,
     getProductsByUserId,
     getBorrowedProductsByUserId,
@@ -438,6 +484,8 @@ module.exports = (db) => {
     createTransaction,
     createPendingProductTransaction,
     updateProductTransactionStatus,
+    addToBalance,
+    subtractFromBalance,
   };
 };
 // three table join, returns pin information owned by a specific user
