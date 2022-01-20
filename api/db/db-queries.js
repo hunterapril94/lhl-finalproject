@@ -383,7 +383,7 @@ module.exports = (db) => {
   const createPendingProductTransaction = function (productTransaction) {
     let n = 1;
     let queryString = `INSERT INTO prodcuts_transactions
-              (transaction_id, product_id, start_time, end_time, status)
+              (transaction_id, product_id, start_time, end_time)
                 VALUES `;
     const queryParams = [];
     productTransaction.forEach((element) => {
@@ -393,7 +393,7 @@ module.exports = (db) => {
         elementstart_time,
         element.end_time
       );
-      queryString += ` ($${n++}, $${n++}, $${n++}, $${n++}) `;
+      queryString += ` ($${n++}, $${n++}, $${n++}, $${n++}, 'pending') `;
     });
     if (getTransactionByid(queryParams[0])) {
       return db.query(`${queryString};`, queryParams).then((result) => {
