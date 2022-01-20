@@ -17,6 +17,8 @@ import MyTransactions from "./pages/MyTransactions";
 import LentItems from "./pages/LentItems";
 import BorrowedItems from "./pages/BorrowedItems";
 import MyRequests from "./pages/MyRequests";
+import Cart from "./pages/Cart"
+import Confirmation from "./pages/Confirmation"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -38,6 +40,8 @@ ReactDOM.render(
         <Route path="/my-borrowed" element={<BorrowedItems />}></Route>
         <Route path="/my-requests" element={<MyRequests />}></Route>
         <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

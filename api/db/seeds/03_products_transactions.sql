@@ -12,5 +12,3 @@ VALUES
 (8, 7, 'February 24, 2022', 'February 25, 2022', 'pending'),
 (8,8, 'February 24, 2022', 'February 25, 2022', 'pending'),
 (9,1, 'February 12, 2022', 'February 15, 2022', 'pending');
-
-

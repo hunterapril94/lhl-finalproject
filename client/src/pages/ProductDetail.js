@@ -5,6 +5,7 @@ import {Card, CardMedia, CardContent, Grid, Rating, Box, Button, Stack, TextFiel
 import theme from "../components/styles";
 import { useNavigate, useOutletContext } from "react-router";
 
+axios.defaults.withCredentials = true;
 const ProductDetail = () => {
 
   const [appState, setAppState] = useOutletContext();
@@ -29,18 +30,18 @@ const ProductDetail = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    axios
-      .post(`http://localhost:8001/api/products/${id}/request`, {
-        start_date: data.get("start_date"),
-        end_date: data.get("end_date")
-      })
-      .then((res) => {
-        appState.cart.push({product_id: product.id,       
-          start_date: data.get("start_date"),
-          end_date: data.get("end_date")});
-        console.log(appState)
+    if(!appState.auth) {
+      navigate('/login')
+    } else {
+      appState.cart.push({
+        product: product,       
+        start_date: data.get("start"),
+        end_date: data.get("end"),
       });
+      navigate('/')
+    }
+
+      console.log(appState)
   };
   return (
     <ThemeProvider theme={theme}>
@@ -72,7 +73,8 @@ const ProductDetail = () => {
           >
             <Rating name="read-only" value={avg_stars} readOnly />      
               <TextField
-                id="start_date"
+                id="start"
+                name="start"
                 label="Start Date"
                 type="date"
                 sx={{ width: 220, marginTop: '10px' }}
@@ -82,7 +84,8 @@ const ProductDetail = () => {
                 }}
               />
             <TextField
-              id="end_date"
+              id="end"
+              name="end"
               label="End Date"
               type="date"
               sx={{ width: 220, marginTop: '10px' }}
