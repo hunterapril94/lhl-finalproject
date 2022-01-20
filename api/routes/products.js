@@ -9,13 +9,6 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware
 
-    // if (!isLoggedIn) {
-    //   return res.json({
-    //     auth: false,
-    //     message: "not logged in",
-    //   });
-    // }
-
     console.log("log in status: " + isLoggedIn);
     console.log("auth status" + isLoggedIn);
 

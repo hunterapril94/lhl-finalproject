@@ -244,6 +244,56 @@ module.exports = (db) => {
       });
   });
 
+  //-----------------------------------------------------------------
+  // GET /api/users/balance
+  //-----------------------------------------------------------------
+
+  router.get("/balance", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+      });
+    }
+
+    return res.status(401).json({
+      auth: true,
+      message: "balance",
+      balance: null,
+    });
+  });
+
+  //-----------------------------------------------------------------
+  // api/users/my-lent-products
+  //-----------------------------------------------------------------
+
+  router.get("/my-lent-products", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+      });
+    }
+
+    db.getLentProducstByUserId(userID)
+      .then((myLentProducts) => {
+        res.json({
+          auth: true,
+          message: "succesful in getting all my lent products",
+          myLentProducts,
+        });
+      })
+      .catch((err) => {
+        console.log("db error", err);
+        res.status(500).json({
+          auth: false,
+          message: "internal server error",
+        });
+      });
+  });
+
   //   //-----------------------------------------------------------------
   //   // /api/users/:id/edit
   //   //-----------------------------------------------------------------
