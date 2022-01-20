@@ -437,15 +437,17 @@ module.exports = (db) => {
       });
   };
 
-  const addToBalance = function (id, amount) {
+  // to subtract just add a third param
+  const updateBalance = function (id, amount, subtract) {
     return db
       .query(
         `UPDATE users
-         SET  cash_balance_cents = cash_balance_cents  + $2 
-         WHERE id = $1
-         RETURNING *;
+         SET  cash_balance_cents = cash_balance_cents ${
+           subtract ? "-" : "+"
+         } $2 
+         WHERE id = $1;
          `,
-        [id, Number(amount)]
+        [Number(id), Number(amount)]
       )
       .then((result) => {
         if (result) {
@@ -456,23 +458,42 @@ module.exports = (db) => {
       });
   };
 
-  const subtractFromBalance = function (id, amount) {
-    return db
-      .query(
-        `UPDATE users
-         SET  cash_balance_cents = cash_balance_cents - $2 
-         WHERE id = $1;
-         `,
-        [id, Number(amount)]
-      )
-      .then((result) => {
-        if (result) {
-          return result.rows[0];
-        } else {
-          return null;
-        }
-      });
-  };
+  // const addToBalance = function (id, amount) {
+  //   return db
+  //     .query(
+  //       `UPDATE users
+  //        SET  cash_balance_cents = cash_balance_cents  + $2
+  //        WHERE id = $1
+  //        RETURNING *;
+  //        `,
+  //       [id, Number(amount)]
+  //     )
+  //     .then((result) => {
+  //       if (result) {
+  //         return result.rows[0];
+  //       } else {
+  //         return null;
+  //       }
+  //     });
+  // };
+
+  // const subtractFromBalance = function (id, amount) {
+  //   return db
+  //     .query(
+  //       `UPDATE users
+  //        SET  cash_balance_cents = cash_balance_cents - $2
+  //        WHERE id = $1;
+  //        `,
+  //       [id, Number(amount)]
+  //     )
+  //     .then((result) => {
+  //       if (result) {
+  //         return result.rows[0];
+  //       } else {
+  //         return null;
+  //       }
+  //     });
+  // };
 
   return {
     getUserByEmail,
@@ -497,8 +518,9 @@ module.exports = (db) => {
     createTransaction,
     createPendingProductTransaction,
     updateProductTransactionStatus,
-    addToBalance,
-    subtractFromBalance,
+    updateBalance,
+    // addToBalance,
+    // subtractFromBalance,
   };
 };
 
