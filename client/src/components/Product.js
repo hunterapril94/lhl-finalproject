@@ -1,15 +1,12 @@
 import theme from './styles';
 import {Card, CardMedia, CardContent, Grid, Rating, Button, Box}  from '@mui/material';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useOutletContext, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 function Product(props) {
-  const [auth, setAuth] = useOutletContext();
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    navigate(`/products/${props.id}/request`)
+    navigate(`/products/${props.id}`)
   };
   return (
     

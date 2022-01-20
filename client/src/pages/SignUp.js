@@ -53,7 +53,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [auth, setAuth] = useOutletContext();
+  const [appState, setAppState] = useOutletContext();
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -73,10 +73,14 @@ export default function SignUp() {
       })
       .then((res) => {
         if (res.data.auth) {
-          setAuth(true);
+          setAppState(prev => {
+            return {...prev, auth: true}
+          });
           navigate("/");
         } else {
-          setAuth(false);
+          setAppState(prev => {
+            return {...prev, auth: false}
+          });
         }
       });
   };

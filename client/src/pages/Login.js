@@ -92,9 +92,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LogIn() {
-  const [auth, setAuth] = useOutletContext();
+  const [appState, setAppState] = useOutletContext();
   const navigate = useNavigate();
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -105,11 +104,16 @@ export default function LogIn() {
         password: data.get("password"),
       })
       .then((res) => {
+        console.log(res)
         if (res.data.auth) {
-          setAuth(true);
+          setAppState((prev)=>{
+            return {...prev, auth: true}
+          });
           navigate("/");
         } else {
-          setAuth(false);
+          setAppState((prev)=>{
+            return {...prev, auth: false}
+          })
         }
       });
   };

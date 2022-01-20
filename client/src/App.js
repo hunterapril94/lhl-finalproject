@@ -7,11 +7,11 @@ import theme from "./components/styles";
 import "./App.css";
 
 const App = () => {
-  const [auth, setAuth] = useState(false);
+  const [appState, setAppState] = useState({ auth: false, cart: [] });
   return (
     <ThemeProvider theme={theme}>
-      <NavMenu auth={auth} setAuth={setAuth}>
-        <Outlet context={[auth, setAuth]} />
+      <NavMenu auth={appState.auth}>
+        <Outlet context={[appState, setAppState]} />
       </NavMenu>
     </ThemeProvider>
   );
