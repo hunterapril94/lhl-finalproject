@@ -28,37 +28,37 @@ module.exports = (db) => {
   //   // /api/users/info
   //   //-----------------------------------------------------------------
 
-  //   router.get("/info", (req, res) => {
-  //     const { isLoggedIn, userID } = req; //gets this from middleware
+    router.get("/info", (req, res) => {
+      const { isLoggedIn, userID } = req; //gets this from middleware
 
-  //     if (!isLoggedIn) {
-  //       return res.json({
-  //         auth: false,
-  //         message: "not logged in",
-  //       });
-  //     }
+      if (!isLoggedIn) {
+        return res.json({
+          auth: false,
+          message: "not logged in",
+        });
+      }
 
-  //     db.getUserById(userID)
-  //       .then((userInfo) => {
-  //         return res.json({
-  //           auth: true,
-  //           message: "successful in getting user info",
-  //           userInfo,
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         res.status(500).json({
-  //           auth: false,
-  //           message: "internal server error",
-  //         });
-  //       });
+      db.getUserById(userID)
+        .then((userInfo) => {
+          return res.json({
+            auth: true,
+            message: "successful in getting user info",
+            userInfo,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json({
+            auth: false,
+            message: "internal server error",
+          });
+        });
 
-  //     // return res.json({
-  //     //   auth: isLoggedIn,
-  //     //   message: "user is logged in",
-  //     // });
-  //   });
+      // return res.json({
+      //   auth: isLoggedIn,
+      //   message: "user is logged in",
+      // });
+    });
 
   //-----------------------------------------------------------------
   // GET /api/users/myBorrowedProducts
