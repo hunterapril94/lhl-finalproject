@@ -13,7 +13,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile/Profile";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/Auth/SignUp";
-import MyTransactions from "./pages/MyTransactions";
+import MyTransactions from "./pages/Requests/MyTransactions";
 import LentItems from "./pages/LentItems";
 import BorrowedItems from "./pages/BorrowedItems";
 import MyRequests from "./pages/Requests/MyRequests";
