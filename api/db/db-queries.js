@@ -340,11 +340,7 @@ module.exports = (db) => {
   // TRANSACTION QUERIES
 
   const createTransaction = function (object) {
-    const queryParams = [
-      object.user_id,
-      object.subtotal,
-      object.desposit_total,
-    ];
+    const queryParams = [object.user_id, object.subtotal, object.deposit_total];
     return db
       .query(
         `INSERT INTO transactions
@@ -487,6 +483,7 @@ module.exports = (db) => {
     subtractFromBalance,
   };
 };
+
 // three table join, returns pin information owned by a specific user
 // const getOwnedPins = function (id) {
 //   return db
@@ -770,3 +767,5 @@ module.exports = (db) => {
 //   desposit_total:10000000
 //   products_transactions: [{product_id: 1 , start_time: 'February 24, 2022' , end_time: 'February 25, 2022'}, {product_id: 2 , start_time: 'February 26, 2022' , end_time: 'February 28, 2022'}]
 // }
+
+db.createTransaction({ subtotal: 2500, deposit_total: 7000, user_id: 2 });
