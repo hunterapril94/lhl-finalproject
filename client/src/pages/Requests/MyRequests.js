@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router";
+import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,6 +12,10 @@ import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
 import { Box, flexbox } from "@mui/system";
 import { Button } from "@mui/material";
+
+function dayParser(startDay, endDate) {
+  return Math.floor((Date.parse(endDate) - Date.parse(startDay)) / 86400000);
+}
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -23,6 +30,20 @@ const rows = [
 ];
 
 export default function MyRequests() {
+  const [requests, setRequests] = useState([]);
+  const [appState, setAppState] = useOutletContext();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8001/api/requests/pending")
+      .then((res) => {
+        console.log(res.data.pendingIncommingLendRequests);
+        setRequests(res.data.pendingIncommingLendRequests);
+        // console.log(requests);
+      })
+      .catch((err) => console.log(err.message));
+  }, []);
+
   return (
     <>
       <Typography
@@ -45,8 +66,8 @@ export default function MyRequests() {
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Pending Requests</TableCell>
-                <TableCell align="right">Item Description</TableCell>
+                <TableCell>Item</TableCell>
+                <TableCell align="right">Requester</TableCell>
                 <TableCell align="right">cost per day</TableCell>
                 <TableCell align="right">days requested</TableCell>
                 <TableCell align="right">total revenue</TableCell>
@@ -54,18 +75,27 @@ export default function MyRequests() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {requests.map((request) => (
                 <TableRow
-                  key={row.name}
+                  key={request.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {request.name}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
+                  <TableCell align="right">{request.calories}</TableCell>
+                  <TableCell align="right">
+                    {request.price_per_day_cents / 100} $
+                  </TableCell>
+                  <TableCell align="right">
+                    {dayParser(request.start_time, request.end_time)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {(dayParser(request.start_time, request.end_time) *
+                      request.price_per_day_cents) /
+                      100}
+                    $
+                  </TableCell>
                   <TableCell align="right">
                     <Button>Details</Button>
                   </TableCell>
@@ -74,6 +104,7 @@ export default function MyRequests() {
             </TableBody>
           </Table>
         </TableContainer>
+        {/* <h1>{requests}</h1> */}
       </Box>
     </>
   );
