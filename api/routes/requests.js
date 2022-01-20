@@ -163,7 +163,6 @@ module.exports = (db) => {
         });
       })
       .catch((err) => {
-        console.log(err);
         return res.json({
           auth: true,
           message: "not successful in adding new request",
