@@ -763,3 +763,10 @@ module.exports = (db) => {
 // };
 
 // };
+
+// {
+//   user_id: 1,
+//   subtotal: 8000
+//   desposit_total:10000000
+//   products_transactions: [{product_id: 1 , start_time: 'February 24, 2022' , end_time: 'February 25, 2022'}, {product_id: 2 , start_time: 'February 26, 2022' , end_time: 'February 28, 2022'}]
+// }
