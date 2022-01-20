@@ -380,30 +380,29 @@ module.exports = (db) => {
       });
   };
 
-  const createPendingProductTransaction = function (object) {
-    const queryParams = [
-      object.transacton_id,
-      object.product_id,
-      object.start_time,
-      object.end_time,
-    ];
+  const createPendingProductTransaction = function (productTransaction) {
+    let n = 1;
+    let queryString = `INSERT INTO prodcuts_transactions
+              (transaction_id, product_id, start_time, end_time, status)
+                VALUES `;
+    const queryParams = [];
+    productTransaction.forEach((element) => {
+      queryParams.push(
+        element.transacton_id,
+        element.product_id,
+        elementstart_time,
+        element.end_time
+      );
+      queryString += ` ($${n++}, $${n++}, $${n++}, $${n++}) `;
+    });
     if (getTransactionByid(queryParams[0])) {
-      return db
-        .query(
-          `
-          INSERT INTO 
-          (transaction_id, product_id, start_time, end_time, status)
-          VALUES ($1, $2, $3, $4, 'pending')
-          RETURNING *;`,
-          queryParams
-        )
-        .then((result) => {
-          if (result) {
-            return result.rows[0];
-          } else {
-            return null;
-          }
-        });
+      return db.query(`${queryString};`, queryParams).then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
     }
   };
 
@@ -412,7 +411,7 @@ module.exports = (db) => {
       .query(
         `UPDATE products_transactions
          SET status = $2 
-         WHERE id = $1
+         WHERE id =
          `,
         [id, status]
       )
