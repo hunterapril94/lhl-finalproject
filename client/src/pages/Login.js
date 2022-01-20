@@ -68,6 +68,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import theme from '../components/styles'
+
 
 axios.defaults.withCredentials = true;
 
@@ -89,7 +91,6 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
 
 export default function LogIn() {
   const [appState, setAppState] = useOutletContext();
@@ -171,7 +172,7 @@ export default function LogIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.primary.main }}
               >
                 Sign In
               </Button>
