@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
-import ProductsAll from "./pages/Items/ProductsAll";
+import ProductsAll from "./components/Products/ProductsAll";
 import MyProducts from "./pages/Items/MyProducts";
 import Logout from "./pages/Auth/Logout";
 import About from "./pages/About";

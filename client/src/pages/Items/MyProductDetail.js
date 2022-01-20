@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-
+//STRETCH
 const MyProductDetail = () => {
   const { id } = useParams();
   return (

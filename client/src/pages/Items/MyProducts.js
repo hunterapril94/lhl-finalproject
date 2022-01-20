@@ -3,7 +3,7 @@ import Products from "../../components/Products/Products";
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import axios from "axios";
-
+// STRETCH
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
   const [appState, setAppState] = useOutletContext();
