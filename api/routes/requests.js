@@ -95,7 +95,12 @@ module.exports = (db) => {
 
         return db.createPendingProductTransaction(lineItemsWithID);
       })
-      .then((res) => {})
+      .then((res) => {
+        return res.json({
+          auth: true,
+          message: "successfully submited pending request",
+        });
+      })
       .catch((err) => {
         console.log(err);
       });
