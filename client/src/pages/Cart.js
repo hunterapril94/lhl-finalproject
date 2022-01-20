@@ -21,7 +21,7 @@ export default function Cart() {
       let finalJson = []
       for(let item of appState.cart) {
         console.log(item)
-        finalJson.push({product_id: item.product.id, start_time: item.start_date, end_time: item.end_time})
+        finalJson.push({product_id: item.product.id, start_time: item.start_date, end_time: item.end_date})
       }
       console.log(finalJson)
       return finalJson
