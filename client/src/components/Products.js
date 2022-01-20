@@ -34,7 +34,6 @@ export default function Products(props) {
           direction="column"
           alignItems={"center"}
         >
-          <h1>Products</h1>
           <Grid container direction="row" spacing={0}>
             {props.products.length > 1 ? (
               products
