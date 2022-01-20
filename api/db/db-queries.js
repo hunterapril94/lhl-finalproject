@@ -280,22 +280,24 @@ module.exports = (db) => {
 
   //  REQUEST QUERIES HERE
 
+  // getBorrowRequestsByUserId --- requesting to borrow something
+  // getPendingLendRequestsByUserId -- incomming request from someone
+
   const getPendingLendRequestsByUserId = function (userId) {
     return db
+
       .query(
-        `SELECT products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS requester_email, 
+        `SELECT products_transactions.id AS products_transactions_id ,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS requester_email,
         users.phone AS requester_phone
-        
-        FROM transactions 
+
+        FROM transactions
         JOIN users on transactions.user_id = users.id
         JOIN products_transactions ON transactions.id = products_transactions.transaction_id
-        
+
         JOIN products ON products_transactions.product_id = products.id
-        
+
         WHERE products.user_id = $1
-        AND products_transactions.status = 'pending'
-        
-        GROUP BY products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, requester_email, requester_phone;`,
+        AND products_transactions.status = 'pending'`,
         [userId]
       )
       .then((result) => {
@@ -309,8 +311,9 @@ module.exports = (db) => {
 
   const getBorrowRequestsByUserId = function (userId) {
     return db
+
       .query(
-        `SELECT products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone
+        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone
 
         FROM products_transactions
         JOIN transactions ON transaction_id = transactions.id
@@ -318,9 +321,7 @@ module.exports = (db) => {
         JOIN users ON products.user_id = users.id
         
         WHERE transactions.user_id = $1
-        AND products_transactions.status = 'pending'
-        
-        GROUP BY products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, owner_email, owner_phone;`,
+        AND products_transactions.status = 'pending';`,
         [userId]
       )
       .then((result) => {
