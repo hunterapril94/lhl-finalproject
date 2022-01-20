@@ -16,9 +16,9 @@ import SignUp from "./pages/SignUp";
 import MyTransactions from "./pages/MyTransactions";
 import LentItems from "./pages/LentItems";
 import BorrowedItems from "./pages/BorrowedItems";
-import MyRequests from "./pages/MyRequests";
-import Cart from "./pages/Cart"
-import Confirmation from "./pages/Confirmation"
+import MyRequests from "./pages/Requests/MyRequests";
+import Cart from "./pages/Cart";
+import Confirmation from "./pages/Confirmation";
 
 ReactDOM.render(
   <BrowserRouter>
