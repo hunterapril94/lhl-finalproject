@@ -13,7 +13,7 @@ import {
   TextField,
   ThemeProvider,
 } from "@mui/material";
-import theme from "../components/styles";
+import theme from "../../components/styles";
 import { useNavigate, useOutletContext } from "react-router";
 
 axios.defaults.withCredentials = true;

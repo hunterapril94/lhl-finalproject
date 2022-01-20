@@ -1,5 +1,5 @@
 import React from "react";
-import Products from "../components/Products";
+import Products from "../../components/Products";
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import axios from "axios";
@@ -16,8 +16,8 @@ const ProductsAll = () => {
       .then((all) => {
         // console.log(res.data.products);
         setProducts(all[0].data.products);
-        setAppState((prev)=>{
-          return {...prev, auth: all[0].data.auth}
+        setAppState((prev) => {
+          return { ...prev, auth: all[0].data.auth };
         });
       })
       .catch((err) => console.log(err.message));
