@@ -74,13 +74,35 @@ module.exports = (db) => {
     }
 
     const lineItems = req.body.products_transactions;
-    console.log(lineItems);
 
-    const transaction = { subTotal: 100, deposit_total: 1000, user_id: userID };
-
-    db.getAllProducts().then((products) => {
-      console.log(products);
+    itemsId = lineItems.map((item) => {
+      return item.product_id;
     });
+
+    const transaction = {
+      subtotal: null,
+      deposit_total: null,
+      user_id: userID,
+    };
+
+    db.getAllProducts()
+      .then((products) => {
+        const result = products.filter((product) =>
+          itemsId.includes(product.id)
+        );
+        result.forEach((res) => {
+          transaction.subtotal += res.price_per_day_cents;
+          transaction.deposit_total += res.deposit_amount_cents;
+        });
+        console.log("transaction", transaction);
+        return db.createTransaction(transaction);
+      })
+      .then((txID) => {
+        console.log("txid:" + txID);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     console.log("should happen last");
 
