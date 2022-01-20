@@ -97,9 +97,17 @@ module.exports = (db) => {
         console.log("transaction", transaction);
         return db.createTransaction(transaction);
       })
-      .then((txID) => {
+      .then((res) => {
+        txID = res.id;
+        console.log(lineItems);
         console.log("txid:" + txID);
+        const lineItemsWithID = lineItems.map((item) => {
+          return { ...item, transaction_id: txID };
+        });
+        console.log("lineItemsWithID" + JSON.stringify(lineItemsWithID));
+        return db.createPendingProductTransaction(lineItemsWithID);
       })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });
