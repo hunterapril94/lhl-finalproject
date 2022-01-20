@@ -47,7 +47,7 @@ function Product(props) {
                 sx={{ display: "flex" }}
               >
                 <Button type="submit" fullWidth variant="contained">
-                  More Details
+                  Add to Cart
                 </Button>
               </Box>
             </CardContent>

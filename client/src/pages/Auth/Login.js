@@ -68,7 +68,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import theme from '../components/styles'
+import theme from '../../components/styles'
 
 
 axios.defaults.withCredentials = true;
