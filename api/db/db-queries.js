@@ -277,6 +277,7 @@ module.exports = (db) => {
         }
       });
   };
+
   //  REQUEST QUERIES HERE
 
   const getPendingLendRequestsByUserId = function (userId) {
@@ -333,9 +334,15 @@ module.exports = (db) => {
 
   // REVIEW QUERIES
   const getStarsByProductId = function (id) {
-    return db.query(`SELECT AVG(stars) FROM reviews WHERE product_id= $1;`, [
-      id,
-    ]);
+    return db
+      .query(`SELECT AVG(stars) FROM reviews WHERE product_id= $1;`, [id])
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
   };
 
   // TRANSACTION QUERIES
@@ -359,6 +366,8 @@ module.exports = (db) => {
         }
       });
   };
+
+  // Hellper function to see if the transaction exists
   const getTransactionByid = function (id) {
     return db
       .query(
@@ -370,13 +379,14 @@ module.exports = (db) => {
       )
       .then((result) => {
         if (result) {
-          return true;
+          return result.rows[0];
         } else {
           return null;
         }
       });
   };
 
+  // still breaks if the transactin_id does not exist
   const createPendingProductTransaction = function (productTransaction) {
     let n = 1;
     let queryString = `INSERT INTO products_transactions
@@ -393,7 +403,6 @@ module.exports = (db) => {
       queryString += ` ($${n++}, $${n++}, $${n++}, $${n++}, 'pending'),`;
     });
     queryString = queryString.slice(0, -1);
-    console.log(queryString);
     if (getTransactionByid(queryParams[0])) {
       return db
         .query(`${queryString}RETURNING *;`, queryParams)
@@ -404,6 +413,8 @@ module.exports = (db) => {
             return null;
           }
         });
+    } else {
+      return null;
     }
   };
 
@@ -412,7 +423,8 @@ module.exports = (db) => {
       .query(
         `UPDATE products_transactions
          SET status = $2 
-         WHERE id =
+         WHERE id = $1
+         RETURNING *;
          `,
         [id, status]
       )
@@ -429,8 +441,9 @@ module.exports = (db) => {
     return db
       .query(
         `UPDATE users
-         SET  cash_balance_cents + $2 
+         SET  cash_balance_cents = cash_balance_cents  + $2 
          WHERE id = $1
+         RETURNING *;
          `,
         [id, Number(amount)]
       )
@@ -447,8 +460,8 @@ module.exports = (db) => {
     return db
       .query(
         `UPDATE users
-         SET  cash_balance_cents - $2 
-         WHERE id = $1
+         SET  cash_balance_cents = cash_balance_cents - $2 
+         WHERE id = $1;
          `,
         [id, Number(amount)]
       )
@@ -460,6 +473,8 @@ module.exports = (db) => {
         }
       });
   };
+
+  subtractFromBalance(1, 1500);
 
   return {
     getUserByEmail,
