@@ -1,6 +1,6 @@
 import Product from "./Product";
 import { Grid } from "@mui/material";
-import theme from "./styles";
+import theme from "../styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 
@@ -34,7 +34,6 @@ export default function Products(props) {
           direction="column"
           alignItems={"center"}
         >
-          <h1>Products</h1>
           <Grid container direction="row" spacing={0}>
             {props.products.length > 1 ? (
               products

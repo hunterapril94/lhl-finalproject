@@ -2,7 +2,7 @@ import axios from "axios";
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import theme from "../components/styles";
+import theme from "../../components/styles";
 
 const Logout = () => {
   const [appState, setAppState] = useOutletContext();
@@ -10,13 +10,21 @@ const Logout = () => {
   useEffect(() => {
     axios.post("http://localhost:8001/api/users/logout").then((res) => {
       console.log(res.data);
-      setAppState((prev)=>{
-        console.log(prev)
-        return {...prev, auth: false, cart: []}
+      setAppState((prev) => {
+        console.log(prev);
+        return { ...prev, auth: false, cart: [] };
       });
     });
   }, []);
-  return <Grid color={theme.palette.primary.main} container justifyContent='space-around'><h1>See you soon!!!</h1></Grid>;
+  return (
+    <Grid
+      color={theme.palette.primary.main}
+      container
+      justifyContent="space-around"
+    >
+      <h1>See you soon!!!</h1>
+    </Grid>
+  );
 };
 
 export default Logout;

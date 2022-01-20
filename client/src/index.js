@@ -4,21 +4,21 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import ProductsAll from "./pages/ProductsAll";
-import MyProductEdit from "./pages/MyProductEdit";
-import Logout from "./pages/Logout";
+import Login from "./pages/Auth/Login";
+import ProductsAll from "./pages/Items/ProductsAll";
+import MyProducts from "./pages/Items/MyProducts";
+import Logout from "./pages/Auth/Logout";
 import About from "./pages/About";
-import ProductDetail from "./pages/ProductDetail";
-import Profile from "./pages/Profile";
+import ProductDetail from "./pages/Items/ProductDetail";
+import Profile from "./pages/Profile/Profile";
 import NotFound from "./pages/NotFound";
-import SignUp from "./pages/SignUp";
-import MyTransactions from "./pages/MyTransactions";
-import LentItems from "./pages/LentItems";
-import BorrowedItems from "./pages/BorrowedItems";
-import MyRequests from "./pages/MyRequests";
-import Cart from "./pages/Cart"
-import Confirmation from "./pages/Confirmation"
+import SignUp from "./pages/Auth/SignUp";
+import MyTransactions from "./pages/Requests/MyTransactions";
+import LentItems from "./pages/Items/LentItems";
+import BorrowedItems from "./pages/Items/BorrowedItems";
+import MyRequests from "./pages/Requests/MyRequests";
+import Cart from "./pages/Cart";
+import Confirmation from "./pages/Confirmation";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -29,7 +29,7 @@ ReactDOM.render(
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
 
-        <Route path="/my-product-edit" element={<MyProductEdit />}></Route>
+        <Route path="/my-products" element={<MyProducts />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/my-lent-items" element={<LentItems />}></Route>

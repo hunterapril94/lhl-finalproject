@@ -2,7 +2,7 @@ export const navMenuItems = (authStatus) => {
   if (authStatus) {
     return [
       { id: 0, icon: "", label: "Products", route: "/" },
-      { id: 3, icon: "", label: "My Products", route: "my-product-edit" },
+      { id: 3, icon: "", label: "My Products", route: "my-products" },
       { id: 4, icon: "", label: "about", route: "about" },
 
       { id: 8, icon: "", label: "My Lent Items", route: "my-lent-items" },
