@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import ProductsAll from "./pages/Items/ProductsAll";
-import MyProductEdit from "./pages/Items/MyProductEdit";
+import MyProducts from "./pages/Items/MyProducts";
 import Logout from "./pages/Auth/Logout";
 import About from "./pages/About";
 import ProductDetail from "./pages/Items/ProductDetail";
@@ -29,7 +29,7 @@ ReactDOM.render(
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
 
-        <Route path="/my-product-edit" element={<MyProductEdit />}></Route>
+        <Route path="/my-products" element={<MyProducts />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/my-lent-items" element={<LentItems />}></Route>
