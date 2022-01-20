@@ -474,8 +474,6 @@ module.exports = (db) => {
       });
   };
 
-  subtractFromBalance(1, 1500);
-
   return {
     getUserByEmail,
     updateUserInfo,
