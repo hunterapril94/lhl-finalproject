@@ -1,6 +1,8 @@
 import axios from "axios";
+import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import theme from "../components/styles";
 
 const Logout = () => {
   const [appState, setAppState] = useOutletContext();
@@ -10,11 +12,11 @@ const Logout = () => {
       console.log(res.data);
       setAppState((prev)=>{
         console.log(prev)
-        return {...prev, auth: false}
+        return {...prev, auth: false, cart: []}
       });
     });
   }, []);
-  return <div>See you soon!!!</div>;
+  return <Grid color={theme.palette.primary.main} container justifyContent='space-around'><h1>See you soon!!!</h1></Grid>;
 };
 
 export default Logout;

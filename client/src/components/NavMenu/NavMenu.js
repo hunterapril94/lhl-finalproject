@@ -22,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 import theme from "../styles";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useOutletContext } from "react-router";
 // import theme from "../styles";
 const drawerWidth = 240;
 
@@ -93,6 +95,7 @@ export default function NavMenu(props) {
           backgroundColor={theme.palette.primary.main}
           container
           direction="row"
+          justifyContent='space-between'
         >
           <Toolbar>
             <IconButton
@@ -114,6 +117,9 @@ export default function NavMenu(props) {
               </Link>
             </Typography>
           </Toolbar>
+
+  
+          <Link to='/cart'><Grid color='white' margin='30px'><ShoppingCartIcon /></Grid></Link>
         </Grid>
       </AppBar>
       <Drawer
