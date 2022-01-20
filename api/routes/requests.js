@@ -104,7 +104,7 @@ module.exports = (db) => {
         const lineItemsWithID = lineItems.map((item) => {
           return { ...item, transaction_id: txID };
         });
-        console.log("lineItemsWithID" + JSON.stringify(lineItemsWithID));
+
         return db.createPendingProductTransaction(lineItemsWithID);
       })
       .then((res) => {})
