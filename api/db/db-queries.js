@@ -116,7 +116,7 @@ module.exports = (db) => {
       });
   };
 
-  const getProducyById = function (id) {
+  const getProductById = function (id) {
     return db
       .query(
         ` SELECT products.*, AVG(reviews.stars) AS avg_stars 
@@ -349,7 +349,8 @@ module.exports = (db) => {
       .query(
         `INSERT INTO transactions
     (user_id, subtotal, deposit_total)
-    VALUES ($1, $2, $3, $4); 
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;
     `,
         queryParams
       )
@@ -467,7 +468,7 @@ module.exports = (db) => {
     getUserById,
     // products
     getAllProducts,
-    getProducyById,
+    getProductById,
     getProductsByCategory,
     getProductsByUserId,
     getBorrowedProductsByUserId,
