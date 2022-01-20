@@ -1,6 +1,6 @@
 import Product from "./Product";
 import { Grid } from "@mui/material";
-import theme from "./styles";
+import theme from "../styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 

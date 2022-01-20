@@ -1,4 +1,4 @@
-import theme from "./styles";
+import theme from "../styles";
 import {
   Card,
   CardMedia,
@@ -47,7 +47,7 @@ function Product(props) {
                 sx={{ display: "flex" }}
               >
                 <Button type="submit" fullWidth variant="contained">
-                  Request Item
+                  More Details
                 </Button>
               </Box>
             </CardContent>
