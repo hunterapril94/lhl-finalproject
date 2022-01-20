@@ -34,7 +34,7 @@ function UserDetail() {
   const [appState, setAppState] = useOutletContext();
   useEffect(() => {
     const promise1 = axios.get(`http://localhost:8001/api/users/info`)
-    const promise2 = axios.get(`http://localhost:8001/api/users/myBorrowedProducts`)
+    const promise2 = axios.get(`http://localhost:8001/api/users/my-borrowed-products`)
     // const promise3 = axios.get(`http://localhost:8001/api/users/myLentProducts`)
     Promise.all([promise1, promise2])
     .then((res) => {

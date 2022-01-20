@@ -49,6 +49,57 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
+  // POST  /api/requests/:product-transactions-id/activate
+  //-----------------------------------------------------------------
+
+  router.post("/:id/activate", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+        isApproved: false,
+      });
+    }
+    if (!req.params.id) {
+      return res.status(400).json({
+        auth: false,
+        message: "error: req params products_transactions_id not sent",
+        isApproved: false,
+      });
+    }
+    db.getPendingLendRequestsByUserId(userID)
+      .then((requests) => {
+        //checking to see if the request is pending and is owned by the current user
+        const filteredByParam = requests.filter((request) => {
+          return request.products_transactions_id == req.params.id;
+        });
+
+        if (filteredByParam.length < 1) {
+          return Promise.reject(
+            "could not set, is either not pending, or not owned by user"
+          );
+        } else {
+          return db.updateProductTransactionStatus(req.params.id, "approved");
+        }
+      })
+      .then(() => {
+        return res.json({
+          auth: true,
+          isApproved: true,
+          message: "updated transaction to be active",
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: true,
+          message: err,
+          isApproved: null,
+        });
+      });
+  });
+
+  //-----------------------------------------------------------------
   // POST  /api/requests/
   //-----------------------------------------------------------------
 
@@ -62,6 +113,14 @@ module.exports = (db) => {
     }
     // console.log(req.body)
     const lineItems = req.body.products_transactions;
+
+    if (!lineItems || lineItems.length < 1) {
+      return res.json({
+        auth: true,
+        message: "you need line items, cant leave blank",
+        success: false,
+      });
+    }
 
     itemsId = lineItems.map((item) => {
       return item.product_id;
@@ -93,8 +152,6 @@ module.exports = (db) => {
           return { ...item, transaction_id: txID };
         });
 
-        console.log("log items " + lineItemsWithID);
-
         return db.createPendingProductTransaction(lineItemsWithID);
       })
       .then(() => {
@@ -102,6 +159,7 @@ module.exports = (db) => {
         return res.json({
           auth: true,
           message: "successfully submited pending request",
+          success: true,
         });
       })
       .catch((err) => {
@@ -109,6 +167,7 @@ module.exports = (db) => {
         return res.json({
           auth: true,
           message: "not successful in adding new request",
+          success: false,
         });
       });
 
