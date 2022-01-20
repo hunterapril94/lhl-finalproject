@@ -281,7 +281,6 @@ module.exports = (db) => {
   //  REQUEST QUERIES HERE
 
   // getBorrowRequestsByUserId --- requesting to borrow something
-  // getPendingLendRequestsByUserId -- incomming request from someone
 
   const getPendingLendRequestsByUserId = function (userId) {
     return db
@@ -308,6 +307,8 @@ module.exports = (db) => {
         }
       });
   };
+
+  // getPendingLendRequestsByUserId -- incomming request from someone
 
   const getBorrowRequestsByUserId = function (userId) {
     return db

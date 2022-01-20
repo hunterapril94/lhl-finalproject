@@ -49,6 +49,53 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
+  // POST  /api/requests/:product-transactions-id/activate
+  //-----------------------------------------------------------------
+
+  router.post("/:id/activate", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+      });
+    }
+    db.getPendingLendRequestsByUserId(userID)
+      .then((requests) => {
+        // console.log(requests);
+        const filteredByParam = requests.filter((request) => {
+          return request.products_transactions_id == req.params.id;
+        });
+        // console.log(filteredByParam);
+        if (filteredByParam.length < 1) {
+          return res.json({
+            auth: true,
+            message: "you do not have ownership of this to change it",
+            isApproved: false,
+          });
+        } else {
+          return db.updateProductTransactionStatus(req.params.id, "approved");
+        }
+      })
+      .then(() => {
+        return res.json({
+          auth: true,
+          isApproved: true,
+          message: "updated transaction to be active",
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          auth: true,
+          message: "internal server error",
+          isApproved: false,
+        });
+      });
+
+    console.log(req.params.id);
+  });
+
+  //-----------------------------------------------------------------
   // POST  /api/requests/
   //-----------------------------------------------------------------
 

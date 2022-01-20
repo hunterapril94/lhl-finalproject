@@ -120,9 +120,6 @@ module.exports = (db) => {
   //   //-----------------------------------------------------------------
 
   router.post("/login", (req, res) => {
-    console.log("login route");
-    console.log(req.body);
-    console.log(req.header);
     const { isLoggedIn } = req; //gets this from middleware
     if (isLoggedIn) {
       return res.json({
