@@ -79,8 +79,6 @@ module.exports = (db) => {
       return item.product_id;
     });
 
-    console.log(itemsId);
-
     const transaction = {
       subtotal: null,
       deposit_total: null,
