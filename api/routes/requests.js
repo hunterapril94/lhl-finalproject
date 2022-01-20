@@ -13,9 +13,6 @@ module.exports = (db) => {
         message: "not authorized",
       });
     }
-    console.log(
-      "#############userid for  GET /api/requests/pending: " + userID
-    );
 
     // getBorrowRequestsByUserId --- requesting to borrow something
     // getPendingLendRequestsByUserId -- incomming request from someone
@@ -50,15 +47,6 @@ module.exports = (db) => {
         });
       });
   });
-
-  // 1. generate transaction  first
-  // from the cart
-  // {user_id known
-  // subtotal + can calculate from all products
-  // deposit total + can calculate from from all products
-  // db [return the transaction id]
-
-  // products_transactions : [ {transaction_id[from step1], product_id[from cart], start_time (cant be in past), end_time} , ... }}
 
   //-----------------------------------------------------------------
   // POST  /api/requests/

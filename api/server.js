@@ -60,7 +60,7 @@ app.use(
 
 app.use((req, res, next) => {
   const userID = req.session.user_id; //get users cookie
-  console.log(req.session);
+  //console.log(req.session);
 
   isUserLoggedIn(userID, dbQueries)
     .then((isLoggedIn) => {
