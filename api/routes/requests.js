@@ -93,9 +93,12 @@ module.exports = (db) => {
           return { ...item, transaction_id: txID };
         });
 
+        console.log("log items " + lineItemsWithID);
+
         return db.createPendingProductTransaction(lineItemsWithID);
       })
-      .then((res) => {
+      .then(() => {
+        console.log("successfully added to db");
         return res.json({
           auth: true,
           message: "successfully submited pending request",
@@ -103,11 +106,12 @@ module.exports = (db) => {
       })
       .catch((err) => {
         console.log(err);
+        return res.json({
+          auth: true,
+          message: "not successful in adding new request",
+        });
       });
 
-    console.log("should happen last");
-
-    res.json({ auth: isLoggedIn });
     // console.log(lineItems);
   });
   return router;
