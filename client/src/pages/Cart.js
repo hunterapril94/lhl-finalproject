@@ -45,6 +45,7 @@ export default function Cart() {
       })
       .then((res) => {
         setAppState((prev) => {
+          console.log(prev);
           return { ...prev, cart: [] };
         });
       })
