@@ -13,7 +13,7 @@ import { Typography } from "@mui/material";
 import { Box, flexbox, typography } from "@mui/system";
 import { Button } from "@mui/material";
 
-import { AcceptButton } from "./Buttons.js";
+import { AcceptButton, CancelButton, RejectButton } from "./Buttons.js";
 
 function dayParser(startDay, endDate) {
   return Math.floor((Date.parse(endDate) - Date.parse(startDay)) / 86400000);
@@ -70,7 +70,7 @@ export default function MyRequests() {
             <TableHead>
               <TableRow>
                 <TableCell>Item</TableCell>
-                <TableCell align="center">Contact</TableCell>
+                <TableCell align="center">Borrower's email</TableCell>
                 <TableCell align="center">cost per day</TableCell>
                 <TableCell align="center">days requested</TableCell>
                 <TableCell align="center">total revenue</TableCell>
@@ -103,11 +103,18 @@ export default function MyRequests() {
                       100}
                     $
                   </TableCell>
-                  <AcceptButton
-                    request={request}
-                    requests={IncomingRequests}
-                    setIncomingRequests={setIncomingRequests}
-                  />
+                  <TableCell align="center">
+                    <AcceptButton
+                      request={request}
+                      requests={IncomingRequests}
+                      setIncomingRequests={setIncomingRequests}
+                    />
+                    <RejectButton
+                      request={request}
+                      requests={IncomingRequests}
+                      setIncomingRequests={setIncomingRequests}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -122,7 +129,7 @@ export default function MyRequests() {
             <TableHead>
               <TableRow>
                 <TableCell>Item</TableCell>
-                <TableCell align="center">Contact</TableCell>
+                <TableCell align="center">Owner's Email</TableCell>
                 <TableCell align="center">cost per day</TableCell>
                 <TableCell align="center">days requested</TableCell>
                 <TableCell align="center">total revenue</TableCell>
@@ -154,7 +161,11 @@ export default function MyRequests() {
                     $
                   </TableCell>
                   <TableCell align="center">
-                    <Button>Cancel</Button>
+                    <CancelButton
+                      request={request}
+                      requests={IncomingRequests}
+                      setIncomingRequests={setIncomingRequests}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
