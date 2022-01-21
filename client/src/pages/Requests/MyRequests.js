@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, typography } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
@@ -62,11 +62,7 @@ export default function MyRequests() {
       >
         My Pending Requests
       </Typography>
-      <Typography
-        variant="h6"
-        component="h3"
-        sx={{ marginTop: 3, textAlign: "center" }}
-      ></Typography>
+
       <Box
         component="form"
         sx={{
@@ -84,21 +80,26 @@ export default function MyRequests() {
           <Tab label="Outgoing requests" />
         </Tabs>
         {selectedTab === 0 && (
-          <TableContainer component={Paper}>
+          <TableContainer component={IncomingRequests.length !== 0 && Paper}>
+            {IncomingRequests.length === 0 && (
+              <Typography>You have no Pending Requests</Typography>
+            )}
             <Table sx={{ minWidth: 550 }}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Item</TableCell>
-                  <TableCell align="center">Borrower's email</TableCell>
-                  <TableCell align="center">cost per day</TableCell>
-                  <TableCell align="center">days requested</TableCell>
-                  <TableCell align="center">From</TableCell>
-                  <TableCell align="center">to</TableCell>
-                  <TableCell align="center">total revenue</TableCell>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-              </TableHead>
+              {IncomingRequests.length !== 0 && (
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Item</TableCell>
+                    <TableCell align="center">Borrower's email</TableCell>
+                    <TableCell align="center">cost per day</TableCell>
+                    <TableCell align="center">days requested</TableCell>
+                    <TableCell align="center">From</TableCell>
+                    <TableCell align="center">to</TableCell>
+                    <TableCell align="center">total revenue</TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center"></TableCell>
+                  </TableRow>
+                </TableHead>
+              )}
               <TableBody>
                 {IncomingRequests.map((request) => (
                   <TableRow
@@ -149,21 +150,26 @@ export default function MyRequests() {
           </TableContainer>
         )}
         {selectedTab === 1 && (
-          <TableContainer component={Paper}>
+          <TableContainer component={OutgoingRequests.length !== 0 && Paper}>
+            {OutgoingRequests.length === 0 && (
+              <Typography>You have no Pending Requests</Typography>
+            )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Item</TableCell>
-                  <TableCell align="center">Owner's Email</TableCell>
-                  <TableCell align="center">cost per day</TableCell>
-                  <TableCell align="center">days requested</TableCell>
-                  <TableCell align="center">From</TableCell>
-                  <TableCell align="center">to</TableCell>
-                  <TableCell align="center">total revenue</TableCell>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-              </TableHead>
+              {OutgoingRequests.length !== 0 && (
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Item</TableCell>
+                    <TableCell align="center">Owner's Email</TableCell>
+                    <TableCell align="center">cost per day</TableCell>
+                    <TableCell align="center">days requested</TableCell>
+                    <TableCell align="center">From</TableCell>
+                    <TableCell align="center">to</TableCell>
+                    <TableCell align="center">total revenue</TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center"></TableCell>
+                  </TableRow>
+                </TableHead>
+              )}
               <TableBody>
                 {OutgoingRequests.map((request) => (
                   <TableRow
