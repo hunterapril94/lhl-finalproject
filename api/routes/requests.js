@@ -84,6 +84,7 @@ module.exports = (db) => {
         }
       })
       .then(() => {
+        //add money to user account
         return res.json({
           auth: true,
           isApproved: true,
@@ -141,13 +142,13 @@ module.exports = (db) => {
           transaction.subtotal += res.price_per_day_cents;
           transaction.deposit_total += res.deposit_amount_cents;
         });
+        //check balance
         console.log("transaction", transaction);
         return db.createTransaction(transaction);
       })
       .then((res) => {
         txID = res.id;
-        console.log(lineItems);
-        console.log("txid:" + txID);
+
         const lineItemsWithID = lineItems.map((item) => {
           return { ...item, transaction_id: txID };
         });

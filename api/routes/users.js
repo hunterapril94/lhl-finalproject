@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-//const isUserLoggedIn = require("./helpers/isUserLoggedIn");
-//const fakeUser = require("../fake-data/user.json");
 
 module.exports = (db) => {
   //   //-----------------------------------------------------------------
@@ -47,7 +45,6 @@ module.exports = (db) => {
         });
       })
       .catch((err) => {
-        console.log(err);
         res.status(500).json({
           auth: false,
           message: "internal server error",
@@ -131,10 +128,9 @@ module.exports = (db) => {
 
     db.getUserByEmail(req.body.email)
       .then((user) => {
-        console.log(user, "db user");
         if (!user) {
           //user does not exist in db as per email
-          console.log("email does not exist");
+
           return res.json({
             auth: false,
             message: "User information is incorrect",
@@ -148,7 +144,7 @@ module.exports = (db) => {
             message: "User information is incorrect",
           });
         }
-        console.log("loggin in user id :" + user.id);
+
         req.session.user_id = user.id;
         //sets the cookie for the client
 
@@ -158,9 +154,6 @@ module.exports = (db) => {
         });
       })
       .catch((err) => {
-        //db error
-        console.log("db error");
-        console.log(err);
         res.status(500).json({
           auth: false,
           message: "internal server error",
@@ -228,7 +221,7 @@ module.exports = (db) => {
             message: "Email already in use",
           });
         }
-        console.log("successfully added user to db: ", result);
+
         req.session.user_id = result.id; //set the cookie according to the userid returned from the database
         res.json({
           auth: true,
@@ -236,7 +229,6 @@ module.exports = (db) => {
         });
       })
       .catch((err) => {
-        console.log("db error", err);
         res.status(500).json({
           auth: false,
           message: "internal server error",
@@ -297,7 +289,6 @@ module.exports = (db) => {
         });
       })
       .catch((err) => {
-        console.log("db error", err);
         res.status(500).json({
           auth: false,
           message: "internal server error",
@@ -355,7 +346,7 @@ module.exports = (db) => {
   //         });
   //       })
   //       .catch((err) => {
-  //         console.log(err);
+  //
   //         res.status(500).json({
   //           auth: true,
   //           message: "internal server error",
