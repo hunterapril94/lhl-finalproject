@@ -39,7 +39,8 @@ function UserDetail() {
   const [borrowed, setBorrowed] = useState([]);
   const [lent, setLent] = useState([])
   const [appState, setAppState] = useOutletContext();
-  const [showHide, setShowHide ]= useState('block')
+  const [showHideLent, setShowHideLent ] = useState('none')
+  const [showHideBorrowed, setShowHideBorrowed] = useState('none')
   useEffect(() => {
     const promise1 = axios.get(`http://localhost:8001/api/users/profile`)
     const promise2 = axios.get(`http://localhost:8001/api/requests/pending`)
@@ -55,14 +56,26 @@ function UserDetail() {
       setLent(res[1].data.pendingIncommingLendRequests)
     });
   }, []);
-  function handleClick(event) {
+  function handleClickLent(event) {
     event.preventDefault()
   var div = document.getElementById('borrowed');
-  if (showHide === 'none') {
-    setShowHide('block');
+  if (showHideLent === 'none') {
+    setShowHideLent('block');
   }
   else {
-    setShowHide('none');
+    setShowHideLent('none');
+  } 
+  }
+
+
+  function handleClickBorrowed(event) {
+    event.preventDefault()
+  var div = document.getElementById('borrowed');
+  if (showHideBorrowed === 'none') {
+    setShowHideBorrowed('block');
+  }
+  else {
+    setShowHideBorrowed('none');
   } 
   }
   return (
@@ -87,8 +100,9 @@ function UserDetail() {
             </CardContent>
           </Grid>
           <Grid color={theme.palette.primary.main} backgroundColor={theme.palette.secondary.main} xs={9} display='flex' direction='column'>
-            <Box component='form' onSubmit={handleClick}>
-            <Typography color={theme.palette.primary.main} fontSize='20pt' marginTop='20px'>Lent Items </Typography><h2><Button variant='contained' sx={{borderRadius: '50%', marginLeft: '10px', marginRight: '20px'}} type='submit'>{lent.length}</Button></h2>
+            <Box component='form' onSubmit={handleClickLent}>
+            <Typography color={theme.palette.primary.main} fontSize='20pt' marginTop='20px' marginLeft='10px'>Lent Items </Typography><h2><Button variant='contained' sx={{borderRadius: '50%', marginLeft: '10px', marginRight: '20px'}} type='submit'>{lent.length}</Button></h2>
+              <Grid display={showHideLent}>
             <Table sx={{ minWidth: 550 }} aria-label="simple table" id='lent'>
             <TableHead>
               <TableRow>
@@ -107,7 +121,6 @@ function UserDetail() {
                   key={request.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-            <Grid display={showHide}>
                   <TableCell component="th" scope="row">
                     {request.name}
                   </TableCell>
@@ -134,18 +147,19 @@ function UserDetail() {
 
                     </Grid>
                   </TableCell>
-            </Grid>
                 </TableRow>
               ))}
             </TableBody>
             
           </Table>          
+              </Grid>
             </Box>
-            <Box component='form' onSubmit={handleClick}>
+            <Box component='form' onSubmit={handleClickBorrowed}>
 
             <Typography variant='h2' color={theme.palette.primary.main} fontSize='20pt' marginTop='20px' marginLeft='10px'>Borrowed Items </Typography><h2>
             <Button variant='contained' sx={{borderRadius: '50%', marginLeft: '10px', marginRight: '40px'}} type='submit'>{borrowed.length}</Button></h2>
-          <Table sx={{ minWidth: 550, display: {showHide} }} aria-label="simple table" id='borrow'>
+            <Grid display={showHideBorrowed}>
+          <Table sx={{ minWidth: 550, display: {showHideBorrowed} }} aria-label="simple table" id='borrow'>
             <TableHead>
               <TableRow>
                 <TableCell>Item</TableCell>
@@ -159,7 +173,6 @@ function UserDetail() {
             </TableHead>
 
             <TableBody>
-            <Grid display={showHide}>
               {borrowed.map((request) => (
                 <TableRow
                   key={request.id}
@@ -187,9 +200,9 @@ function UserDetail() {
                   </TableCell>
                 </TableRow>
               ))}
-            </Grid>
             </TableBody>
           </Table>
+            </Grid>
             </Box>
             
           
