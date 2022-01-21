@@ -24,7 +24,8 @@ import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Cart from "../CustomBadges/Cart";
-import { useOutletContext } from "react-router";
+import axios from "axios";
+import { useEffect } from "react";
 
 // import theme from "../styles";
 const drawerWidth = 240;
@@ -77,7 +78,24 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function NavMenu(props) {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
+
   const auth = props.auth;
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8001/api/users/profile")
+      .then((res) => {
+        console.log(res.data);
+        props.setAppState((prev) => {
+          return {
+            ...prev,
+            auth: res.data.auth,
+            profile: res.data.userProfile,
+          };
+        });
+      })
+      .catch((err) => console.log(err.message));
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,6 +104,9 @@ export default function NavMenu(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  console.log("user");
+  console.log(props.appState.profile);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor={theme.palette.tertiary.main}>
@@ -117,7 +138,19 @@ export default function NavMenu(props) {
             {/* </Typography> */}
           </Toolbar>
 
-          <Grid color="white" margin="10px 20px">
+          <Grid
+            color="white"
+            margin="10px 20px"
+            display={"flex"}
+            sx={{ alignItems: "center" }}
+          >
+            {props.appState.auth && (
+              <Box margin="10px">
+                <Typography>
+                  Balance: ${props.appState.profile.cash_balance_cents / 100}
+                </Typography>
+              </Box>
+            )}
             <Link to="/cart">
               <Cart count={props.appState.cart.length} />
             </Link>

@@ -7,10 +7,18 @@ import theme from "./components/styles";
 import "./App.css";
 
 const App = () => {
-  const [appState, setAppState] = useState({ auth: false, cart: [] });
+  const [appState, setAppState] = useState({
+    auth: false,
+    cart: [],
+    profile: {},
+  });
   return (
     <ThemeProvider theme={theme}>
-      <NavMenu auth={appState.auth} appState={appState}>
+      <NavMenu
+        auth={appState.auth}
+        appState={appState}
+        setAppState={setAppState}
+      >
         <Outlet context={[appState, setAppState]} />
       </NavMenu>
     </ThemeProvider>
