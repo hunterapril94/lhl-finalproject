@@ -206,6 +206,10 @@ module.exports = (db) => {
           transaction.deposit_total += res.deposit_amount_cents;
         });
         //check balance
+
+        const totalTransacrionCost =
+          transaction.subtotal + transaction.deposit_total;
+
         if (isOwnIdIncluded) {
           return Promise.reject("you cant request to rent out your own items");
         }
