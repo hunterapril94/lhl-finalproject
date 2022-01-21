@@ -1,7 +1,7 @@
 -- Users table seeds here (Example)
 INSERT INTO users (first_name, last_name, address, neighborhood, borrower, lender, email, cash_balance_cents, phone, password)
 VALUES
-  ('Nicole', 'Dunn', '1400 BROADWAY ST', 'Kitsilano', true, true, 'test@test.com', 0, '1234567890', '123'),
+  ('Nicole', 'Dunn', '1400 BROADWAY ST', 'Kitsilano', true, true, 'test@test.com', 1000997, '1234567890', '123'),
   ('Cole', 'Monroe', '1760 Pacific ST', 'West End', true, false, 'proin.nisl.sem@google.edu', 0, '6725554444', 'password'),
   ('Luke', 'Gray', '1460 main', 'Mount Pleasant', true, true, 'nunc.ullamcorper@outlook.net', 10000, '6714445555', 'password'),
   ('Orlando', 'Ross', '1700 Davie St', 'West End', true, true, 'mauris@protonmail.edu', 4000, '6719998888', 'password'),
