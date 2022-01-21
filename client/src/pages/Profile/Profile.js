@@ -168,8 +168,8 @@ function UserDetail() {
                 {lent.length}
               </Button>
             </h2>
-            <Grid display={showHideLent}>
-              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent">
+            <Grid display={showHideLent} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
+              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent" >
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
@@ -246,11 +246,12 @@ function UserDetail() {
                 {borrowed.length}
               </Button>
             </h2>
-            <Grid display={showHideBorrowed}>
+            <Grid display={showHideBorrowed} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
               <Table
                 sx={{ minWidth: 550, display: { showHideBorrowed } }}
                 aria-label="simple table"
                 id="borrow"
+                backgroundColor={theme.palette.tertiary.main} alignSelf='center'
               >
                 <TableHead>
                   <TableRow>
@@ -328,8 +329,8 @@ function UserDetail() {
                 </Button>
               </h2>
             </Box>
-            <Grid display={showHideCurrentLent}>
-              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent">
+            <Grid display={showHideCurrentLent} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
+              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent" backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
@@ -390,7 +391,7 @@ function UserDetail() {
                 </Button>
               </h2>
             </Box>
-            <Grid display={showHideCurrentBorrowed}>
+            <Grid display={showHideCurrentBorrowed} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
               <Table
                 sx={{ minWidth: 550, display: { showHideCurrentBorrowed } }}
                 aria-label="simple table"
