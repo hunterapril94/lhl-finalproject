@@ -303,7 +303,7 @@ module.exports = (db) => {
 
       .query(
         `SELECT products_transactions.id AS products_transactions_id ,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS requester_email,
-        users.phone AS requester_phone
+        users.phone AS requester_phone, status
 
         FROM transactions
         JOIN users on transactions.user_id = users.id
@@ -330,7 +330,7 @@ module.exports = (db) => {
     return db
 
       .query(
-        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone
+        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone, status
 
         FROM products_transactions
         JOIN transactions ON transaction_id = transactions.id
