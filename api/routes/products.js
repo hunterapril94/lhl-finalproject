@@ -47,6 +47,40 @@ module.exports = (db) => {
         });
       });
   });
+  //-----------------------------------------------------------------
+  // post /api/products/search
+  //-----------------------------------------------------------------
+
+  router.post("/search", (req, res) => {
+    const { isLoggedIn } = req; //gets this from middleware
+
+    console.log("search param", req.body.search);
+
+    if (!isLoggedIn) {
+      return res.json({
+        auth: false,
+        message: "not logged in",
+        products: null,
+      });
+    }
+
+    db.getProductsBySearchTerm(req.body.search)
+      .then((products) => {
+        res.json({
+          auth: true,
+          message: "successful search",
+          products,
+        });
+      })
+      .catch((products) => {
+        res.json({
+          auth: true,
+          message: "not successful in search",
+          products: null,
+        });
+      });
+  });
+
   return router;
 };
 
