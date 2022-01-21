@@ -138,12 +138,20 @@ module.exports = (db) => {
         const result = products.filter((product) =>
           itemsId.includes(product.id)
         );
+        console.log("result" + JSON.stringify(result));
+        let isOwnIdIncluded = false;
         result.forEach((res) => {
+          if (res.user_id === userID) {
+            isOwnIdIncluded = true;
+          }
           transaction.subtotal += res.price_per_day_cents;
           transaction.deposit_total += res.deposit_amount_cents;
         });
         //check balance
-        console.log("transaction", transaction);
+        if (isOwnIdIncluded) {
+          return Promise.reject("you cant request to rent out your own items");
+        }
+
         return db.createTransaction(transaction);
       })
       .then((res) => {
@@ -166,7 +174,7 @@ module.exports = (db) => {
       .catch((err) => {
         return res.json({
           auth: true,
-          message: "not successful in adding new request",
+          message: err,
           success: false,
         });
       });
