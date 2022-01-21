@@ -45,8 +45,11 @@ export default function Cart() {
       })
       .then((res) => {
         setAppState((prev) => {
-          console.log(prev);
-          return { ...prev, cart: [] };
+          const updatedProfile = {
+            ...prev.profile,
+            cash_balance_cents: res.data.newBalance,
+          };
+          return { ...prev, cart: [], profile: updatedProfile };
         });
       })
       .then(() => {
