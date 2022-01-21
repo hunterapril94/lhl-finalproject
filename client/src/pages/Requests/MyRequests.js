@@ -13,26 +13,15 @@ import { Typography } from "@mui/material";
 import { Box, flexbox, typography } from "@mui/system";
 import { Button } from "@mui/material";
 
+import { AcceptButton } from "./Buttons.js";
+
 function dayParser(startDay, endDate) {
   return Math.floor((Date.parse(endDate) - Date.parse(startDay)) / 86400000);
 }
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 export default function MyRequests() {
   const [IncomingRequests, setIncomingRequests] = useState([]);
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
-  const [appState, setAppState] = useOutletContext();
 
   useEffect(() => {
     axios
@@ -65,11 +54,13 @@ export default function MyRequests() {
         Incoming Requests:
       </Typography>
       <Box
+        component="form"
         sx={{
           display: "flex",
           width: "100%",
           justifyContent: "center",
           flexDirection: "column",
+          alignItems: "center",
 
           marginTop: 5,
         }}
@@ -90,7 +81,7 @@ export default function MyRequests() {
             <TableBody>
               {IncomingRequests.map((request) => (
                 <TableRow
-                  key={request.id}
+                  key={request.products_transactions_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -112,15 +103,17 @@ export default function MyRequests() {
                       100}
                     $
                   </TableCell>
-                  <TableCell align="center">
-                    <Button>Accept</Button>
-                    <Button>Reject</Button>
-                  </TableCell>
+                  <AcceptButton
+                    request={request}
+                    requests={IncomingRequests}
+                    setIncomingRequests={setIncomingRequests}
+                  />
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+
         <Typography variant="h6" component="h3">
           Outgoing request:
         </Typography>
@@ -140,7 +133,7 @@ export default function MyRequests() {
             <TableBody>
               {OutgoingRequests.map((request) => (
                 <TableRow
-                  key={request.id}
+                  key={request.products_transactions_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
