@@ -254,14 +254,25 @@ module.exports = (db) => {
       return res.status(401).json({
         auth: false,
         message: "not authorized",
+        balance: null,
       });
     }
 
-    return res.status(401).json({
-      auth: true,
-      message: "balance",
-      balance: null,
-    });
+    db.getBalanceByUserID(userID)
+      .then((balance) => {
+        res.json({
+          auth: true,
+          message: "succesful in getting balance from server",
+          balance,
+        });
+      })
+      .catch(() => {
+        return res.status(500).json({
+          auth: true,
+          message: "internal server error",
+          balance: null,
+        });
+      });
   });
 
   //-----------------------------------------------------------------

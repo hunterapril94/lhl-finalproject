@@ -460,6 +460,22 @@ module.exports = (db) => {
       });
   };
 
+  const getBalanceByUserID = function (id) {
+    return db
+      .query(
+        `SELECT cash_balance_cents  FROM users
+    WHERE id = $1;`,
+        [Number(id)]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
+  };
+
   // const addToBalance = function (id, amount) {
   //   return db
   //     .query(
@@ -521,7 +537,7 @@ module.exports = (db) => {
     createPendingProductTransaction,
     updateProductTransactionStatus,
     updateBalance,
-    // getBalanceByUserID,
+    getBalanceByUserID,
     // addToBalance,
     // subtractFromBalance,
   };
