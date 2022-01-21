@@ -29,6 +29,9 @@ import Inventory2Icon from "@mui/icons-material/Inventory2";
 import InfoIcon from "@mui/icons-material/Info";
 import MyRequests from "../Requests/MyRequests";
 
+
+
+
 axios.defaults.withCredentials = true;
 
 function dayParser(startDay, endDate) {
@@ -63,7 +66,7 @@ function UserDetail() {
       (res) => {
         // console.log(res[0].data)
         // console.log(res[1].data)
-        console.log(res[2].data);
+        // console.log(res[2].data);
         setUser(res[0].data.userProfile);
         setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
         setLent(res[1].data.pendingIncommingLendRequests);
@@ -73,7 +76,7 @@ function UserDetail() {
         // console.log(res[3].data)
         // console.log(res[4].data)
         // console.log(res[5].data)
-        console.log(currentBorrowed);
+        // console.log(currentBorrowed);
       }
     );
   }, []);
@@ -113,25 +116,34 @@ function UserDetail() {
       setShowHideCurrentLent("none");
     }
   }
+  const acceptSubmit = (event, id) => {
+    event.preventDefault();
+    console.log(id)
+    axios
+      .post(
+        `http://localhost:8001/api/requests/incomming/${id}/approved`
+      )
+      .catch((err) => {console.log(err.message)});
+  };
   return (
     <Grid color={theme.palette.primary.main}>
       <h1>User Profile</h1>
-      <Box display="flex" direction="row">
-        <Grid backgroundColor="white" color={theme.palette.primary.main} xs={3}>
+      <Box display="flex" direction="row" container>
+        <Grid backgroundColor="white" color={theme.palette.primary.main} xs={3} item>
           <CardMedia
             component="img"
             image="https://www.pngitem.com/pimgs/m/294-2947257_interface-icons-user-avatar-profile-user-avatar-png.png"
           />
           <CardContent>
-            <h2>
+            <p>
               {user.first_name} {user.last_name}
-            </h2>
-            <h2>{user.email}</h2>
-            <h2>Neighborhood:</h2>
-            <h2>{user.neighborhood}</h2>
-            <h2>Phone: {user.phone}</h2>
-            <h2>Borrower: {user.borrower ? "yes" : "no"}</h2>
-            <h2>Lender: {user.lender ? "yes" : "no"}</h2>
+            </p>
+            <p>{user.email}</p>
+            <p>Neighborhood:</p>
+            <p>{user.neighborhood}</p>
+            <p>Phone: {user.phone}</p>
+            <p>Borrower: {user.borrower ? "yes" : "no"}</p>
+            <p>Lender: {user.lender ? "yes" : "no"}</p>
             <Grid marginLeft="70%" container>
               <Button variant="contained">
                 <EditIcon />
@@ -142,17 +154,18 @@ function UserDetail() {
         <Grid
           color={theme.palette.primary.main}
           backgroundColor={theme.palette.secondary.main}
-          xs={9}
           display="flex"
           direction="column"
-        >
+          container
+          >
           <Box component="form" onSubmit={handleClickLent}>
             <Typography
               color={theme.palette.primary.main}
               fontSize="20pt"
               marginTop="20px"
               marginLeft="10px"
-            >
+              fontWeight='normal'
+              >
               Pending Lending Approval
             </Typography>
             <h2>
@@ -164,11 +177,12 @@ function UserDetail() {
                   marginRight: "20px",
                 }}
                 type="submit"
-              >
+                >
                 {lent.length}
               </Button>
             </h2>
-            <Grid display={showHideLent} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
+                </Box>
+            <Grid display={showHideLent} backgroundColor={theme.palette.tertiary.main}>
               <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent" >
                 <TableHead>
                   <TableRow>
@@ -184,8 +198,8 @@ function UserDetail() {
                 <TableBody>
                   {lent.map((request) => (
                     <TableRow
-                      key={request.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    key={request.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
                         {request.name}
@@ -207,22 +221,27 @@ function UserDetail() {
                           100}
                       </TableCell>
                       <TableCell>
-                        <Grid display="flex">
+                        <Box
+                        component='form'
+                        onSubmit={(event)=>{acceptSubmit(event, request.products_transactions_id)}}>
+                           <Grid display="flex">
                           <Button
                             variant="contained"
                             sx={{ marginRight: "20px" }}
-                          >
+                            type='submit'
+                            >
                             Accept
                           </Button>
                           <Button variant="contained">Reject</Button>
                         </Grid>
+                            </Box>
+                       
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </Grid>
-          </Box>
           <Box component="form" onSubmit={handleClickBorrowed}>
             <Typography
               variant="h2"
@@ -246,12 +265,11 @@ function UserDetail() {
                 {borrowed.length}
               </Button>
             </h2>
-            <Grid display={showHideBorrowed} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
+            <Grid display={showHideBorrowed} backgroundColor={theme.palette.tertiary.main}>
               <Table
                 sx={{ minWidth: 550, display: { showHideBorrowed } }}
                 aria-label="simple table"
-                id="borrow"
-                backgroundColor={theme.palette.tertiary.main} alignSelf='center'
+                id="borrow" 
               >
                 <TableHead>
                   <TableRow>
@@ -299,14 +317,14 @@ function UserDetail() {
               </Table>
             </Grid>
           </Box>
+          <Grid display='flex' direction='column' container>
           <Grid
             color={theme.palette.primary.main}
             backgroundColor={theme.palette.secondary.main}
             xs={9}
-            display="flex"
-            direction="column"
-          >
-            <Box component="form" onSubmit={handleClickCurrentLent}>
+            item
+            >
+                          <Box component="form" onSubmit={handleClickCurrentLent}>
               <Typography
                 color={theme.palette.primary.main}
                 fontSize="20pt"
@@ -329,8 +347,8 @@ function UserDetail() {
                 </Button>
               </h2>
             </Box>
-            <Grid display={showHideCurrentLent} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
-              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent" backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
+            <Grid display={showHideCurrentLent} backgroundColor={theme.palette.tertiary.main}>
+              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent">
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
@@ -368,13 +386,14 @@ function UserDetail() {
               </Table>
             </Grid>
 
+
             <Box component="form" onSubmit={handleClickCurrentBorrowed}>
               <Typography
                 color={theme.palette.primary.main}
                 fontSize="20pt"
                 marginTop="20px"
                 marginLeft="10px"
-              >
+                >
                 Currently Borrowed
               </Typography>
               <h2>
@@ -386,17 +405,17 @@ function UserDetail() {
                     marginRight: "20px",
                   }}
                   type="submit"
-                >
+                  >
                   {currentBorrowed.length}
                 </Button>
               </h2>
             </Box>
-            <Grid display={showHideCurrentBorrowed} backgroundColor={theme.palette.tertiary.main} alignSelf='center'>
+            <Grid display={showHideCurrentBorrowed} backgroundColor={theme.palette.tertiary.main}>
               <Table
                 sx={{ minWidth: 550, display: { showHideCurrentBorrowed } }}
                 aria-label="simple table"
                 id="borrow"
-              >
+                >
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
@@ -412,8 +431,8 @@ function UserDetail() {
                 <TableBody>
                   {currentBorrowed.map((request) => (
                     <TableRow
-                      key={request.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    key={request.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
                         {request.name}
@@ -438,6 +457,7 @@ function UserDetail() {
                   ))}
                 </TableBody>
               </Table>
+                  </Grid>
             </Grid>
 
             <Typography
