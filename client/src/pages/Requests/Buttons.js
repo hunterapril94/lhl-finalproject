@@ -66,7 +66,7 @@ export const RejectButton = (props) => {
     console.log("from inside of handle Submit");
     axios
       .post(
-        `http://localhost:8001/api/requests/${props.request.products_transactions_id}/cancel`
+        `http://localhost:8001/api/requests/${props.request.products_transactions_id}/delete`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
       .catch((err) => {
@@ -94,7 +94,7 @@ export const CancelButton = (props) => {
     console.log("from inside of handle Submit");
     axios
       .post(
-        `http://localhost:8001/api/requests/${props.request.products_transactions_id}/cancel`
+        `http://localhost:8001/api/requests/${props.request.products_transactions_id}/delete`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
       .catch((err) => {
