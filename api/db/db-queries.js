@@ -117,6 +117,22 @@ module.exports = (db) => {
       });
   };
 
+  const getAllProductsNotOwned = function (userId) {
+    return db
+      .query(
+        ` 
+    SELECT products.*, AVG(reviews.stars) AS avg_stars 
+    FROM products
+    JOIN reviews on products.id = product_id
+    WHERE NOT products.user_id = $1
+    GROUP BY products.id;`,
+        [userId]
+      )
+      .then((result) => {
+        return result.rows;
+      });
+  };
+
   const getProductById = function (id) {
     return db
       .query(
@@ -532,6 +548,7 @@ module.exports = (db) => {
     // requests
     getPendingLendRequestsByUserId,
     getBorrowRequestsByUserId,
+    getAllProductsNotOwned,
     // transactions
     createTransaction,
     createPendingProductTransaction,

@@ -9,20 +9,37 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware
 
-    db.getAllProducts()
-      .then((products) => {
-        res.json({
-          auth: isLoggedIn,
-          message: "successfully got all products",
-          products,
+    if (isLoggedIn) {
+      db.getAllProductsNotOwned(userID)
+        .then((products) => {
+          res.json({
+            auth: isLoggedIn,
+            message: "successfully got all products",
+            products,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            auth: isLoggedIn,
+            message: "internal server error",
+          });
         });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          auth: isLoggedIn,
-          message: "internal server error",
+    } else {
+      db.getAllProducts()
+        .then((products) => {
+          res.json({
+            auth: isLoggedIn,
+            message: "successfully got all products",
+            products,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            auth: isLoggedIn,
+            message: "internal server error",
+          });
         });
-      });
+    }
   });
 
   //-----------------------------------------------------------------
