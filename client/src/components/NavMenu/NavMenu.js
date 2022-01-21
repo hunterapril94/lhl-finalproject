@@ -87,8 +87,6 @@ export default function NavMenu(props) {
     setOpen(false);
   };
 
-  console.log("$$$$$$$$$$$" + props);
-
   return (
     <Box sx={{ display: "flex" }} backgroundColor={theme.palette.tertiary.main}>
       <CssBaseline />
@@ -121,7 +119,7 @@ export default function NavMenu(props) {
 
           <Grid color="white" margin="10px 20px">
             <Link to="/cart">
-              <Cart count={4} />
+              <Cart count={props.appState.cart.length} />
             </Link>
           </Grid>
         </Grid>
