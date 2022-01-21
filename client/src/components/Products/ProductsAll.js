@@ -3,11 +3,13 @@ import Products from "../../components/Products/Products";
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import axios from "axios";
-import { appBarClasses } from "@mui/material";
+
+//import { appBarClasses } from "@mui/material";
 
 const ProductsAll = () => {
   const [products, setProducts] = useState([]);
   const [appState, setAppState] = useOutletContext();
+  const [isLoading, setIsLoading] = useState(true);
 
   console.log("current auth status:" + appState.auth);
 
@@ -17,12 +19,14 @@ const ProductsAll = () => {
       .then((res) => {
         // console.log(res.data.products);
         setProducts(res.data.products);
+        setIsLoading(false);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
         });
       })
       .catch((err) => console.log(err.message));
   }, []);
+
   return <Products products={products} />;
 };
 
