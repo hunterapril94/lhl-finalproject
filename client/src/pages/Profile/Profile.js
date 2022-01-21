@@ -102,12 +102,12 @@ function UserDetail() {
               </TableRow>
             </TableHead>
             <TableBody>
-            <Grid display={showHide}>
               {lent.map((request) => (
                 <TableRow
                   key={request.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
+            <Grid display={showHide}>
                   <TableCell component="th" scope="row">
                     {request.name}
                   </TableCell>
@@ -127,13 +127,16 @@ function UserDetail() {
                       100}
                     
                   </TableCell>
-                  <TableCell align="center">
-                    <Button>Accept</Button>
-                    <Button>Reject</Button>
+                  <TableCell>
+                    <Grid display='flex'>
+                    <Button variant='contained' sx={{marginRight: '20px'}}>Accept</Button>
+                    <Button variant='contained'>Reject</Button>
+
+                    </Grid>
                   </TableCell>
+            </Grid>
                 </TableRow>
               ))}
-            </Grid>
             </TableBody>
             
           </Table>          
