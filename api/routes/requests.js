@@ -191,12 +191,14 @@ module.exports = (db) => {
       user_id: userID,
     };
 
+    let newBalance;
+
     db.getAllProducts()
       .then((products) => {
         const result = products.filter((product) =>
           itemsId.includes(product.id)
         );
-        console.log("result" + JSON.stringify(result));
+        // console.log("result" + JSON.stringify(result));
         let isOwnIdIncluded = false;
         result.forEach((res) => {
           if (res.user_id === userID) {
@@ -205,11 +207,28 @@ module.exports = (db) => {
           transaction.subtotal += res.price_per_day_cents;
           transaction.deposit_total += res.deposit_amount_cents;
         });
-        //check balance
+
         if (isOwnIdIncluded) {
           return Promise.reject("you cant request to rent out your own items");
         }
 
+        return db.getBalanceByUserID(userID);
+      })
+      .then((dbBalance) => {
+        //reject if the balance is not enough to cover the cost
+        const totalTransactionCost =
+          transaction.subtotal + transaction.deposit_total;
+        console.log(dbBalance);
+
+        if (totalTransactionCost > dbBalance.cash_balance_cents) {
+          return Promise.reject("insufficient balance");
+        }
+        newBalance = dbBalance.cash_balance_cents - totalTransactionCost;
+        console.log(transaction.userBalance);
+
+        return db.updateBalance(userID, totalTransactionCost, true);
+      })
+      .then(() => {
         return db.createTransaction(transaction);
       })
       .then((res) => {
@@ -222,11 +241,13 @@ module.exports = (db) => {
         return db.createPendingProductTransaction(lineItemsWithID);
       })
       .then(() => {
+        console.log(newBalance);
         console.log("successfully added to db");
         return res.json({
           auth: true,
           message: "successfully submited pending request",
           success: true,
+          newBalance,
         });
       })
       .catch((err) => {
@@ -234,6 +255,7 @@ module.exports = (db) => {
           auth: true,
           message: err,
           success: false,
+          userBalance: transaction.userBalance,
         });
       });
 

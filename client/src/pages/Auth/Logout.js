@@ -10,7 +10,7 @@ const Logout = () => {
   useEffect(() => {
     axios.post("http://localhost:8001/api/users/logout").then((res) => {
       setAppState((prev) => {
-        return { ...prev, auth: false, cart: [] };
+        return { ...prev, auth: false, cart: [], profile: {} };
       });
     });
   }, []);

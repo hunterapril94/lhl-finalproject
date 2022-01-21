@@ -105,7 +105,7 @@ export default function LogIn() {
       .then((res) => {
         if (res.data.auth) {
           setAppState((prev) => {
-            return { ...prev, auth: true };
+            return { ...prev, auth: true, profile: res.data.userProfile };
           });
           navigate("/");
         } else {
