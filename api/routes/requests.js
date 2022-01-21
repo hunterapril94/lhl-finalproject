@@ -52,7 +52,7 @@ module.exports = (db) => {
   // POST  /api/requests/:product-transactions-id/activate
   //-----------------------------------------------------------------
 
-  router.post("/:id/activate", (req, res) => {
+  router.post("/:id/:action", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware
     if (!isLoggedIn) {
       return res.status(401).json({
@@ -70,17 +70,23 @@ module.exports = (db) => {
     }
     db.getPendingLendRequestsByUserId(userID)
       .then((requests) => {
+        console.log(requests);
         //checking to see if the request is pending and is owned by the current user
         const filteredByParam = requests.filter((request) => {
           return request.products_transactions_id == req.params.id;
         });
+
+        console.log(filteredByParam);
 
         if (filteredByParam.length < 1) {
           return Promise.reject(
             "could not set, is either not pending, or not owned by user"
           );
         } else {
-          return db.updateProductTransactionStatus(req.params.id, "approved");
+          return db.updateProductTransactionStatus(
+            req.params.id,
+            req.params.action
+          );
         }
       })
       .then(() => {
@@ -88,7 +94,7 @@ module.exports = (db) => {
         return res.json({
           auth: true,
           isApproved: true,
-          message: "updated transaction to be active",
+          message: `updated transaction to be ${req.params.action}`,
         });
       })
       .catch((err) => {
