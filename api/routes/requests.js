@@ -49,10 +49,10 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
-  // POST  /api/requests/:product-transactions-id/activate
+  // POST  /api/requests/incomming/:product-transactions-id/activate
   //-----------------------------------------------------------------
 
-  router.post("/:id/:action", (req, res) => {
+  router.post("/incomming/:id/:action", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware
     if (!isLoggedIn) {
       return res.status(401).json({
