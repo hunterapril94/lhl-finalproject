@@ -15,10 +15,15 @@ import { Button } from "@mui/material";
 
 import { AcceptButton, CancelButton, RejectButton } from "./Buttons.js";
 
-function dayParser(startDay, endDate) {
+const dayCalulator = (startDay, endDate) => {
   return Math.floor((Date.parse(endDate) - Date.parse(startDay)) / 86400000);
-}
+};
 
+const dayFormater = (date) => {
+  return date.toString().slice(0, -14);
+};
+
+dayFormater("2022-01-25T08:00:00.000Z");
 export default function MyRequests() {
   const [IncomingRequests, setIncomingRequests] = useState([]);
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
@@ -65,7 +70,7 @@ export default function MyRequests() {
           marginTop: 5,
         }}
       >
-        <TableContainer component={Paper} sx={{ width: 900 }}>
+        <TableContainer component={Paper}>
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -73,6 +78,8 @@ export default function MyRequests() {
                 <TableCell align="center">Borrower's email</TableCell>
                 <TableCell align="center">cost per day</TableCell>
                 <TableCell align="center">days requested</TableCell>
+                <TableCell align="center">From</TableCell>
+                <TableCell align="center">to</TableCell>
                 <TableCell align="center">total revenue</TableCell>
                 <TableCell align="center"></TableCell>
                 <TableCell align="center"></TableCell>
@@ -95,10 +102,16 @@ export default function MyRequests() {
                     {request.price_per_day_cents / 100} $
                   </TableCell>
                   <TableCell align="center">
-                    {dayParser(request.start_time, request.end_time)}
+                    {dayCalulator(request.start_time, request.end_time)}
                   </TableCell>
                   <TableCell align="center">
-                    {(dayParser(request.start_time, request.end_time) *
+                    {dayFormater(request.start_time)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {dayFormater(request.end_time)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {(dayCalulator(request.start_time, request.end_time) *
                       request.price_per_day_cents) /
                       100}
                     $
@@ -124,7 +137,7 @@ export default function MyRequests() {
         <Typography variant="h6" component="h3">
           Outgoing request:
         </Typography>
-        <TableContainer component={Paper} sx={{ width: 900 }}>
+        <TableContainer component={Paper}>
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -132,6 +145,8 @@ export default function MyRequests() {
                 <TableCell align="center">Owner's Email</TableCell>
                 <TableCell align="center">cost per day</TableCell>
                 <TableCell align="center">days requested</TableCell>
+                <TableCell align="center">From</TableCell>
+                <TableCell align="center">to</TableCell>
                 <TableCell align="center">total revenue</TableCell>
                 <TableCell align="center"></TableCell>
                 <TableCell align="center"></TableCell>
@@ -152,10 +167,16 @@ export default function MyRequests() {
                     {request.price_per_day_cents / 100} $
                   </TableCell>
                   <TableCell align="center">
-                    {dayParser(request.start_time, request.end_time)}
+                    {dayCalulator(request.start_time, request.end_time)}
                   </TableCell>
                   <TableCell align="center">
-                    {(dayParser(request.start_time, request.end_time) *
+                    {dayFormater(request.start_time)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {dayFormater(request.end_time)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {(dayCalulator(request.start_time, request.end_time) *
                       request.price_per_day_cents) /
                       100}
                     $
