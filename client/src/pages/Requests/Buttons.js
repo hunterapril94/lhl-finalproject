@@ -34,7 +34,7 @@ export const AcceptButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/incoming/${props.request.products_transactions_id}/activate`
+        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/activate`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
       .catch((err) => {});
@@ -64,7 +64,7 @@ export const RejectButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/incoming/${props.request.products_transactions_id}/delete`
+        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/reject`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
       .catch((err) => {});
@@ -90,7 +90,7 @@ export const CancelButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/delete`
+        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/cancel`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
       .catch((err) => {

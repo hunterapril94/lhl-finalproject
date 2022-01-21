@@ -184,8 +184,8 @@ export default function MyRequests() {
                   <TableCell align="center">
                     <CancelButton
                       request={request}
-                      requests={IncomingRequests}
-                      setIncomingRequests={setIncomingRequests}
+                      requests={OutgoingRequests}
+                      setIncomingRequests={setOutgoingRequests}
                     />
                   </TableCell>
                 </TableRow>
