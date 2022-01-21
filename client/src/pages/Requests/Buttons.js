@@ -29,17 +29,15 @@ export const AcceptButton = (props) => {
         req.products_transactions_id != props.request.products_transactions_id
       );
     });
-    console.log(newIncomingRequests);
+
     // console.log(evt);
-    console.log("from inside of handle Submit");
+
     axios
       .post(
         `http://localhost:8001/api/requests/incoming/${props.request.products_transactions_id}/activate`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
-      .catch((err) => {
-        console.log(err.message);
-      });
+      .catch((err) => {});
   };
   return (
     <>
@@ -63,15 +61,13 @@ export const RejectButton = (props) => {
     });
     console.log(newIncomingRequests);
     // console.log(evt);
-    console.log("from inside of handle Submit");
+
     axios
       .post(
         `http://localhost:8001/api/requests/incoming/${props.request.products_transactions_id}/delete`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
-      .catch((err) => {
-        console.log(err.message);
-      });
+      .catch((err) => {});
   };
   return (
     <>
@@ -89,9 +85,9 @@ export const CancelButton = (props) => {
         req.products_transactions_id != props.request.products_transactions_id
       );
     });
-    console.log(newIncomingRequests);
+
     // console.log(evt);
-    console.log("from inside of handle Submit");
+
     axios
       .post(
         `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/delete`

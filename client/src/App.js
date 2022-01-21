@@ -10,7 +10,7 @@ const App = () => {
   const [appState, setAppState] = useState({ auth: false, cart: [] });
   return (
     <ThemeProvider theme={theme}>
-      <NavMenu auth={appState.auth}>
+      <NavMenu auth={appState.auth} appState={appState}>
         <Outlet context={[appState, setAppState]} />
       </NavMenu>
     </ThemeProvider>

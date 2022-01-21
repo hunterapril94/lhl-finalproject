@@ -12,7 +12,6 @@ const BorrowedItems = () => {
     axios
       .get("http://localhost:8001/api/users/myproducts")
       .then((res) => {
-        // console.log(res.data.products);
         setProducts(res.data.myProducts);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };

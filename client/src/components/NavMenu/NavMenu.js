@@ -23,6 +23,7 @@ import theme from "../styles";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Cart from "../CustomBadges/Cart";
 import { useOutletContext } from "react-router";
 
 // import theme from "../styles";
@@ -78,8 +79,6 @@ export default function NavMenu(props) {
   const [open, setOpen] = React.useState(false);
   const auth = props.auth;
 
-  console.log(props.auth);
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -87,6 +86,8 @@ export default function NavMenu(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  console.log("$$$$$$$$$$$" + props);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor={theme.palette.tertiary.main}>
@@ -97,33 +98,32 @@ export default function NavMenu(props) {
           container
           direction="row"
           justifyContent="space-between"
+          sx={{ height: 75 }}
         >
           <Toolbar>
             <IconButton
               color="inherit"
-              aria-label="open drawer"
+              aria-label="open drawer "
               onClick={handleDrawerOpen}
               edge="start"
+              size="large"
               sx={{ mr: 2, ...(open && { display: "none" }) }}
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              <Link to="/">
-                <img
-                  src="../logo.png"
-                  alt="Next Door Lenders logo"
-                  height="75"
-                />
-              </Link>
-            </Typography>
+            {/* <Typography variant="h6" noWrap component="div"> */}
+            <Link to="/">
+              {" "}
+              <img src="../logo.png" alt="Next Door Lenders logo" height="60" />
+            </Link>
+            {/* </Typography> */}
           </Toolbar>
 
-          <Link to="/cart">
-            <Grid color="white" margin="30px">
-              <ShoppingCartIcon />
-            </Grid>
-          </Link>
+          <Grid color="white" margin="10px 20px">
+            <Link to="/cart">
+              <Cart count={4} />
+            </Link>
+          </Grid>
         </Grid>
       </AppBar>
       <Drawer
@@ -179,35 +179,6 @@ export default function NavMenu(props) {
       <Main open={open}>
         <DrawerHeader />
         {props.children}
-        {/* <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-          </Typography>
-          <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography> */}
       </Main>
     </Box>
   );

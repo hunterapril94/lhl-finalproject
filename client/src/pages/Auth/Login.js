@@ -103,7 +103,6 @@ export default function LogIn() {
         password: data.get("password"),
       })
       .then((res) => {
-        console.log(res);
         if (res.data.auth) {
           setAppState((prev) => {
             return { ...prev, auth: true };

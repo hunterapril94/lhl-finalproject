@@ -50,8 +50,6 @@ const ProductDetail = () => {
       });
       navigate("/");
     }
-
-    console.log(appState);
   };
   return (
     <ThemeProvider theme={theme}>
