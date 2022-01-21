@@ -25,6 +25,8 @@ const dayFormater = (date) => {
 };
 
 export default function MyRequests() {
+  const [appState, setAppState] = useOutletContext();
+  const [isLoading, setIsLoading] = useState(true);
   const [IncomingRequests, setIncomingRequests] = useState([]);
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
   const [selectedTab, setSelectedTab] = React.useState(0);
@@ -42,8 +44,12 @@ export default function MyRequests() {
 
         setIncomingRequests(pendingIncommingLendRequests);
         setOutgoingRequests(pendingOutgoingBorrowRequests);
-        // console.log(requests);
+        setIsLoading(false);
+        setAppState((prev) => {
+          return { ...prev, auth: res.data.auth };
+        });
       })
+
       .catch((err) => console.log(err.message));
   }, []);
 
@@ -107,7 +113,7 @@ export default function MyRequests() {
                     </TableCell>
 
                     <TableCell align="center">
-                      {request.price_per_day_cents / 100} $
+                      ${request.price_per_day_cents / 100}
                     </TableCell>
                     <TableCell align="center">
                       {dayCalulator(request.start_time, request.end_time)}
@@ -119,10 +125,10 @@ export default function MyRequests() {
                       {dayFormater(request.end_time)}
                     </TableCell>
                     <TableCell align="center">
+                      $
                       {(dayCalulator(request.start_time, request.end_time) *
                         request.price_per_day_cents) /
                         100}
-                      $
                     </TableCell>
                     <TableCell align="center">
                       <AcceptButton
@@ -170,7 +176,7 @@ export default function MyRequests() {
                     <TableCell align="center">{request.owner_email}</TableCell>
 
                     <TableCell align="center">
-                      {request.price_per_day_cents / 100} $
+                      ${request.price_per_day_cents / 100}
                     </TableCell>
                     <TableCell align="center">
                       {dayCalulator(request.start_time, request.end_time)}
@@ -182,10 +188,10 @@ export default function MyRequests() {
                       {dayFormater(request.end_time)}
                     </TableCell>
                     <TableCell align="center">
+                      $
                       {(dayCalulator(request.start_time, request.end_time) *
                         request.price_per_day_cents) /
                         100}
-                      $
                     </TableCell>
                     <TableCell align="center">
                       <CancelButton
