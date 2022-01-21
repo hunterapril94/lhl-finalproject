@@ -49,7 +49,7 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
-  // POST  /api/requests/incomming/:product-transactions-id/activate
+  // POST  /api/requests/incomming/:product-transactions-id/:status
   //-----------------------------------------------------------------
 
   router.post("/incomming/:id/:action", (req, res) => {
@@ -70,7 +70,6 @@ module.exports = (db) => {
     }
     db.getPendingLendRequestsByUserId(userID)
       .then((requests) => {
-        console.log(requests);
         //checking to see if the request is pending and is owned by the current user
         const filteredByParam = requests.filter((request) => {
           return request.products_transactions_id == req.params.id;
@@ -90,10 +89,63 @@ module.exports = (db) => {
         }
       })
       .then(() => {
-        //add money to user account
+        //add money to user account // take from other
         return res.json({
           auth: true,
-          isApproved: true,
+          message: `updated transaction to be ${req.params.action}`,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: true,
+          message: err,
+        });
+      });
+  });
+
+  //-----------------------------------------------------------------
+  // POST  /api/requests/outgoing/:product-transactions-id/:status
+  //-----------------------------------------------------------------
+
+  router.post("/outgoing/:id/:action", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+        isApproved: false,
+      });
+    }
+    if (!req.params.id) {
+      return res.status(400).json({
+        auth: false,
+        message: "error: req params products_transactions_id not sent",
+        isApproved: false,
+      });
+    }
+
+    db.getBorrowRequestsByUserId(userID)
+      .then((requests) => {
+        //checking to see if the request is pending and is owned by the current user
+        const filteredByParam = requests.filter((request) => {
+          return request.products_transactions_id == req.params.id;
+        });
+
+        if (filteredByParam.length < 1) {
+          return Promise.reject(
+            "could not set, is either not pending, or not owned by user"
+          );
+        } else {
+          return db.updateProductTransactionStatus(
+            req.params.id,
+            req.params.action
+          );
+        }
+      })
+      .then(() => {
+        //add money back to user account -- put back to other user
+        return res.json({
+          auth: true,
           message: `updated transaction to be ${req.params.action}`,
         });
       })
