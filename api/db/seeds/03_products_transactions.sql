@@ -11,13 +11,13 @@ VALUES
 (7, 6, 'January 13, 2022', 'January 14, 2022', 'returned'),
 (8, 7, 'February 24, 2022', 'February 25, 2022', 'pending'),
 (8,8, 'February 24, 2022', 'February 25, 2022', 'pending'),
-(3,1, 'February 12, 2022', 'February 15, 2022', 'pending');
-(3,2, 'March 12, 2022', 'March 15, 2022', 'rejected');
-(3,1, 'April 12, 2022', 'April 15, 2022', 'canceled');
-(3,2, 'February 22, 2022', 'February 25, 2022', 'canceled');
-(3,1, 'July 12, 2022', 'July 15, 2022', 'rejected');
-(3,2, 'February 02, 2022', 'February 05, 2022', 'returned');
-(3,1, 'July 12, 2022', 'July 15, 2022', 'rejected');
+(3,1, 'February 12, 2022', 'February 15, 2022', 'pending'),
+(3,2, 'March 12, 2022', 'March 15, 2022', 'rejected'),
+(3,1, 'April 12, 2022', 'April 15, 2022', 'canceled'),
+(3,2, 'February 22, 2022', 'February 25, 2022', 'canceled'),
+(3,1, 'July 12, 2022', 'July 15, 2022', 'rejected'),
+(3,2, 'February 02, 2022', 'February 05, 2022', 'returned'),
+(3,1, 'July 12, 2022', 'July 15, 2022', 'rejected'),
 (9,3, 'May 12, 2022', 'May 15, 2022', 'returned');
 
 

@@ -12,18 +12,17 @@ import { Box, flexbox } from "@mui/system";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useOutletContext } from "react-router";
+import { dayFormater } from "./MyRequests";
 
 export default function MyTransactions() {
-  const [Transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [appState, setAppState] = useOutletContext();
   useEffect(() => {
     axios
       .get("http://localhost:8001/api/requests/history")
       .then((res) => {
-        const { pendingIncommingLendRequests, pendingOutgoingBorrowRequests } =
-          res.data;
-
+        setTransactions(res.data);
         setIsLoading(false);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
@@ -39,7 +38,7 @@ export default function MyTransactions() {
         component="h3"
         sx={{ marginTop: 3, textAlign: "center" }}
       >
-        Transaction History
+        Request History
       </Typography>
       <Box
         sx={{
@@ -50,14 +49,40 @@ export default function MyTransactions() {
           marginTop: 5,
         }}
       >
-        <TableContainer component={Paper} sx={{ width: 900 }}>
+        <TableContainer component={transactions.length !== 0 && Paper}>
+          {transactions.length === 0 && (
+            <Typography>You have no transaction history</Typography>
+          )}
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
-            {Transactions.length !== 0 && (
+            {transactions.length !== 0 && (
               <TableHead>
-                <TableRow></TableRow>
+                <TableRow>
+                  <TableCell>number</TableCell>
+                  <TableCell>Item</TableCell>
+                  <TableCell align="center">date</TableCell>
+                  <TableCell align="center">amount</TableCell>
+                </TableRow>
               </TableHead>
             )}
-            <TableBody></TableBody>
+            <TableBody>
+              {transactions.map((transaction) => (
+                <TableRow
+                  key={transaction.products_transactions_id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {transaction.name}
+                  </TableCell>
+                  <TableCell align="center">
+                    {transaction.requester_email}
+                  </TableCell>
+
+                  <TableCell align="center">
+                    ${transaction.price_per_day_cents / 100}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
         </TableContainer>
       </Box>
