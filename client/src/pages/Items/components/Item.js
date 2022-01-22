@@ -31,10 +31,10 @@ export default function Item(props) {
   } = props;
   console.log(props);
   return (
-    <Box sx={{ minWidth: 275 }}>
+    <Box sx={{ minWidth: 275, m: "2rem" }}>
       {/* <Card variant="outlined"> */}
       <Card sx={{ display: "flex" }}>
-        <CardContent x={{ flex: "1 0 auto" }}>
+        <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography variant="h5" component="div">
             {name}
           </Typography>

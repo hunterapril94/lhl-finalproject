@@ -137,7 +137,10 @@ module.exports = (db) => {
     //console.log(id);
     return db
       .query(
-        `SELECT * FROM reviews
+        `SELECT * , users.first_name, users.last_name, users.neighborhood
+        FROM reviews
+        JOIN users ON reviews.user_id = users.id
+
       WHERE product_id = $1;
     `,
         [Number(id)]

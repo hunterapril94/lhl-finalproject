@@ -43,7 +43,7 @@ export default function BorrrowedItems() {
   return (
     <>
       <main>
-        <Typography> Borrowed Items</Typography>
+        <Typography variant="h2"> Borrowed Items</Typography>
         <Items items={products} setProducts={setProducts}></Items>
       </main>
     </>
