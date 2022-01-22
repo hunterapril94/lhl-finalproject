@@ -2,6 +2,7 @@ import axios from "axios";
 import { TableCell } from "@mui/material";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { useOutletContext } from "react-router";
 
 const SecondChanceButton = ({ onClick, children, ...rest }) => {
   const [confirmed, setConfimed] = useState(false);
@@ -23,6 +24,7 @@ const SecondChanceButton = ({ onClick, children, ...rest }) => {
 };
 
 export const AcceptButton = (props) => {
+  const [appState, setAppState] = useOutletContext();
   const handleSubmit = () => {
     const newIncomingRequests = props.requests.filter((req) => {
       return (
@@ -36,7 +38,16 @@ export const AcceptButton = (props) => {
       .post(
         `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/activate`
       )
-      .then((res) => props.setIncomingRequests(newIncomingRequests))
+      .then((res) => {
+        props.setIncomingRequests(newIncomingRequests);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            auth: res.data.auth,
+            profile: res.data.userProfile,
+          };
+        });
+      })
       .catch((err) => {});
   };
   return (
