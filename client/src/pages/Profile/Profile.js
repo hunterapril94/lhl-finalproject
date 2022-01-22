@@ -39,6 +39,7 @@ function dayParser(startDay, endDate) {
 }
 
 function UserDetail() {
+  const navigate = useNavigate();
   const { id } = useParams;
   const [user, setUser] = useState({});
   const [borrowed, setBorrowed] = useState([]);
@@ -66,7 +67,7 @@ function UserDetail() {
       (res) => {
         // console.log(res[0].data)
         // console.log(res[1].data)
-        // console.log(res[2].data);
+        console.log(res[2].data);
         setUser(res[0].data.userProfile);
         setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
         setLent(res[1].data.pendingIncommingLendRequests);
@@ -121,7 +122,33 @@ function UserDetail() {
     console.log(id)
     axios
       .post(
-        `http://localhost:8001/api/requests/incomming/${id}/approved`
+        `http://localhost:8001/api/requests/incomming/${id}/activate`
+      ).then( () => {
+        const promise1 = axios.get(`http://localhost:8001/api/users/profile`);
+        const promise2 = axios.get(`http://localhost:8001/api/requests/pending`);
+        const promise3 = axios.get(
+          `http://localhost:8001/api/users/my-lent-products`
+        );
+        const promise4 = axios.get(`http://localhost:8001/api/users/balance`);
+        const promise5 = axios.get(
+          `http://localhost:8001/api/users/my-borrowed-products`
+        );
+        Promise.all([promise1, promise2, promise3, promise4, promise5]).then(
+          (res) => {
+            console.log(res[2].data);
+            setUser(res[0].data.userProfile);
+            setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
+            setLent(res[1].data.pendingIncommingLendRequests);
+            setCurrentBorrowed(res[4].data.myBorrowedProducts);
+            setCurrentLent(res[2].data.myLentProducts);
+            Balance = res[3].data.balance.cash_balance_cents;
+            // console.log(res[3].data)
+            // console.log(res[4].data)
+            // console.log(res[5].data)
+            // console.log(currentBorrowed);
+          }
+        );
+      navigate('/profile')}
       )
       .catch((err) => {console.log(err.message)});
   };
@@ -303,10 +330,10 @@ function UserDetail() {
                         {dayParser(request.start_time, request.end_time)}
                       </TableCell>
                       <TableCell align="center">
-                        {(dayParser(request.start_time, request.end_time) *
+                        ${(dayParser(request.start_time, request.end_time) *
                           request.price_per_day_cents) /
                           100}
-                        $
+                        
                       </TableCell>
                       <TableCell align="center">
                         <Button>Cancel</Button>
