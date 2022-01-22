@@ -350,6 +350,34 @@ module.exports = (db) => {
       });
   };
 
+  const getTransactionHistoryByUserID = function (userId) {
+    return db
+      .query(
+        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone, status
+      
+      FROM products_transactions
+      JOIN transactions ON transaction_id = transactions.id
+      JOIN products ON products_transactions.product_id = products.id
+      JOIN users ON products.user_id = users.id
+      
+      WHERE transactions.user_id = $1
+      AND products_transactions.status = 'returned' 
+      OR products_transactions.status = 'rejected'
+      OR products_transactions.status = 'canceled'
+      OR products_transactions.status = 'approved' ;`,
+        [userId]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+
+
   // REVIEW QUERIES
   const getStarsByProductId = function (id) {
     return db
