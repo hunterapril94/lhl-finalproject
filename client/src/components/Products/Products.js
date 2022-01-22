@@ -11,6 +11,7 @@ export default function Products(props) {
         <Link to={`/products/${product.id}`}>
           <Product
             // key={product.id}
+            isBorrowedItems={props.isBorrowedItems}
             name={product.name}
             category={product.category}
             price={product.price_per_day_cents}
