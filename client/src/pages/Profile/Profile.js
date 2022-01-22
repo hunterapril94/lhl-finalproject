@@ -123,7 +123,16 @@ function UserDetail() {
     axios
       .post(
         `http://localhost:8001/api/requests/incomming/${id}/activate`
-      ).then( () => {
+      ).then( (res) => {
+        console.log(price)
+        setAppState((prev) => {
+          const updatedProfile = {
+            ...prev.profile,
+            cash_balance_cents: user.cash_balance_cents + price*100
+          };
+          return { ...prev, cart: [], profile: updatedProfile };
+        })
+        user.cash_balance_cents = user.cash_balance_cents + price*100
         const promise1 = axios.get(`http://localhost:8001/api/users/profile`);
         const promise2 = axios.get(`http://localhost:8001/api/requests/pending`);
         const promise3 = axios.get(
@@ -137,7 +146,7 @@ function UserDetail() {
           (res) => {
           
             console.log(res[2].data);
-            setUser(res[0].data.userProfile);
+            // setUser(res[0].data.userProfile);
             setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
             setLent(res[1].data.pendingIncommingLendRequests);
             setCurrentBorrowed(res[4].data.myBorrowedProducts);
@@ -147,29 +156,11 @@ function UserDetail() {
             // console.log(res[4].data)
             // console.log(res[5].data)
             // console.log(currentBorrowed);
-            setAppState(prev=>{
-              let userProfile = {
-                address: user.address,
-                borrower: user.borrower,
-                cash_balance_cents: user.cash_balance_cents + price,
-                email: user.email,
-                first_name: user.first_name,
-                id: user.id,
-                last_name: user.last_name,
-                lender: user.lender,
-                neighborhood: user.neighborhood,
-                password: user.password,
-                phone: user.phone
-              }
-              return {...prev, userProfile}
-            })
           }
-          );
-          navigate('/profile')}
       
-      )
-      .catch((err) => {console.log(err.message)});
-  };
+      )})
+      .catch((err) => {console.log(err.message)})}
+  
   return (
     <Grid color={theme.palette.primary.main}>
       <h1>User Profile</h1>
