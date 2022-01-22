@@ -488,7 +488,7 @@ module.exports = (db) => {
          SET  cash_balance_cents = cash_balance_cents ${
            subtract ? "-" : "+"
          } $2 
-         WHERE email = '$1'
+         WHERE email = $1
          RETURNING *;
          `,
         [email, Number(amount)]
