@@ -97,18 +97,20 @@ module.exports = (db) => {
             transaction.start_time,
             transaction.end_time
           );
-          console.log(transaction);
-          console.log(requestsPending);
+
           const filteredTransaction = requestsPending.filter(
             (requestPending) =>
-              requestPending.products_transactions_id ===
-              transaction.transaction_id
+              requestPending.products_transactions_id === transaction.id
           );
-          console.log(filteredTransaction);
+
+          totalTransactionCost =
+            filteredTransaction[0].price_per_day_cents *
+            differenceInDaysForLendRequest;
         }
 
-        //return db.updateBalance(userID, totalTransactionCost, true)
-
+        return db.updateBalance(userID, totalTransactionCost, false);
+      })
+      .then(() => {
         return res.json({
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
