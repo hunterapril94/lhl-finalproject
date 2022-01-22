@@ -133,6 +133,28 @@ module.exports = (db) => {
       });
   };
 
+  const getReviewsByProductId = function (id) {
+    //console.log(id);
+    return db
+      .query(
+        `SELECT * FROM reviews
+      WHERE product_id = $1;
+    `,
+        [Number(id)]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  // getReviewsByProductId(1).then((res) => {
+  //   console.log(res);
+  // });
+
   const getProductById = function (id) {
     return db
       .query(
@@ -140,7 +162,8 @@ module.exports = (db) => {
         FROM products
         JOIN reviews on products.id = product_id
         WHERE products.id = $1
-        GROUP BY products.id;`,
+        GROUP BY products.id
+        `,
         [id]
       )
       .then((result) => {
@@ -401,7 +424,7 @@ module.exports = (db) => {
       });
   };
 
-  getTransactionHistoryByUserID(3).then((res) => console.log(res));
+  //getTransactionHistoryByUserID(3).then((res) => console.log(res));
 
   // REVIEW QUERIES
   const getStarsByProductId = function (id) {
@@ -621,6 +644,7 @@ module.exports = (db) => {
     getProductsBySearchTerm,
     updateProductInfo,
     getStarsByProductId,
+    getReviewsByProductId,
     // requests
     getPendingLendRequestsByUserId,
     getBorrowRequestsByUserId,

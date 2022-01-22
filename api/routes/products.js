@@ -43,6 +43,29 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
+  // GET /api/products/reviews/:product-id
+  //-----------------------------------------------------------------
+
+  router.get("/reviews/:id", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+
+    db.getReviewsByProductId(req.params.id)
+      .then((reviews) => {
+        res.json({
+          auth: isLoggedIn,
+          message: "successfully got reviews",
+          reviews,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: isLoggedIn,
+          message: "internal server error",
+        });
+      });
+  });
+
+  //-----------------------------------------------------------------
   // GET /api/products/:id
   //-----------------------------------------------------------------
 
