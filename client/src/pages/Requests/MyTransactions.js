@@ -20,9 +20,10 @@ export default function MyTransactions() {
   const [appState, setAppState] = useOutletContext();
   useEffect(() => {
     axios
-      .get("http://localhost:8001/api/requests/history")
+      .get("http://localhost:8001/api/users/transaction-history")
       .then((res) => {
-        setTransactions(res.data);
+        console.log(res.data.transactionHistory);
+        setTransactions(res.data.transactionHistory);
         setIsLoading(false);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
@@ -49,7 +50,7 @@ export default function MyTransactions() {
           marginTop: 5,
         }}
       >
-        <TableContainer component={transactions.length !== 0 && Paper}>
+        <TableContainer component={Paper}>
           {transactions.length === 0 && (
             <Typography>You have no transaction history</Typography>
           )}
@@ -57,8 +58,8 @@ export default function MyTransactions() {
             {transactions.length !== 0 && (
               <TableHead>
                 <TableRow>
-                  <TableCell>number</TableCell>
-                  <TableCell>Item</TableCell>
+                  <TableCell align="center">number</TableCell>
+                  <TableCell align="center">Item</TableCell>
                   <TableCell align="center">date</TableCell>
                   <TableCell align="center">amount</TableCell>
                   <TableCell align="center">status</TableCell>
@@ -68,24 +69,48 @@ export default function MyTransactions() {
             <TableBody>
               {transactions.map((transaction) => (
                 <TableRow
-                  key={transaction.id}
+                  key={transaction.products_transactions_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
-                    {transaction.id}
+                  <TableCell align="center">
+                    {transaction.products_transactions_id}
                   </TableCell>
                   <TableCell align="center">{transaction.name}</TableCell>
 
                   <TableCell align="center">
-                    ${dayFormater(transaction.start_time)}
+                    {dayFormater(
+                      transaction.status === "returned"
+                        ? transaction.end_time
+                        : transaction.start_time
+                    )}
                   </TableCell>
-                  <TableCell align="center">
-                    ${}
-                    {(dayFormater(transaction.start_time) *
-                      transaction.price_per_day_cents) /
-                      100}
+                  <TableCell
+                    align="center"
+                    sx={{
+                      color:
+                        transaction.status === "returned" ? "green" : "red",
+                    }}
+                  >
+                    $
+                    {transaction.status === "canceled" ||
+                    transaction.status === "rejected"
+                      ? 0
+                      : (dayCalulator(
+                          transaction.start_time,
+                          transaction.end_time
+                        ) *
+                          transaction.price_per_day_cents) /
+                        100}
                   </TableCell>
-                  <TableCell>transaction.status</TableCell>
+                  <TableCell
+                    sx={{
+                      color:
+                        transaction.status === "returned" ? "green" : "red",
+                    }}
+                    align="center"
+                  >
+                    {transaction.status}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
