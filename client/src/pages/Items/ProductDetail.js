@@ -15,6 +15,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import theme from "../../components/styles";
+import ReviewsList from "../../components/Reviews/ReviewsList";
 import { useNavigate, useOutletContext } from "react-router";
 
 axios.defaults.withCredentials = true;
@@ -137,6 +138,9 @@ const ProductDetail = () => {
                 </CardContent>
               </Grid>
             </Card>
+          </Grid>
+          <Grid>
+            <ReviewsList productId={id} />
           </Grid>
         </div>
       </Fade>

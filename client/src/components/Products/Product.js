@@ -58,7 +58,6 @@ function Product(props) {
             </Button>
           </Card>
         </Grid>
-        <ReviewsList />
       </div>
     </Fade>
   );
