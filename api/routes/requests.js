@@ -106,14 +106,16 @@ module.exports = (db) => {
           totalTransactionCost =
             filteredTransaction[0].price_per_day_cents *
             differenceInDaysForLendRequest;
+          return db.updateBalance(userID, totalTransactionCost, false);
         }
 
-        return db.updateBalance(userID, totalTransactionCost, false);
+        return db.getUserById(userID);
       })
-      .then(() => {
+      .then((userProfile) => {
         return res.json({
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
+          userProfile,
         });
       })
       .catch((err) => {
