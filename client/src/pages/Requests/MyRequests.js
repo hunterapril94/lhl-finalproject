@@ -16,7 +16,7 @@ import Tab from "@mui/material/Tab";
 
 import { AcceptButton, CancelButton, RejectButton } from "./Buttons.js";
 
-const dayCalulator = (startDay, endDate) => {
+export const dayCalulator = (startDay, endDate) => {
   return Math.floor((Date.parse(endDate) - Date.parse(startDay)) / 86400000);
 };
 

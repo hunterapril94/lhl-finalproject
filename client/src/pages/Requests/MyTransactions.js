@@ -12,7 +12,7 @@ import { Box, flexbox } from "@mui/system";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useOutletContext } from "react-router";
-import { dayFormater } from "./MyRequests";
+import { dayFormater, dayCalulator } from "./MyRequests";
 
 export default function MyTransactions() {
   const [transactions, setTransactions] = useState([]);
@@ -61,25 +61,31 @@ export default function MyTransactions() {
                   <TableCell>Item</TableCell>
                   <TableCell align="center">date</TableCell>
                   <TableCell align="center">amount</TableCell>
+                  <TableCell align="center">status</TableCell>
                 </TableRow>
               </TableHead>
             )}
             <TableBody>
               {transactions.map((transaction) => (
                 <TableRow
-                  key={transaction.products_transactions_id}
+                  key={transaction.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {transaction.name}
+                    {transaction.id}
                   </TableCell>
-                  <TableCell align="center">
-                    {transaction.requester_email}
-                  </TableCell>
+                  <TableCell align="center">{transaction.name}</TableCell>
 
                   <TableCell align="center">
-                    ${transaction.price_per_day_cents / 100}
+                    ${dayFormater(transaction.start_time)}
                   </TableCell>
+                  <TableCell align="center">
+                    ${}
+                    {(dayFormater(transaction.start_time) *
+                      transaction.price_per_day_cents) /
+                      100}
+                  </TableCell>
+                  <TableCell>transaction.status</TableCell>
                 </TableRow>
               ))}
             </TableBody>
