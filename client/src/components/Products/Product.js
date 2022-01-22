@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { Fade, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useNavigate } from "react-router";
+import Reviews from "../Reviews/ReviewsList";
 import { Grid } from "@mui/material";
 function Product(props) {
   const navigate = useNavigate();
