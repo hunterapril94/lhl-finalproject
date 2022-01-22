@@ -35,8 +35,15 @@ export default function Products(props) {
           container
           direction="column"
           alignItems={"center"}
+          justifyContent={"center"}
         >
-          <Grid container direction="row" spacing={0}>
+          <Grid
+            container
+            direction="row"
+            spacing={0}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             {props.products.length > 1 ? (
               products
             ) : (
