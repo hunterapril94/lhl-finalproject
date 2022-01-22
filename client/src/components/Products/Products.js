@@ -8,20 +8,20 @@ export default function Products(props) {
   const products = props.products.map((product) => {
     return (
       <Grid key={product.id} m={3}>
-        <Link to={`/products/${product.id}`}>
-          <Product
-            // key={product.id}
-            // isBorrowedItems={props.isBorrowedItems}
-            isMyProducts={props.isMyProducts}
-            name={product.name}
-            category={product.category}
-            price={product.price_per_day_cents}
-            deposit_amount={product.deposit_amount_cents}
-            description={product.description}
-            image={product.image}
-            stars={Number(product.avg_stars)}
-          />
-        </Link>
+        {/* <Link to={`/products/${product.id}`}> */}
+        <Product
+          // key={product.id}
+          // isBorrowedItems={props.isBorrowedItems}
+          isMyProducts={props.isMyProducts}
+          name={product.name}
+          category={product.category}
+          price={product.price_per_day_cents}
+          deposit_amount={product.deposit_amount_cents}
+          description={product.description}
+          image={product.image}
+          stars={Number(product.avg_stars)}
+        />
+        {/* </Link> */}
       </Grid>
     );
   });
