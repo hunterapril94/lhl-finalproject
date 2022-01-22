@@ -6,12 +6,13 @@ import {
 } from "../../Requests/MyRequests";
 
 const Items = (props) => {
-  const { items } = props;
+  const { items, setProducts } = props;
   const dataArray = Array.isArray(items)
     ? items.map((item) => (
         <Item
-          key={item.productId}
+          key={item.name}
           email={item.owner_email}
+          phone={item.owner_phone}
           ownerName={`${item.owner_first_name} ${item.owner_last_name}`}
           name={item.name}
           amount={amountCalculator(
@@ -20,7 +21,9 @@ const Items = (props) => {
             item.price_per_day_cents
           )}
           returnDate={dayFormater(item.end_time)}
-          return={props.return}
+          setItems={setProducts}
+          item={item}
+          items={items}
         ></Item>
       ))
     : null;

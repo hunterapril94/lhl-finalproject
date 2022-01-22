@@ -5,6 +5,8 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import CardMedia from "@mui/material/CardMedia";
+import { ReturnButton } from "../../Requests/Buttons";
 
 const bull = (
   <Box
@@ -16,32 +18,41 @@ const bull = (
 );
 
 export default function Item(props) {
-  const { productId, name, amount, returnDate, retun, ownerName, email } =
-    props;
+  const {
+    name,
+    amount,
+    returnDate,
+    setItem,
+    items,
+    item,
+    ownerName,
+    email,
+    phone,
+  } = props;
   console.log(props);
   return (
     <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {ownerName}
-          </Typography>
+      {/* <Card variant="outlined"> */}
+      <Card sx={{ display: "flex" }}>
+        <CardContent x={{ flex: "1 0 auto" }}>
           <Typography variant="h5" component="div">
             {name}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            totall: ${amount}
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            Belongs to {ownerName}
           </Typography>
-          <Typography variant="body2">
-            {returnDate}
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            You paid ${amount} for this item
+          </Typography>
+          <Typography sx={{ mb: 1.5 }}>
+            Dont' forget to return it on {returnDate}
             <br />
-            {email}
+            The owner's email is {email} and the phone number is {phone} if you
+            need it.
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={() => {}}>
-            Mark as returned
-          </Button>
+          <ReturnButton size="small"></ReturnButton>
         </CardActions>
       </Card>
     </Box>
