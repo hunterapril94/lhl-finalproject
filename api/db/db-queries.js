@@ -602,6 +602,7 @@ module.exports = (db) => {
     updateProductTransactionStatus,
     updateBalance,
     getBalanceByUserID,
+    getTransactionHistoryByUserID,
     // addToBalance,
     // subtractFromBalance,
   };
