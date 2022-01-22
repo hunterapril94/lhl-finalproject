@@ -18,6 +18,8 @@ function Product(props) {
     navigate(`/products/${props.id}`);
   };
   // const isBorrowedItems = props.isBorrowedItems ? "row" : "column";
+  const isMyProducts = props.isMyProducts ? "edit" : "Add to Cart";
+
   return (
     <Fade in={true} timeout={1500}>
       <div className="product">
@@ -39,7 +41,6 @@ function Product(props) {
                     alt={props.name}
                   />
                 </div>
-
                 <CardContent>
                   <p>{props.name}</p>
                   <p>Category: {props.category}</p>
@@ -52,7 +53,7 @@ function Product(props) {
                     sx={{ display: "flex" }}
                   >
                     <Button type="submit" fullWidth variant="contained">
-                      Add to Cart
+                      {isMyProducts}
                     </Button>
                   </Box>
                 </CardContent>
