@@ -180,7 +180,7 @@ module.exports = (db) => {
         req.session.user_id = user.id;
         //sets the cookie for the client
 
-        console.log(user);
+        // console.log(user);
 
         res.json({
           auth: true,

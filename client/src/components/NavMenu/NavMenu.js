@@ -85,7 +85,7 @@ export default function NavMenu(props) {
     axios
       .get("http://localhost:8001/api/users/profile")
       .then((res) => {
-        console.log(res.data);
+        //  console.log(res.data);
         props.setAppState((prev) => {
           return {
             ...prev,
@@ -105,8 +105,8 @@ export default function NavMenu(props) {
     setOpen(false);
   };
 
-  console.log("user");
-  console.log(props.appState.profile);
+  //console.log("user");
+  //console.log(props.appState.profile);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor={theme.palette.tertiary.main}>

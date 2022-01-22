@@ -3,12 +3,16 @@ import { Grid } from "@mui/material";
 import theme from "../styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
+import "../../App.css";
 
 export default function Products(props) {
   const products = props.products.map((product) => {
     return (
       <Grid key={product.id} m={3}>
-        <Link to={`/products/${product.id}`}>
+        <Link
+          to={`/products/${product.id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
           <Product
             // key={product.id}
             // isBorrowedItems={props.isBorrowedItems}
@@ -35,8 +39,15 @@ export default function Products(props) {
           container
           direction="column"
           alignItems={"center"}
+          justifyContent={"center"}
         >
-          <Grid container direction="row" spacing={0}>
+          <Grid
+            container
+            direction="row"
+            spacing={0}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             {props.products.length > 1 ? (
               products
             ) : (

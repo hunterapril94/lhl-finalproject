@@ -3,8 +3,6 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { useOutletContext } from "react-router";
 
-
-
 const SecondChanceButton = ({ onClick, children, ...rest }) => {
   const [confirmed, setConfimed] = useState(false);
   return (
@@ -37,7 +35,7 @@ export const AcceptButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/activate`
+        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/approved`
       )
       .then((res) => {
         props.setIncomingRequests(newIncomingRequests);
@@ -71,12 +69,12 @@ export const RejectButton = (props) => {
         req.products_transactions_id != props.request.products_transactions_id
       );
     });
-    console.log(newIncomingRequests);
+    //console.log(newIncomingRequests);
     // console.log(evt);
 
     axios
       .post(
-        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/reject`
+        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/rejected`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
       .catch((err) => {});
@@ -102,7 +100,7 @@ export const CancelButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/cancel`
+        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/canceled`
       )
       .then((res) => props.setIncomingRequests(newIncomingRequests))
       .catch((err) => {
@@ -116,8 +114,33 @@ export const CancelButton = (props) => {
   );
 };
 
-export const returnButton = (event, id) => {
+// export const returnButton = (event, id) => {
+//   event.PreventDefault();
 
-    event.PreventDefault();
+// };
 
-  }
+export const ReturnButton = (props) => {
+  const handleSubmit = () => {
+    const newBorrowedItems = props.items.filter((item) => {
+      return item.name != props.item.name;
+    });
+
+    // console.log(evt);
+
+    axios
+      .post(
+        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/returned`
+      )
+      .then((res) => props.setItems(newBorrowedItems))
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+  return (
+    <>
+      <SecondChanceButton onClick={handleSubmit}>
+        MARK AS RETURNED
+      </SecondChanceButton>
+    </>
+  );
+};

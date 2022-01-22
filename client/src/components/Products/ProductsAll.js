@@ -11,7 +11,7 @@ const ProductsAll = () => {
   const [appState, setAppState] = useOutletContext();
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log("current auth status:" + appState.auth);
+  //console.log("current auth status:" + appState.auth);
 
   useEffect(() => {
     axios
@@ -27,7 +27,7 @@ const ProductsAll = () => {
       .catch((err) => console.log(err.message));
   }, []);
 
-  return <Products products={products} />;
+  return isLoading ? <div /> : <Products products={products} />;
 };
 
 export default ProductsAll;

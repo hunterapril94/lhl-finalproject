@@ -18,6 +18,7 @@ import theme from "../../components/styles";
 import { useNavigate, useOutletContext } from "react-router";
 
 axios.defaults.withCredentials = true;
+
 const ProductDetail = () => {
   const [appState, setAppState] = useOutletContext();
   const { id } = useParams();
