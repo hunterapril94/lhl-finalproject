@@ -103,8 +103,6 @@ module.exports = (db) => {
               requestPending.products_transactions_id === transaction.id
           );
 
-          // console.log(filteredTransaction[0]);
-
           totalTransactionCost =
             filteredTransaction[0].price_per_day_cents *
             differenceInDaysForLendRequest;
@@ -112,8 +110,10 @@ module.exports = (db) => {
           if (req.params.action === "activate") {
             return db.updateBalance(userID, totalTransactionCost, false);
           } else {
-            totalTransactionCost += outGoingRequest[0].deposit_amount_cents;
-            // console.log(totalTransactionCost);
+            console.log("here");
+
+            totalTransactionCost += filteredTransaction[0].deposit_amount_cents;
+            console.log(filteredTransaction[0].deposit_amount_cents);
             return db.updateBalanceByEmail(
               filteredTransaction[0].requester_email,
               totalTransactionCost,
@@ -270,7 +270,7 @@ module.exports = (db) => {
                 item.start_time,
                 item.end_time
               );
-              console.log(differenceInDaysForLendRequest);
+              // console.log(differenceInDaysForLendRequest);
               transaction.subtotal +=
                 res.price_per_day_cents * differenceInDaysForLendRequest;
               transaction.deposit_total += res.deposit_amount_cents;
