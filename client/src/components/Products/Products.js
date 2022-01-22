@@ -3,12 +3,17 @@ import { Grid } from "@mui/material";
 import theme from "../styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
+import "../../App.css";
 
 export default function Products(props) {
   const products = props.products.map((product) => {
+    console.log(product.id);
     return (
       <Grid key={product.id} m={3}>
-        <Link to={`/products/${product.id}`}>
+        <Link
+          to={`/products/${product.id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
           <Product
             // key={product.id}
             // isBorrowedItems={props.isBorrowedItems}

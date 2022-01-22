@@ -27,7 +27,7 @@ const ProductsAll = () => {
       .catch((err) => console.log(err.message));
   }, []);
 
-  return <Products products={products} />;
+  return isLoading ? <div /> : <Products products={products} />;
 };
 
 export default ProductsAll;
