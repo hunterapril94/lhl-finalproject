@@ -326,5 +326,32 @@ module.exports = (db) => {
         });
       });
   });
+  //-----------------------------------------------------------------
+  // POST /api/requests/active/:id/returned
+  //-----------------------------------------------------------------
+  router.post("/active/:id/returned", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+      });
+    }
+
+    db.updateProductTransactionStatus(req.params.id, "returned")
+      .then(() => {
+        res.json({
+          auth: true,
+          message: "updated status to returned",
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: true,
+          message: "internal server error",
+        });
+      });
+  });
+
   return router;
 };
