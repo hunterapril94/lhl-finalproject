@@ -24,6 +24,13 @@ export const dayFormater = (date) => {
   return date.toString().slice(0, -14);
 };
 
+export const amountCalculator = (startDay, endDay, pricePerDay) => {
+  const days = Math.floor(
+    (Date.parse(endDay) - Date.parse(startDay)) / 86400000
+  );
+  return (days * pricePerDay) / 100;
+};
+
 export default function MyRequests() {
   const [appState, setAppState] = useOutletContext();
   const [isLoading, setIsLoading] = useState(true);
@@ -127,9 +134,11 @@ export default function MyRequests() {
                     </TableCell>
                     <TableCell align="center">
                       $
-                      {(dayCalulator(request.start_time, request.end_time) *
-                        request.price_per_day_cents) /
-                        100}
+                      {amountCalculator(
+                        request.start_time,
+                        request.end_time,
+                        request.price_per_day_cents
+                      )}
                     </TableCell>
                     <TableCell align="center">
                       <AcceptButton
