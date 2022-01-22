@@ -110,10 +110,10 @@ module.exports = (db) => {
           if (req.params.action === "activate") {
             return db.updateBalance(userID, totalTransactionCost, false);
           } else {
-            console.log("here");
+            // console.log("here");
 
             totalTransactionCost += filteredTransaction[0].deposit_amount_cents;
-            console.log(filteredTransaction[0].deposit_amount_cents);
+            // console.log(filteredTransaction[0].deposit_amount_cents);
             return db.updateBalanceByEmail(
               filteredTransaction[0].requester_email,
               totalTransactionCost,
