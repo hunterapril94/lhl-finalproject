@@ -113,7 +113,7 @@ module.exports = (db) => {
             return db.updateBalance(userID, totalTransactionCost, false);
           } else {
             console.log(totalTransactionCost);
-            return db.updateBalance(
+            return db.updateBalanceByEmail(
               filteredTransaction[0].requester_email,
               totalTransactionCost,
               false
