@@ -89,7 +89,10 @@ module.exports = (db) => {
       .then((transaction) => {
         //add money to user account
 
-        if (req.params.action === "activate") {
+        if (
+          req.params.action === "activate" ||
+          req.params.action === "reject"
+        ) {
           differenceInDaysForLendRequest = calculateDifferenceInDays(
             transaction.start_time,
             transaction.end_time
@@ -100,10 +103,22 @@ module.exports = (db) => {
               requestPending.products_transactions_id === transaction.id
           );
 
+          console.log(filteredTransaction[0]);
+
           totalTransactionCost =
             filteredTransaction[0].price_per_day_cents *
             differenceInDaysForLendRequest;
-          return db.updateBalance(userID, totalTransactionCost, false);
+
+          if (req.params.action === "activate") {
+            return db.updateBalance(userID, totalTransactionCost, false);
+          } else {
+            console.log(totalTransactionCost);
+            return db.updateBalance(
+              filteredTransaction[0].requester_email,
+              totalTransactionCost,
+              false
+            );
+          }
         }
 
         return db.getUserById(userID);

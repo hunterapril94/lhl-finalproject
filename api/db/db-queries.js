@@ -480,6 +480,27 @@ module.exports = (db) => {
   };
 
   // to subtract just add a third param
+
+  const updateBalanceByEmail = function (email, amount, subtract) {
+    return db
+      .query(
+        `UPDATE users
+         SET  cash_balance_cents = cash_balance_cents ${
+           subtract ? "-" : "+"
+         } $2 
+         WHERE email = '$1'
+         RETURNING *;
+         `,
+        [email, Number(amount)]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
+  };
   const updateBalance = function (id, amount, subtract) {
     return db
       .query(
@@ -559,6 +580,7 @@ module.exports = (db) => {
     updateUserInfo,
     addUser,
     getUserById,
+    updateBalanceByEmail,
     // products
     getAllProducts,
     getProductById,
