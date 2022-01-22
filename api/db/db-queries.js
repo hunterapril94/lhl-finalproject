@@ -360,9 +360,9 @@ module.exports = (db) => {
       JOIN products ON products_transactions.product_id = products.id
       JOIN users ON products.user_id = users.id
       
-      WHERE transactions.user_id = $1
-      AND products_transactions.status != 'pending' 
-      OR products_transactions.status != 'approved'
+      WHERE (products_transactions.status = 'rejected' OR products_transactions.status = 'returned' OR products_transactions.status = 'canceled')
+      AND transactions.user_id = $1
+     
        ;`,
         [userId]
       )
