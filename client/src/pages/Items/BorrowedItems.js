@@ -16,6 +16,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Items from "./components/Items";
 
 export default function BorrrowedItems() {
   const handleChange = (panel) => (event, isExpanded) => {
@@ -26,10 +27,10 @@ export default function BorrrowedItems() {
   const [appState, setAppState] = useOutletContext();
   useEffect(() => {
     axios
-      .get("http://localhost:8001/api/users/myproducts")
+      .get("http://localhost:8001/api/users/my-borrowed-products")
       .then((res) => {
-        //(res.data.myProducts);
-        setProducts(res.data.myProducts);
+        console.log("Borrowed producst", res.data.myBorrowedProducts);
+        setProducts(res.data.myBorrowedProducts);
 
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
@@ -37,51 +38,14 @@ export default function BorrrowedItems() {
       })
       .catch((err) => console.log(err.message));
   }, []);
+
+  console.log(products);
   return (
-    <div>
-      {products.map((product) => (
-        <Accordion
-          expanded={expanded === "panel1"}
-          onChange={handleChange("panel1")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Typography sx={{ width: "33%", flexShrink: 0 }}></Typography>
-            <Typography sx={{ color: "text.secondary" }}>
-              {product.name}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>{product.description}</Typography>
-          </AccordionDetails>
-        </Accordion>
-      ))}
-    </div>
+    <>
+      <main>
+        <Typography variant="h2"> Borrowed Items</Typography>
+        <Items items={products} setProducts={setProducts}></Items>
+      </main>
+    </>
   );
 }
-// const BorrowedItems = () => {
-//   const [products, setProducts] = useState([]);
-//   const [appState, setAppState] = useOutletContext();
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:8001/api/users/myproducts")
-//       .then((res) => {
-//         setProducts(res.data.myProducts);
-//         setAppState((prev) => {
-//           return { ...prev, auth: res.data.auth };
-//         });
-//       })
-//       .catch((err) => console.log(err.message));
-//   }, []);
-//   return (
-//     <>
-//       <h1>My borrowed out items//still needs correct data see route</h1>
-//       <Products products={products} isBorrowedItems={true} />
-//     </>
-//   );
-// };
-
-// export default BorrowedItems;
