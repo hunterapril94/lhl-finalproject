@@ -219,7 +219,7 @@ module.exports = (db) => {
     return db
       .query(
         `SELECT products_transactions.start_time AS start_time, products_transactions.end_time AS end_time, products.name,
-        users.first_name AS borrower_first_name, users.last_name AS borrower_last_name, users.email AS borrower_email, users.phone AS borrower_phone, products.image
+        users.first_name AS borrower_first_name, users.last_name AS borrower_last_name, users.email AS borrower_email, users.phone AS borrower_phone, products.image, products_transactions AS products_transactions_id 
         
         FROM transactions 
         JOIN users ON transactions.user_id = users.id
@@ -375,7 +375,7 @@ module.exports = (db) => {
       });
   };
 
-  getTransactionHistoryByUserID(1).then((res) => console.log(res));
+  // getTransactionHistoryByUserID(1).then((res) => console.log(res));
 
   // REVIEW QUERIES
   const getStarsByProductId = function (id) {
