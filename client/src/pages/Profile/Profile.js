@@ -117,13 +117,22 @@ function UserDetail() {
       setShowHideCurrentLent("none");
     }
   }
-  const acceptSubmit = (event, id) => {
+  const acceptSubmit = (event, id, price) => {
     event.preventDefault();
     console.log(id)
     axios
       .post(
         `http://localhost:8001/api/requests/incomming/${id}/activate`
-      ).then( () => {
+      ).then( (res) => {
+        console.log(price)
+        setAppState((prev) => {
+          const updatedProfile = {
+            ...prev.profile,
+            cash_balance_cents: user.cash_balance_cents + price*100
+          };
+          return { ...prev, cart: [], profile: updatedProfile };
+        })
+        user.cash_balance_cents = user.cash_balance_cents + price*100
         const promise1 = axios.get(`http://localhost:8001/api/users/profile`);
         const promise2 = axios.get(`http://localhost:8001/api/requests/pending`);
         const promise3 = axios.get(
@@ -135,23 +144,23 @@ function UserDetail() {
         );
         Promise.all([promise1, promise2, promise3, promise4, promise5]).then(
           (res) => {
+          
             console.log(res[2].data);
-            setUser(res[0].data.userProfile);
+            // setUser(res[0].data.userProfile);
             setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
             setLent(res[1].data.pendingIncommingLendRequests);
             setCurrentBorrowed(res[4].data.myBorrowedProducts);
             setCurrentLent(res[2].data.myLentProducts);
-            Balance = res[3].data.balance.cash_balance_cents;
+            Balance = res[3].data.balance.cash_balance_cents + price;
             // console.log(res[3].data)
             // console.log(res[4].data)
             // console.log(res[5].data)
             // console.log(currentBorrowed);
           }
-        );
-      navigate('/profile')}
-      )
-      .catch((err) => {console.log(err.message)});
-  };
+      
+      )})
+      .catch((err) => {console.log(err.message)})}
+  
   return (
     <Grid color={theme.palette.primary.main}>
       <h1>User Profile</h1>
@@ -250,7 +259,9 @@ function UserDetail() {
                       <TableCell>
                         <Box
                         component='form'
-                        onSubmit={(event)=>{acceptSubmit(event, request.products_transactions_id)}}>
+                        onSubmit={(event)=>{acceptSubmit(event, request.products_transactions_id, (dayParser(request.start_time, request.end_time) *
+                          request.price_per_day_cents) /
+                          100)}}>
                            <Grid display="flex">
                           <Button
                             variant="contained"
@@ -493,7 +504,7 @@ function UserDetail() {
               marginTop="20px"
               marginLeft="10px"
             >
-              Balance: ${Balance}
+              Balance: ${user.cash_balance_cents/100}
             </Typography>
           </Grid>
         </Grid>
