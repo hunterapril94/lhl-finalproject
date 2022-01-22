@@ -8,26 +8,16 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  styled,
-  Divider,
-  Card,
   CardMedia,
   CardContent,
   Button,
-  CardHeader,
   Box,
   Typography,
   TableHead,
 } from "@mui/material";
-import { useNavigate, useOutletContext } from "react-router";
+import { useOutletContext } from "react-router";
 import EditIcon from "@mui/icons-material/Edit";
-import { Link, useParams } from "react-router-dom";
 import theme from "../../components/styles";
-import PageviewIcon from "@mui/icons-material/Pageview";
-import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
-import InfoIcon from "@mui/icons-material/Info";
-import MyRequests from "../Requests/MyRequests";
 
 
 
@@ -39,8 +29,6 @@ function dayParser(startDay, endDate) {
 }
 
 function UserDetail() {
-  const navigate = useNavigate();
-  const { id } = useParams;
   const [user, setUser] = useState({});
   const [borrowed, setBorrowed] = useState([]);
   const [lent, setLent] = useState([]);
@@ -52,35 +40,26 @@ function UserDetail() {
   const [showHideCurrentLent, setShowHideCurrentLent] = useState("none");
   const [showHideCurrentBorrowed, setShowHideCurrentBorrowed] =
     useState("none");
-  let Balance = 0;
-  useEffect(() => {
+  const allStates = () => {
     const promise1 = axios.get(`http://localhost:8001/api/users/profile`);
     const promise2 = axios.get(`http://localhost:8001/api/requests/pending`);
-    const promise3 = axios.get(
-      `http://localhost:8001/api/users/my-lent-products`
-    );
-    const promise4 = axios.get(`http://localhost:8001/api/users/balance`);
-    const promise5 = axios.get(
-      `http://localhost:8001/api/users/my-borrowed-products`
-    );
-    Promise.all([promise1, promise2, promise3, promise4, promise5]).then(
-      (res) => {
-        // console.log(res[0].data)
-        // console.log(res[1].data)
-        console.log(res[2].data);
-        setUser(res[0].data.userProfile);
-        setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
-        setLent(res[1].data.pendingIncommingLendRequests);
-        setCurrentBorrowed(res[4].data.myBorrowedProducts);
-        setCurrentLent(res[2].data.myLentProducts);
-        Balance = res[3].data.balance.cash_balance_cents;
-        // console.log(res[3].data)
-        // console.log(res[4].data)
-        // console.log(res[5].data)
-        // console.log(currentBorrowed);
-      }
-    );
-  }, []);
+    const promise3 = axios.get(`http://localhost:8001/api/users/my-lent-products`);
+    const promise4 = axios.get(`http://localhost:8001/api/users/my-borrowed-products`);
+    return (
+      Promise.all([promise1, promise2, promise3, promise4]).then(
+        (res) => {
+          setUser(res[0].data.userProfile);
+          setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
+          setLent(res[1].data.pendingIncommingLendRequests);
+          setCurrentBorrowed(res[3].data.myBorrowedProducts);
+          setCurrentLent(res[2].data.myLentProducts);
+          console.log(currentLent)
+        }
+      )
+    )
+  }
+  
+  useEffect(() => { allStates() }, []);
   function handleClickLent(event) {
     event.preventDefault();
     if (showHideLent === "none") {
@@ -124,7 +103,6 @@ function UserDetail() {
       .post(
         `http://localhost:8001/api/requests/incomming/${id}/activate`
       ).then( (res) => {
-        console.log(price)
         setAppState((prev) => {
           const updatedProfile = {
             ...prev.profile,
@@ -132,34 +110,22 @@ function UserDetail() {
           };
           return { ...prev, cart: [], profile: updatedProfile };
         })
+        allStates()
+
         user.cash_balance_cents = user.cash_balance_cents + price*100
-        const promise1 = axios.get(`http://localhost:8001/api/users/profile`);
-        const promise2 = axios.get(`http://localhost:8001/api/requests/pending`);
-        const promise3 = axios.get(
-          `http://localhost:8001/api/users/my-lent-products`
-        );
-        const promise4 = axios.get(`http://localhost:8001/api/users/balance`);
-        const promise5 = axios.get(
-          `http://localhost:8001/api/users/my-borrowed-products`
-        );
-        Promise.all([promise1, promise2, promise3, promise4, promise5]).then(
-          (res) => {
-          
-            console.log(res[2].data);
-            // setUser(res[0].data.userProfile);
-            setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
-            setLent(res[1].data.pendingIncommingLendRequests);
-            setCurrentBorrowed(res[4].data.myBorrowedProducts);
-            setCurrentLent(res[2].data.myLentProducts);
-            Balance = res[3].data.balance.cash_balance_cents + price;
-            // console.log(res[3].data)
-            // console.log(res[4].data)
-            // console.log(res[5].data)
-            // console.log(currentBorrowed);
-          }
-      
-      )})
+        })
       .catch((err) => {console.log(err.message)})}
+
+      function returnSubmit(event, id) {
+        event.preventDefault();
+        console.log(id)
+        // axios
+        // .post(
+        //   `http://localhost:8001/api/requests/incomming/${id}/returned`
+        // ).then(()=>{
+        //   allStates()
+        // })
+      }
   
   return (
     <Grid color={theme.palette.primary.main}>
@@ -217,52 +183,50 @@ function UserDetail() {
                 {lent.length}
               </Button>
             </h2>
-                </Box>
-            <Grid display={showHideLent} backgroundColor={theme.palette.tertiary.main}>
-              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent" >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Item</TableCell>
-                    <TableCell align="center">Contact</TableCell>
-                    <TableCell align="center">cost per day</TableCell>
-                    <TableCell align="center">days requested</TableCell>
-                    <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {lent.map((request) => (
-                    <TableRow
+          </Box>
+          <Grid display={showHideLent} backgroundColor={theme.palette.tertiary.main}>
+            <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent" >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Item</TableCell>
+                  <TableCell align="center">Contact</TableCell>
+                  <TableCell align="center">cost per day</TableCell>
+                  <TableCell align="center">days requested</TableCell>
+                  <TableCell align="center">total revenue</TableCell>
+                  <TableCell align="center"></TableCell>
+                  <TableCell align="center"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {lent.map((request) => (
+                  <TableRow
                     key={request.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {request.name}
-                      </TableCell>
-                      <TableCell align="center">
-                        {request.requester_email}
-                      </TableCell>
-
-                      <TableCell align="center">
-                        ${request.price_per_day_cents / 100}
-                      </TableCell>
-                      <TableCell align="center">
-                        {dayParser(request.start_time, request.end_time)}
-                      </TableCell>
-                      <TableCell align="center">
-                        $
-                        {(dayParser(request.start_time, request.end_time) *
-                          request.price_per_day_cents) /
-                          100}
-                      </TableCell>
-                      <TableCell>
-                        <Box
+                  >
+                    <TableCell component="th" scope="row">
+                      {request.name}
+                    </TableCell>
+                    <TableCell align="center">
+                      {request.requester_email}
+                    </TableCell>
+                    <TableCell align="center">
+                      ${request.price_per_day_cents / 100}
+                    </TableCell>
+                    <TableCell align="center">
+                      {dayParser(request.start_time, request.end_time)}
+                    </TableCell>
+                    <TableCell align="center">
+                      $
+                      {(dayParser(request.start_time, request.end_time) *
+                      request.price_per_day_cents) /
+                      100}
+                    </TableCell>
+                    <TableCell>
+                      <Box
                         component='form'
                         onSubmit={(event)=>{acceptSubmit(event, request.products_transactions_id, (dayParser(request.start_time, request.end_time) *
-                          request.price_per_day_cents) /
-                          100)}}>
-                           <Grid display="flex">
+                        request.price_per_day_cents) /100)}}>
+                        <Grid display="flex">
                           <Button
                             variant="contained"
                             sx={{ marginRight: "20px" }}
@@ -272,14 +236,14 @@ function UserDetail() {
                           </Button>
                           <Button variant="contained">Reject</Button>
                         </Grid>
-                            </Box>
+                      </Box>
                        
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Grid>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
           <Box component="form" onSubmit={handleClickBorrowed}>
             <Typography
               variant="h2"
@@ -356,50 +320,50 @@ function UserDetail() {
             </Grid>
           </Box>
           <Grid display='flex' direction='column' container>
-          <Grid
-            color={theme.palette.primary.main}
-            backgroundColor={theme.palette.secondary.main}
-            xs={9}
-            item
+            <Grid
+              color={theme.palette.primary.main}
+              backgroundColor={theme.palette.secondary.main}
+              xs={9}
+              item
             >
-                          <Box component="form" onSubmit={handleClickCurrentLent}>
-              <Typography
-                color={theme.palette.primary.main}
-                fontSize="20pt"
-                marginTop="20px"
-                marginLeft="10px"
-              >
-                Currently Lent{" "}
-              </Typography>
-              <h2>
-                <Button
-                  variant="contained"
-                  sx={{
+              <Box component="form" onSubmit={handleClickCurrentLent}>
+                <Typography
+                  color={theme.palette.primary.main}
+                  fontSize="20pt"
+                  marginTop="20px"
+                  marginLeft="10px"
+                >
+                  Currently Lent{" "}
+                </Typography>
+                <h2>
+                  <Button
+                    variant="contained"
+                    sx={{
                     borderRadius: "50%",
                     marginLeft: "10px",
                     marginRight: "20px",
-                  }}
-                  type="submit"
-                >
-                  {currentLent.length}
-                </Button>
-              </h2>
-            </Box>
-            <Grid display={showHideCurrentLent} backgroundColor={theme.palette.tertiary.main}>
-              <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Item</TableCell>
-                    <TableCell align="center">Contact</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center">days requested</TableCell>
-                    <TableCell align="center">Mark Returned</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {currentLent.map((request) => (
+                    }}
+                    type="submit"
+                  >
+                    {currentLent.length}
+                  </Button>
+                </h2>
+              </Box>
+              <Grid display={showHideCurrentLent} backgroundColor={theme.palette.tertiary.main}>
+                <Table sx={{ minWidth: 550 }} aria-label="simple table" id="lent">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Item</TableCell>
+                      <TableCell align="center">Contact</TableCell>
+                      <TableCell align="center"></TableCell>
+                      <TableCell align="center">days requested</TableCell>
+                      <TableCell align="center">Mark Returned</TableCell>
+                      <TableCell align="center"></TableCell>
+                      <TableCell align="center"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {currentLent.map((request) => (
                     <TableRow
                       key={request.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -416,13 +380,15 @@ function UserDetail() {
                         {dayParser(request.start_time, request.end_time)}
                       </TableCell>
                       <TableCell align="center">
-                        <Button variant="contained">Returned</Button>
+                        <Box component='form' onSubmit={(event)=>{returnSubmit(event, request.products_transactions_id)}}>
+                          <Button variant="contained">Returned</Button>
+                        </Box>
                       </TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Grid>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Grid>
 
 
             <Box component="form" onSubmit={handleClickCurrentBorrowed}>
@@ -443,7 +409,7 @@ function UserDetail() {
                     marginRight: "20px",
                   }}
                   type="submit"
-                  >
+                >
                   {currentBorrowed.length}
                 </Button>
               </h2>
@@ -453,7 +419,7 @@ function UserDetail() {
                 sx={{ minWidth: 550, display: { showHideCurrentBorrowed } }}
                 aria-label="simple table"
                 id="borrow"
-                >
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
@@ -495,7 +461,7 @@ function UserDetail() {
                   ))}
                 </TableBody>
               </Table>
-                  </Grid>
+            </Grid>
             </Grid>
 
             <Typography

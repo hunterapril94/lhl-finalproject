@@ -219,7 +219,7 @@ module.exports = (db) => {
     return db
       .query(
         `SELECT products_transactions.start_time AS start_time, products_transactions.end_time AS end_time, products.name,
-        users.first_name AS borrower_first_name, users.last_name AS borrower_last_name, users.email AS borrower_email, users.phone AS borrower_phone, products.image
+        users.first_name AS borrower_first_name, users.last_name AS borrower_last_name, users.email AS borrower_email, users.phone AS borrower_phone, products.image, products_transactions AS products_transactions_id 
         
         FROM transactions 
         JOIN users ON transactions.user_id = users.id
@@ -303,7 +303,7 @@ module.exports = (db) => {
 
       .query(
         `SELECT products_transactions.id AS products_transactions_id ,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS requester_email,
-        users.phone AS requester_phone, status
+        users.phone AS requester_phone, status, deposit_amount_cents
 
         FROM transactions
         JOIN users on transactions.user_id = users.id
@@ -330,7 +330,7 @@ module.exports = (db) => {
     return db
 
       .query(
-        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone, status
+        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone, status, deposit_amount_cents
 
         FROM products_transactions
         JOIN transactions ON transaction_id = transactions.id
@@ -353,7 +353,7 @@ module.exports = (db) => {
   const getTransactionHistoryByUserID = function (userId) {
     return db
       .query(
-        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone, status
+        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, users.email AS owner_email, users.phone AS owner_phone, status,deposit_amount_cents
       
       FROM products_transactions
       JOIN transactions ON transaction_id = transactions.id
@@ -375,7 +375,7 @@ module.exports = (db) => {
       });
   };
 
-  getTransactionHistoryByUserID(1).then((res) => console.log(res));
+  // getTransactionHistoryByUserID(1).then((res) => console.log(res));
 
   // REVIEW QUERIES
   const getStarsByProductId = function (id) {
