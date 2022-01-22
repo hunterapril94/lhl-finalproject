@@ -53,6 +53,36 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
+  // GET /api/users/transaction-history
+  //-----------------------------------------------------------------
+
+  router.get("/transaction-history", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+
+    if (!isLoggedIn) {
+      return res.json({
+        auth: false,
+        message: "not logged in",
+      });
+    }
+
+    db.getTransactionHistoryByUserID(userID)
+      .then((transactionHistory) => {
+        return res.json({
+          auth: true,
+          message: "successfully got my products",
+          transactionHistory,
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          auth: true,
+          message: "internal server error",
+        });
+      });
+  });
+
+  //-----------------------------------------------------------------
   // GET /api/users/myBorrowedProducts
   //-----------------------------------------------------------------
 
