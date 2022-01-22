@@ -99,6 +99,8 @@ getTransactionByid(2).then((res) => {
   console.log("getTransactionByid", res);
 });
 
+getTransactionHistoryByUserID(1).then((res) => console.log(res));
+
 createPendingProductTransaction([
   {
     transaction_id: 6,
