@@ -118,12 +118,7 @@ module.exports = (db) => {
 
   router.post("/login", (req, res) => {
     const { isLoggedIn } = req; //gets this from middleware
-    if (isLoggedIn) {
-      return res.json({
-        auth: true,
-        message: "already logged in",
-      });
-    }
+
     // user is not logged in
 
     db.getUserByEmail(req.body.email)
@@ -134,6 +129,13 @@ module.exports = (db) => {
           return res.json({
             auth: false,
             message: "User information is incorrect",
+          });
+        }
+        if (isLoggedIn) {
+          return res.json({
+            auth: true,
+            message: "already logged in",
+            userProfile: user,
           });
         }
         if (req.body.password !== user.password) {

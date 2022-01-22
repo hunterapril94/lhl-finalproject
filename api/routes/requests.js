@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const calculateDifferenceInDays = require("../helpers/calculateDifferenceInDays");
 
 module.exports = (db) => {
   //-----------------------------------------------------------------
@@ -22,7 +23,6 @@ module.exports = (db) => {
       db.getBorrowRequestsByUserId(userID),
     ])
       .then((values) => {
-        console.log(values);
         if (!values[0] || !values[1]) {
           res.json({
             auth: true,
@@ -68,6 +68,8 @@ module.exports = (db) => {
         isApproved: false,
       });
     }
+    let requestsPending;
+    let differenceInDaysForLendRequest;
     db.getPendingLendRequestsByUserId(userID)
       .then((requests) => {
         //checking to see if the request is pending and is owned by the current user
@@ -75,21 +77,38 @@ module.exports = (db) => {
           return request.products_transactions_id == req.params.id;
         });
 
-        console.log(filteredByParam);
-
         if (filteredByParam.length < 1) {
           return Promise.reject(
             "could not set, is either not pending, or not owned by user"
           );
         } else {
+          requestsPending = requests;
           return db.updateProductTransactionStatus(
             req.params.id,
             req.params.action
           );
         }
       })
-      .then(() => {
-        //add money to user account // take from other
+      .then((transaction) => {
+        //add money to user account
+
+        if (req.params.action === "activate") {
+          differenceInDaysForLendRequest = calculateDifferenceInDays(
+            transaction.start_time,
+            transaction.end_time
+          );
+          console.log(transaction);
+          console.log(requestsPending);
+          const filteredTransaction = requestsPending.filter(
+            (requestPending) =>
+              requestPending.products_transactions_id ===
+              transaction.transaction_id
+          );
+          console.log(filteredTransaction);
+        }
+
+        //return db.updateBalance(userID, totalTransactionCost, true)
+
         return res.json({
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
@@ -218,13 +237,11 @@ module.exports = (db) => {
         //reject if the balance is not enough to cover the cost
         const totalTransactionCost =
           transaction.subtotal + transaction.deposit_total;
-        console.log(dbBalance);
 
         if (totalTransactionCost > dbBalance.cash_balance_cents) {
           return Promise.reject("insufficient balance");
         }
         newBalance = dbBalance.cash_balance_cents - totalTransactionCost;
-        console.log(transaction.userBalance);
 
         return db.updateBalance(userID, totalTransactionCost, true);
       })
@@ -241,8 +258,6 @@ module.exports = (db) => {
         return db.createPendingProductTransaction(lineItemsWithID);
       })
       .then(() => {
-        console.log(newBalance);
-        console.log("successfully added to db");
         return res.json({
           auth: true,
           message: "successfully submited pending request",
@@ -258,8 +273,6 @@ module.exports = (db) => {
           userBalance: transaction.userBalance,
         });
       });
-
-    // console.log(lineItems);
   });
   return router;
 };

@@ -71,8 +71,6 @@ module.exports = (db) => {
   router.post("/search", (req, res) => {
     const { isLoggedIn } = req; //gets this from middleware
 
-    console.log("search param", req.body.search);
-
     if (!isLoggedIn) {
       return res.json({
         auth: false,
