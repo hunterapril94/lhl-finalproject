@@ -20,7 +20,7 @@ const dayCalulator = (startDay, endDate) => {
   return Math.floor((Date.parse(endDate) - Date.parse(startDay)) / 86400000);
 };
 
-const dayFormater = (date) => {
+export const dayFormater = (date) => {
   return date.toString().slice(0, -14);
 };
 
@@ -152,7 +152,7 @@ export default function MyRequests() {
         {selectedTab === 1 && (
           <TableContainer component={OutgoingRequests.length !== 0 && Paper}>
             {OutgoingRequests.length === 0 && (
-              <Typography>You have no Pending Requests</Typography>
+              <Typography>You have no Pending Request</Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (

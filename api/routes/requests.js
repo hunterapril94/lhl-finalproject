@@ -15,9 +15,6 @@ module.exports = (db) => {
       });
     }
 
-    // getBorrowRequestsByUserId --- requesting to borrow something
-    // getPendingLendRequestsByUserId -- incomming request from someone
-
     Promise.all([
       db.getPendingLendRequestsByUserId(userID),
       db.getBorrowRequestsByUserId(userID),
@@ -92,7 +89,10 @@ module.exports = (db) => {
       .then((transaction) => {
         //add money to user account
 
-        if (req.params.action === "activate") {
+        if (
+          req.params.action === "activate" ||
+          req.params.action === "reject"
+        ) {
           differenceInDaysForLendRequest = calculateDifferenceInDays(
             transaction.start_time,
             transaction.end_time
@@ -103,17 +103,31 @@ module.exports = (db) => {
               requestPending.products_transactions_id === transaction.id
           );
 
+          console.log(filteredTransaction[0]);
+
           totalTransactionCost =
             filteredTransaction[0].price_per_day_cents *
             differenceInDaysForLendRequest;
+
+          if (req.params.action === "activate") {
+            return db.updateBalance(userID, totalTransactionCost, false);
+          } else {
+            console.log(totalTransactionCost);
+            return db.updateBalance(
+              filteredTransaction[0].requester_email,
+              totalTransactionCost,
+              false
+            );
+          }
         }
 
-        return db.updateBalance(userID, totalTransactionCost, false);
+        return db.getUserById(userID);
       })
-      .then(() => {
+      .then((userProfile) => {
         return res.json({
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
+          userProfile,
         });
       })
       .catch((err) => {
@@ -145,6 +159,7 @@ module.exports = (db) => {
       });
     }
 
+    let outGoingRequest;
     db.getBorrowRequestsByUserId(userID)
       .then((requests) => {
         //checking to see if the request is pending and is owned by the current user
@@ -157,6 +172,7 @@ module.exports = (db) => {
             "could not set, is either not pending, or not owned by user"
           );
         } else {
+          outGoingRequest = filteredByParam;
           return db.updateProductTransactionStatus(
             req.params.id,
             req.params.action
@@ -165,9 +181,27 @@ module.exports = (db) => {
       })
       .then(() => {
         //add money back to user account -- put back to other user
+        if (req.params.action === "cancel") {
+          //console.log(outGoingRequest);
+          const differenceInDaysForLendRequest = calculateDifferenceInDays(
+            outGoingRequest[0].start_time,
+            outGoingRequest[0].end_time
+          );
+
+          totalTransactionCost =
+            outGoingRequest[0].price_per_day_cents *
+            differenceInDaysForLendRequest;
+
+          return db.updateBalance(userID, totalTransactionCost, false);
+          //console.log(outGoingRequest);
+        }
+        return;
+      })
+      .then((newBalance) => {
         return res.json({
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
+          newBalance,
         });
       })
       .catch((err) => {
@@ -213,6 +247,7 @@ module.exports = (db) => {
     };
 
     let newBalance;
+    let oldBalance;
 
     db.getAllProducts()
       .then((products) => {
@@ -239,11 +274,12 @@ module.exports = (db) => {
         //reject if the balance is not enough to cover the cost
         const totalTransactionCost =
           transaction.subtotal + transaction.deposit_total;
+        oldBalance = dbBalance.cash_balance_cents;
+        newBalance = dbBalance.cash_balance_cents - totalTransactionCost;
 
         if (totalTransactionCost > dbBalance.cash_balance_cents) {
           return Promise.reject("insufficient balance");
         }
-        newBalance = dbBalance.cash_balance_cents - totalTransactionCost;
 
         return db.updateBalance(userID, totalTransactionCost, true);
       })
@@ -272,7 +308,7 @@ module.exports = (db) => {
           auth: true,
           message: err,
           success: false,
-          userBalance: transaction.userBalance,
+          newBalance: oldBalance,
         });
       });
   });

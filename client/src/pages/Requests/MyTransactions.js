@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,20 +10,27 @@ import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
 import { Box, flexbox } from "@mui/system";
 import { Button } from "@mui/material";
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+import axios from "axios";
+import { useOutletContext } from "react-router";
+import { dayFormater } from "./MyRequests";
 
 export default function MyTransactions() {
+  const [transactions, setTransactions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [appState, setAppState] = useOutletContext();
+  useEffect(() => {
+    axios
+      .get("http://localhost:8001/api/requests/history")
+      .then((res) => {
+        setTransactions(res.data);
+        setIsLoading(false);
+        setAppState((prev) => {
+          return { ...prev, auth: res.data.auth };
+        });
+      })
+
+      .catch((err) => console.log(err.message));
+  }, []);
   return (
     <>
       <Typography
@@ -30,7 +38,7 @@ export default function MyTransactions() {
         component="h3"
         sx={{ marginTop: 3, textAlign: "center" }}
       >
-        My Pending Requests
+        Request History
       </Typography>
       <Box
         sx={{
@@ -41,33 +49,36 @@ export default function MyTransactions() {
           marginTop: 5,
         }}
       >
-        <TableContainer component={Paper} sx={{ width: 900 }}>
+        <TableContainer component={transactions.length !== 0 && Paper}>
+          {transactions.length === 0 && (
+            <Typography>You have no transaction history</Typography>
+          )}
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Pending Requests</TableCell>
-                <TableCell align="right">Item Description</TableCell>
-                <TableCell align="right">cost per day</TableCell>
-                <TableCell align="right">days requested</TableCell>
-                <TableCell align="right">total revenue</TableCell>
-                <TableCell align="right">More Details</TableCell>
-              </TableRow>
-            </TableHead>
+            {transactions.length !== 0 && (
+              <TableHead>
+                <TableRow>
+                  <TableCell>number</TableCell>
+                  <TableCell>Item</TableCell>
+                  <TableCell align="center">date</TableCell>
+                  <TableCell align="center">amount</TableCell>
+                </TableRow>
+              </TableHead>
+            )}
             <TableBody>
-              {rows.map((row) => (
+              {transactions.map((transaction) => (
                 <TableRow
-                  key={row.name}
+                  key={transaction.products_transactions_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {transaction.name}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
-                  <TableCell align="right">
-                    <Button>Details</Button>
+                  <TableCell align="center">
+                    {transaction.requester_email}
+                  </TableCell>
+
+                  <TableCell align="center">
+                    ${transaction.price_per_day_cents / 100}
                   </TableCell>
                 </TableRow>
               ))}

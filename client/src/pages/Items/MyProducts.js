@@ -19,10 +19,12 @@ const MyProducts = () => {
       })
       .catch((err) => console.log(err.message));
   }, []);
+
+  // console.log(appState);
   return (
     <>
       <h1>My Products</h1>
-      <Products products={products} />
+      <Products products={products} isMyProducts={true} />
     </>
   );
 };

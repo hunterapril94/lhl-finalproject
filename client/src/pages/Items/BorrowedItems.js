@@ -3,8 +3,14 @@ import Products from "../../components/Products/Products";
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import axios from "axios";
+// import { makeStyles } from "@mui/styles";
+import { ClassNames } from "@emotion/react";
 
 // THIS IS STRETCH
+
+// const useStyle = makeStyles({
+//   color: "red",
+// });
 const BorrowedItems = () => {
   const [products, setProducts] = useState([]);
   const [appState, setAppState] = useOutletContext();
@@ -22,7 +28,7 @@ const BorrowedItems = () => {
   return (
     <>
       <h1>My borrowed out items//still needs correct data see route</h1>
-      <Products products={products} />
+      <Products products={products} isBorrowedItems={true} />
     </>
   );
 };
