@@ -362,6 +362,7 @@ module.exports = (db) => {
       
       WHERE transactions.user_id = $1
       AND products_transactions.status != 'pending' 
+      OR products_transactions.status != 'approved'
        ;`,
         [userId]
       )
@@ -373,6 +374,8 @@ module.exports = (db) => {
         }
       });
   };
+
+  getTransactionHistoryByUserID(1).then((res) => console.log(res));
 
   // REVIEW QUERIES
   const getStarsByProductId = function (id) {
