@@ -166,7 +166,7 @@ module.exports = (db) => {
       })
       .then(() => {
         //add money back to user account -- put back to other user
-        if (req.params.action === "delete") {
+        if (req.params.action === "cancel") {
           //console.log(outGoingRequest);
           const differenceInDaysForLendRequest = calculateDifferenceInDays(
             outGoingRequest[0].start_time,
@@ -182,10 +182,11 @@ module.exports = (db) => {
         }
         return;
       })
-      .then(() => {
+      .then((newBalance) => {
         return res.json({
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
+          newBalance,
         });
       })
       .catch((err) => {
