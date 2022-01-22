@@ -15,6 +15,7 @@ import { useOutletContext } from "react-router";
 import { dayFormater, dayCalulator } from "./MyRequests";
 
 export default function MyTransactions() {
+  let number = 1;
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [appState, setAppState] = useOutletContext();
@@ -72,9 +73,7 @@ export default function MyTransactions() {
                   key={transaction.products_transactions_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="center">
-                    {transaction.products_transactions_id}
-                  </TableCell>
+                  <TableCell align="center">{number++}</TableCell>
                   <TableCell align="center">{transaction.name}</TableCell>
 
                   <TableCell align="center">
