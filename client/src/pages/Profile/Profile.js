@@ -53,7 +53,7 @@ function UserDetail() {
           setLent(res[1].data.pendingIncommingLendRequests);
           setCurrentBorrowed(res[3].data.myBorrowedProducts);
           setCurrentLent(res[2].data.myLentProducts);
-          console.log(currentLent)
+          console.log(res[2].data.myLentProducts)
         }
       )
     )
@@ -116,16 +116,17 @@ function UserDetail() {
         })
       .catch((err) => {console.log(err.message)})}
 
-      function returnSubmit(event, id) {
-        event.preventDefault();
-        console.log(id)
-        // axios
-        // .post(
-        //   `http://localhost:8001/api/requests/incomming/${id}/returned`
-        // ).then(()=>{
-        //   allStates()
-        // })
-      }
+  function returnSubmit(event, id) {
+    event.preventDefault();
+    console.log(id)
+    axios
+    .post(
+      `http://localhost:8001/api/requests/active/${id}/returned`
+    ).then(()=>{
+      console.log('item returned')
+      allStates()
+    })
+  }
   
   return (
     <Grid color={theme.palette.primary.main}>
@@ -381,7 +382,7 @@ function UserDetail() {
                       </TableCell>
                       <TableCell align="center">
                         <Box component='form' onSubmit={(event)=>{returnSubmit(event, request.products_transactions_id)}}>
-                          <Button variant="contained">Returned</Button>
+                          <Button variant="contained" type='submit'>Returned</Button>
                         </Box>
                       </TableCell>
                     </TableRow>
