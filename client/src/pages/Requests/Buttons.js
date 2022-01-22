@@ -3,8 +3,6 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { useOutletContext } from "react-router";
 
-
-
 const SecondChanceButton = ({ onClick, children, ...rest }) => {
   const [confirmed, setConfimed] = useState(false);
   return (
@@ -71,7 +69,7 @@ export const RejectButton = (props) => {
         req.products_transactions_id != props.request.products_transactions_id
       );
     });
-    console.log(newIncomingRequests);
+    //console.log(newIncomingRequests);
     // console.log(evt);
 
     axios
@@ -117,7 +115,5 @@ export const CancelButton = (props) => {
 };
 
 export const returnButton = (event, id) => {
-
-    event.PreventDefault();
-
-  }
+  event.PreventDefault();
+};

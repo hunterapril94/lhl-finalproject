@@ -7,8 +7,6 @@ import "../../App.css";
 
 export default function Products(props) {
   const products = props.products.map((product) => {
-    console.log("$$$$$$$$$$$$$$$");
-    console.log(props);
     return (
       <Grid key={product.id} m={3}>
         <Link

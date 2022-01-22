@@ -10,6 +10,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useNavigate } from "react-router";
 import Reviews from "../Reviews/ReviewsList";
 import { Grid } from "@mui/material";
+import ReviewsList from "../Reviews/ReviewsList";
 function Product(props) {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -57,6 +58,7 @@ function Product(props) {
             </Button>
           </Card>
         </Grid>
+        <ReviewsList />
       </div>
     </Fade>
   );

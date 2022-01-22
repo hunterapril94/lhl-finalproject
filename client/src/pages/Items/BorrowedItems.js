@@ -28,7 +28,7 @@ export default function BorrrowedItems() {
     axios
       .get("http://localhost:8001/api/users/myproducts")
       .then((res) => {
-        console.log(res.data.myProducts);
+        //(res.data.myProducts);
         setProducts(res.data.myProducts);
 
         setAppState((prev) => {
