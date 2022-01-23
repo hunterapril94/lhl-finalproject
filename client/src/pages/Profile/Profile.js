@@ -38,6 +38,7 @@ function UserDetail() {
   const [showHideCurrentBorrowed, setShowHideCurrentBorrowed] =
     useState("none");
   const allStates = () => {
+
     const promise1 = axios.get(`http://localhost:8001/api/users/profile`);
     const promise2 = axios.get(`http://localhost:8001/api/requests/pending`);
     const promise3 = axios.get(`http://localhost:8001/api/users/my-lent-products`);
@@ -50,7 +51,7 @@ function UserDetail() {
           setLent(res[1].data.pendingIncommingLendRequests);
           setCurrentBorrowed(res[3].data.myBorrowedProducts);
           setCurrentLent(res[2].data.myLentProducts);
-          console.log(res[2].data.myLentProducts)
+          console.log(res[1].data)
         }
       )
     )
