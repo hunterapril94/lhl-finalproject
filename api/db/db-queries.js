@@ -242,7 +242,7 @@ module.exports = (db) => {
   };
 
   getBorrowedProductsByUserId(1).then((res) => {
-    console.log("getBorrowedProductsByUserId", res);
+    // console.log("getBorrowedProductsByUserId", res);
   });
 
   const getLentProducstByUserId = function (userId) {

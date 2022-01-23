@@ -200,11 +200,15 @@ module.exports = (db) => {
         }
         return;
       })
-      .then((newBalance) => {
+      .then(() => {
+        return db.getUserById(userID);
+      })
+      .then((userProfile) => {
+        //  console.log(userID);
         return res.json({
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
-          newBalance,
+          userProfile,
         });
       })
       .catch((err) => {
@@ -337,10 +341,15 @@ module.exports = (db) => {
         message: "not authorized",
       });
     }
+    console.log("###########");
 
     db.updateProductTransactionStatus(req.params.id, "returned")
       .then(() => {
+        return db.getUserById(userID);
+      })
+      .then((userProfile) => {
         res.json({
+          userProfile,
           auth: true,
           message: "updated status to returned",
         });

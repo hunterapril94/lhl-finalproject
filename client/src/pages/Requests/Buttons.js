@@ -83,10 +83,10 @@ export const RejectButton = (props) => {
       .then((res) => {
         props.setIncomingRequests(newIncomingRequests);
         setAppState((prev) => {
+          //does not need to updatebalance
           return {
             ...prev,
             auth: res.data.auth,
-            profile: res.data.userProfile,
           };
         });
       })
