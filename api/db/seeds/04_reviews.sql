@@ -12,4 +12,5 @@ VALUES
 (10, 5, 5, 'Just what I needed!'),
 (11, 6, 4, 'Worked great!'),
 (12, 2, 3, 'It was fine'),
-(13, 3, 5, 'I was blown away by how amazing it was');
+(13, 1, 5, 'I was blown away by how amazing it was'),
+(14, 4, 6, 'They went great with my dress');
