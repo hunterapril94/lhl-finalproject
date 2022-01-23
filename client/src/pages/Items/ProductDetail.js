@@ -5,6 +5,10 @@ import {
   Card,
   CardMedia,
   CardContent,
+  CardActionArea,
+  Typography,
+  CardActions,
+  CardHeader,
   Grid,
   Rating,
   Box,
@@ -57,94 +61,131 @@ const ProductDetail = () => {
       navigate("/");
     }
   };
-  return (
-    <ThemeProvider theme={theme}>
-      <Fade in={true} timeout={1500}>
-        <div className="product">
-          <Grid
-            color={theme.palette.primary.main}
-            container
-            direction="column"
-            alignItems={"center"}
-          >
-            <h1>{name}</h1>
-            <Card sx={{ maxWidth: 600, height: 1050 }}>
-              <Grid backgroundColor={theme.palette.secondary.dark} container>
-                <div>
-                  <CardMedia
-                    component="img"
-                    image={image}
-                    width="300"
-                    alt={name}
-                  />
-                </div>
-                <CardContent>
-                  <Grid
-                    backgroundColor={theme.palette.secondary.dark}
-                    color={theme.palette.tertiary.main}
-                    container
-                    height={550}
-                    direction="column"
-                  >
-                    <p>Category: {category}</p>
-                    <p>Price: ${price_per_day_cents / 100}</p>
-                    <p>Deposit Amount: ${deposit_amount_cents / 100}</p>
-                    <p>Description: {description}</p>
+  // return (
+  //   <ThemeProvider theme={theme}>
+  //     <Fade in={true} timeout={1500}>
+  //       <div className="product">
+  //         <Grid
+  //           color={theme.palette.primary.main}
+  //           container
+  //           direction="column"
+  //           alignItems={"center"}
+  //         >
+  //           <h1>{name}</h1>
+  //           <Card sx={{ maxWidth: 600, height: 1050 }}>
+  //             <Grid backgroundColor={theme.palette.secondary.dark} container>
+  //               <div>
+  //                 <CardMedia
+  //                   component="img"
+  //                   image={image}
+  //                   width="300"
+  //                   alt={name}
+  //                 />
+  //               </div>
+  //               <CardContent>
+  //                 <Grid
+  //                   backgroundColor={theme.palette.secondary.dark}
+  //                   color={theme.palette.tertiary.main}
+  //                   container
+  //                   height={550}
+  //                   direction="column"
+  //                 >
+  //                   <p>Category: {category}</p>
+  //                   <p>Price: ${price_per_day_cents / 100}</p>
+  //                   <p>Deposit Amount: ${deposit_amount_cents / 100}</p>
+  //                   <p>Description: {description}</p>
 
-                    <Box
-                      component="form"
-                      onSubmit={handleSubmit}
-                      sx={{ display: "flex" }}
-                      color={theme.palette.tertiary.main}
-                      flexDirection="column"
-                    >
-                      <Rating
-                        name="read-only"
-                        value={Number(avg_stars)}
-                        readOnly
-                      />
-                      <TextField
-                        required
-                        id="start"
-                        name="start"
-                        label="Start Date"
-                        type="date"
-                        sx={{ width: 220, marginTop: "10px" }}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                      <TextField
-                        required
-                        id="end"
-                        name="end"
-                        label="End Date"
-                        type="date"
-                        sx={{ width: 220, marginTop: "10px" }}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ marginTop: "10px" }}
-                      >
-                        Request Item
-                      </Button>
-                    </Box>
-                  </Grid>
-                </CardContent>
-              </Grid>
-            </Card>
-          </Grid>
-          <Grid>
-            <ReviewsList productId={id} />
-          </Grid>
-        </div>
-      </Fade>
-    </ThemeProvider>
+  //                   <Box
+  //                     component="form"
+  //                     onSubmit={handleSubmit}
+  //                     sx={{ display: "flex" }}
+  //                     color={theme.palette.tertiary.main}
+  //                     flexDirection="column"
+  //                   >
+  //                     <Rating
+  //                       name="read-only"
+  //                       value={Number(avg_stars)}
+  //                       readOnly
+  //                     />
+  //                     <TextField
+  //                       required
+  //                       id="start"
+  //                       name="start"
+  //                       label="Start Date"
+  //                       type="date"
+  //                       sx={{ width: 220, marginTop: "10px" }}
+  //                       InputLabelProps={{
+  //                         shrink: true,
+  //                       }}
+  //                     />
+  //                     <TextField
+  //                       required
+  //                       id="end"
+  //                       name="end"
+  //                       label="End Date"
+  //                       type="date"
+  //                       sx={{ width: 220, marginTop: "10px" }}
+  //                       InputLabelProps={{
+  //                         shrink: true,
+  //                       }}
+  //                     />
+  //                     <Button
+  //                       type="submit"
+  //                       fullWidth
+  //                       variant="contained"
+  //                       sx={{ marginTop: "10px" }}
+  //                     >
+  //                       Request Item
+  //                     </Button>
+  //                   </Box>
+  //                 </Grid>
+  //               </CardContent>
+  //             </Grid>
+  //           </Card>
+  //         </Grid>
+  //         <Grid>
+  //           <ReviewsList productId={id} />
+  //         </Grid>
+  //       </div>
+  //     </Fade>
+  //   </ThemeProvider>
+  // );
+  return (
+    <Fade in={true} timeout={1500}>
+      <Card sx={{ maxWidth: 700 }}>
+        <CardHeader
+          // avatar={
+          //   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          //     R
+          //   </Avatar>
+          // }
+          // action={
+          //   <IconButton aria-label="settings">
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
+          title="Shrimp and Chorizo Paella"
+          subheader={`Category: ${category}`}
+        />
+        <CardActionArea>
+          <CardMedia component="img" image={image} alt="" />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Lizard
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Lizards are a widespread group of squamate reptiles, with over
+              6,000 species, ranging across all continents except Antarctica
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" color="primary">
+            Share
+          </Button>
+        </CardActions>
+      </Card>
+    </Fade>
   );
 };
 
