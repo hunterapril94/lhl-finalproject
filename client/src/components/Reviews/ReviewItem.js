@@ -5,12 +5,19 @@ import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import AvatarWithColor from "../AvatarWithColor/AvatarWithColor";
 
 const ReviewItem = (props) => {
   return (
     <ListItem alignItems="flex-start" key={props.index} component="div">
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: "deeppink" }}>N</Avatar>
+        <AvatarWithColor
+          firstName={props.review.first_name}
+          lastName={props.review.last_name}
+        />
+        {/* <Avatar sx={{ bgcolor: "deeppink" }}>
+          {props.review.first_name.charAt(0)}
+        </Avatar> */}
       </ListItemAvatar>
       <ListItemText
         primary={props.review.title}
