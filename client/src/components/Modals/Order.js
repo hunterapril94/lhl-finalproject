@@ -30,7 +30,7 @@ export default function Order(props) {
         variant="contained"
         onClick={props.handleOpen}
       >
-        Request Item
+        Pick Your Dates
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -105,7 +105,7 @@ export default function Order(props) {
                 variant="contained"
                 sx={{ marginTop: "10px" }}
               >
-                Request Item
+                Add to Cart
               </Button>
             </Box>
           </Grid>
