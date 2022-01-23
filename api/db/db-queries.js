@@ -109,7 +109,7 @@ module.exports = (db) => {
         ` 
     SELECT products.*, AVG(reviews.stars) AS avg_stars 
     FROM products
-    JOIN reviews on products.id = product_id
+    FULL OUTER JOIN reviews on products.id = product_id
     GROUP BY products.id;`
       )
       .then((result) => {
@@ -123,7 +123,7 @@ module.exports = (db) => {
         ` 
     SELECT products.*, AVG(reviews.stars) AS avg_stars 
     FROM products
-    JOIN reviews on products.id = product_id
+    FULL OUTER JOIN reviews on products.id = product_id
     WHERE NOT products.user_id = $1
     GROUP BY products.id;`,
         [userId]
