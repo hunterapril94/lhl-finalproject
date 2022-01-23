@@ -228,7 +228,7 @@ module.exports = (db) => {
         JOIN products_transactions ON transactions.id = products_transactions.transaction_id
         JOIN products ON products_transactions.product_id = products.id
         JOIN users ON products.user_id = users.id
-        WHERE transactions.user_id = $1
+        WHERE transactions.user_id = $1 AND products_transactions.status = 'activate' 
         GROUP BY products.name, start_time, end_time, users.first_name, users.last_name, transactions.user_id, products.price_per_day_cents, owner_email, owner_phone, products_transactions_id;`,
         [userId]
       )
@@ -241,9 +241,9 @@ module.exports = (db) => {
       });
   };
 
-  getBorrowedProductsByUserId(1).then((res) => {
-    // console.log("getBorrowedProductsByUserId", res);
-  });
+  // getBorrowedProductsByUserId(1).then((res) => {
+  //   // console.log("getBorrowedProductsByUserId", res);
+  // });
 
   const getLentProducstByUserId = function (userId) {
     return db
@@ -256,7 +256,7 @@ module.exports = (db) => {
         JOIN products_transactions ON transactions.id = products_transactions.transaction_id
         JOIN products ON products_transactions.product_id = products.id
         
-        WHERE products.user_id = $1`,
+        WHERE products.user_id = $1 AND products_transactions.status = 'activate'`,
         [userId]
       )
       .then((result) => {
