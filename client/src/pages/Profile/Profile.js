@@ -40,25 +40,23 @@ function UserDetail() {
   const allStates = () => {
     const promise1 = axios.get(`http://localhost:8001/api/users/profile`);
     const promise2 = axios.get(`http://localhost:8001/api/requests/pending`);
-    const promise3 = axios.get(
-      `http://localhost:8001/api/users/my-lent-products`
-    );
-    const promise4 = axios.get(
-      `http://localhost:8001/api/users/my-borrowed-products`
-    );
-    return Promise.all([promise1, promise2, promise3, promise4]).then((res) => {
-      setUser(res[0].data.userProfile);
-      setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
-      setLent(res[1].data.pendingIncommingLendRequests);
-      setCurrentBorrowed(res[3].data.myBorrowedProducts);
-      setCurrentLent(res[2].data.myLentProducts);
-      //console.log(currentLent)
-    });
-  };
-
-  useEffect(() => {
-    allStates();
-  }, []);
+    const promise3 = axios.get(`http://localhost:8001/api/users/my-lent-products`);
+    const promise4 = axios.get(`http://localhost:8001/api/users/my-borrowed-products`);
+    return (
+      Promise.all([promise1, promise2, promise3, promise4]).then(
+        (res) => {
+          setUser(res[0].data.userProfile);
+          setBorrowed(res[1].data.pendingOutgoingBorrowRequests);
+          setLent(res[1].data.pendingIncommingLendRequests);
+          setCurrentBorrowed(res[3].data.myBorrowedProducts);
+          setCurrentLent(res[2].data.myLentProducts);
+          console.log(res[2].data.myLentProducts)
+        }
+      )
+    )
+  }
+  
+  useEffect(() => { allStates() }, []);
   function handleClickLent(event) {
     event.preventDefault();
     if (showHideLent === "none") {
@@ -128,6 +126,18 @@ function UserDetail() {
     // })
   }
 
+  function returnSubmit(event, id) {
+    event.preventDefault();
+    console.log(id)
+    axios
+    .post(
+      `http://localhost:8001/api/requests/active/${id}/returned`
+    ).then(()=>{
+      console.log('item returned')
+      allStates()
+    })
+  }
+  
   return (
     <Grid color={theme.palette.primary.main}>
       <h1>User Profile</h1>
@@ -403,24 +413,16 @@ function UserDetail() {
                           {request.borrower_email}
                         </TableCell>
 
-                        <TableCell align="center"></TableCell>
-                        <TableCell align="center">
-                          {dayParser(request.start_time, request.end_time)}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Box
-                            component="form"
-                            onSubmit={(event) => {
-                              returnSubmit(
-                                event,
-                                request.products_transactions_id
-                              );
-                            }}
-                          >
-                            <Button variant="contained">Returned</Button>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
+                      <TableCell align="center"></TableCell>
+                      <TableCell align="center">
+                        {dayParser(request.start_time, request.end_time)}
+                      </TableCell>
+                      <TableCell align="center">
+                        <Box component='form' onSubmit={(event)=>{returnSubmit(event, request.products_transactions_id)}}>
+                          <Button variant="contained" type='submit'>Returned</Button>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
                     ))}
                   </TableBody>
                 </Table>
