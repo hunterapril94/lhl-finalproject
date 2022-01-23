@@ -136,7 +136,7 @@ const ProductDetail = () => {
                   Deposit: ${deposit_amount_cents / 100}
                 </Typography>
 
-                <Box ml={1} mb={3}>
+                <Box ml={1} mb={5}>
                   <Order
                     handleSubmit={handleSubmit}
                     handleOpen={handleOpen}
