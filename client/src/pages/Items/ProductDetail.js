@@ -115,12 +115,14 @@ const ProductDetail = () => {
               container
               direction="row"
               justifyContent="space-between"
+              flexWrap="wrap-reverse"
             >
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
                   flexDirection: "column",
+                  width: 300,
                 }}
               >
                 <Typography ml={1} mt={2} mb={2} variant="h5">
@@ -143,7 +145,6 @@ const ProductDetail = () => {
                   />
                 </Box>
               </Box>
-
               <ReviewsList productId={id} />
             </Grid>
           </CardActions>
