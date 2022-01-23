@@ -48,7 +48,7 @@ export default function MyRequests() {
       .then((res) => {
         const { pendingIncommingLendRequests, pendingOutgoingBorrowRequests } =
           res.data;
-
+        // console.log(res.data);
         setIncomingRequests(pendingIncommingLendRequests);
         setOutgoingRequests(pendingOutgoingBorrowRequests);
         setIsLoading(false);
