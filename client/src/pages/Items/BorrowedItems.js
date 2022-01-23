@@ -36,6 +36,9 @@ export default function BorrrowedItems() {
     <>
       <main>
         <Typography variant="h2"> Borrowed Items</Typography>
+        <Typography>
+          {products.length === 0 && "You have no borrowed items"}
+        </Typography>
         <Items items={products} setProducts={setProducts}></Items>
       </main>
     </>
