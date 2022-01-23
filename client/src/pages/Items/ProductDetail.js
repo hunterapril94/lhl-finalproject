@@ -110,7 +110,12 @@ const ProductDetail = () => {
           </CardContent>
 
           <CardActions>
-            <Grid container direction="row" justifyContent="space-between">
+            <Grid
+              ml={0.5}
+              container
+              direction="row"
+              justifyContent="space-between"
+            >
               <Box
                 sx={{
                   display: "flex",
