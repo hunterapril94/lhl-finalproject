@@ -160,44 +160,45 @@ const ProductDetail = () => {
     <div />
   ) : (
     <Fade in={true} timeout={1500}>
-      <Card sx={{ maxWidth: 700 }}>
-        <CardHeader
-          // avatar={
+      <Grid justifyContent="center" xs={12}>
+        <Card sx={{ maxWidth: 900, margin: "auto" }}>
+          <CardHeader
+            // avatar={
 
-          // }
-          action={
-            <Box
-              sx={{
-                height: 50,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Rating name="rating" value={avg_stars} readOnly />
-            </Box>
-          }
-          title={name}
-          subheader={`Category: ${category}`}
-        />
-        <CardActionArea>
-          <CardMedia component="img" image={image} alt="" />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Lizard
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-        </CardActions>
-      </Card>
+            // }
+            action={
+              <Box
+                sx={{
+                  height: 50,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Rating name="rating" value={avg_stars} readOnly />
+              </Box>
+            }
+            title={name}
+            subheader={`Category: ${category}`}
+          />
+          <CardActionArea>
+            <CardMedia component="img" image={image} alt="" />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Item Description
+              </Typography>
+              <Typography variant="h6" color="text.secondary">
+                {description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="large" color="primary">
+              Share
+            </Button>
+          </CardActions>
+        </Card>
+      </Grid>
     </Fade>
   );
 };
