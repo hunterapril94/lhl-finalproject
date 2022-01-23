@@ -104,11 +104,11 @@ function renderRow(props) {
 
 export default function ReviewList() {
   return (
-    <Grid xs={12} md={7.8} ml={1}>
+    <Grid md={7.5} sm={12} xs={12} mr={1}>
       <Box
         sx={{
           width: "100%",
-          height: 200,
+          height: 180,
           maxWidth: 550,
           bgcolor: "background.paper",
           display: "flex",
@@ -118,7 +118,7 @@ export default function ReviewList() {
         }}
       >
         <FixedSizeList
-          height={250}
+          height={180}
           width={"100%"}
           itemSize={70}
           itemCount={200}
