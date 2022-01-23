@@ -25,9 +25,11 @@ import { useNavigate, useOutletContext } from "react-router";
 axios.defaults.withCredentials = true;
 
 const ProductDetail = () => {
+  const [value, setValue] = useState(2);
   const [appState, setAppState] = useOutletContext();
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     axios.get(`http://localhost:8001/api/products/${id}`).then((res) => {
@@ -35,6 +37,7 @@ const ProductDetail = () => {
       setAppState((prev) => {
         return { ...prev, auth: res.data.auth };
       });
+      setIsLoading(false);
     });
   }, []);
   const {
@@ -150,41 +153,52 @@ const ProductDetail = () => {
   //     </Fade>
   //   </ThemeProvider>
   // );
-  return (
+  console.log("here");
+  console.log(avg_stars);
+  console.log(avg_stars);
+  return isLoading ? (
+    <div />
+  ) : (
     <Fade in={true} timeout={1500}>
-      <Card sx={{ maxWidth: 700 }}>
-        <CardHeader
-          // avatar={
-          //   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-          //     R
-          //   </Avatar>
-          // }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
-          title="Shrimp and Chorizo Paella"
-          subheader={`Category: ${category}`}
-        />
-        <CardActionArea>
-          <CardMedia component="img" image={image} alt="" />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Lizard
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-        </CardActions>
-      </Card>
+      <Grid justifyContent="center" xs={12}>
+        <Card sx={{ maxWidth: 900, margin: "auto" }}>
+          <CardHeader
+            // avatar={
+
+            // }
+            action={
+              <Box
+                sx={{
+                  height: 50,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Rating name="rating" value={avg_stars} readOnly />
+              </Box>
+            }
+            title={name}
+            subheader={`Category: ${category}`}
+          />
+          <CardActionArea>
+            <CardMedia component="img" image={image} alt="" />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Item Description
+              </Typography>
+              <Typography variant="h6" color="text.secondary">
+                {description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="large" color="primary">
+              Share
+            </Button>
+          </CardActions>
+        </Card>
+      </Grid>
     </Fade>
   );
 };
