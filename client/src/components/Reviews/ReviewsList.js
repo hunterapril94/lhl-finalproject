@@ -64,42 +64,69 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { FixedSizeList } from "react-window";
+import { Grid } from "@mui/material";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
 
 function renderRow(props) {
   const { index, style } = props;
 
   return (
-    <ListItem style={style} key={index} component="div" disablePadding>
-      <ListItemButton>
-        <ListItemText primary={`Item ${index + 1}`} />
-      </ListItemButton>
+    // <ListItem style={style} key={index} component="div" disablePadding>
+    //   <ListItemText primary={`Item ${index + 1}`} />
+
+    // </ListItem>
+
+    <ListItem alignItems="flex-start" style={style} key={index} component="div">
+      <ListItemAvatar>
+        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+      </ListItemAvatar>
+      <ListItemText
+        primary="Summer BBQ"
+        secondary={
+          <React.Fragment>
+            <Typography
+              sx={{ display: "inline" }}
+              component="span"
+              variant="body2"
+              color="text.primary"
+            >
+              to Scott, Alex, Jennifer
+            </Typography>
+            {" — Wish I could come, but I'm out of town this…"}
+          </React.Fragment>
+        }
+      />
     </ListItem>
   );
 }
 
-export default function VirtualizedList() {
+export default function ReviewList() {
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: 250,
-        maxWidth: 550,
-        bgcolor: "background.paper",
-        display: "flex",
-        justifyContent: "center",
-        mt: 2,
-        mb: 2,
-      }}
-    >
-      <FixedSizeList
-        height={250}
-        width={450}
-        itemSize={46}
-        itemCount={200}
-        overscanCount={5}
+    <Grid xs={12} md={7.8} ml={1}>
+      <Box
+        sx={{
+          width: "100%",
+          height: 200,
+          maxWidth: 550,
+          bgcolor: "background.paper",
+          display: "flex",
+          justifyContent: "center",
+          mt: 2,
+          mb: 2,
+        }}
       >
-        {renderRow}
-      </FixedSizeList>
-    </Box>
+        <FixedSizeList
+          height={250}
+          width={"100%"}
+          itemSize={70}
+          itemCount={200}
+          overscanCount={5}
+        >
+          {renderRow}
+        </FixedSizeList>
+      </Box>
+    </Grid>
   );
 }

@@ -145,7 +145,7 @@ const ProductDetail = () => {
                   />
                 </Box>
               </Box>
-              <ReviewsList productId={id} />
+              <ReviewsList productId={id} mb={1.5} />
             </Grid>
           </CardActions>
         </Card>
