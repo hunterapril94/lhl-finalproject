@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Order from "../../components/Modals/Order";
 import {
   Card,
   CardMedia,
@@ -31,6 +32,10 @@ const ProductDetail = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   useEffect(() => {
     axios.get(`http://localhost:8001/api/products/${id}`).then((res) => {
       setProduct(res.data.product);
@@ -52,6 +57,7 @@ const ProductDetail = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
     if (!appState.auth) {
       navigate("/login");
@@ -160,12 +166,13 @@ const ProductDetail = () => {
     <div />
   ) : (
     <Fade in={true} timeout={1500}>
-      <Grid justifyContent="center" xs={12}>
+      <Grid justifyContent="center">
         <Card sx={{ maxWidth: 900, margin: "auto" }}>
           <CardHeader
             // avatar={
 
             // }
+
             action={
               <Box
                 sx={{
@@ -175,27 +182,33 @@ const ProductDetail = () => {
                   justifyContent: "center",
                 }}
               >
-                <Rating name="rating" value={avg_stars} readOnly />
+                <Rating name="rating" value={Number(avg_stars)} readOnly />
               </Box>
             }
             title={name}
             subheader={`Category: ${category}`}
           />
-          <CardActionArea>
-            <CardMedia component="img" image={image} alt="" />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Item Description
-              </Typography>
-              <Typography variant="h6" color="text.secondary">
-                {description}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+
+          <CardMedia component="img" image={image} alt="" />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Item Description
+            </Typography>
+            <Typography variant="h6" color="text.secondary">
+              {description}
+            </Typography>
+          </CardContent>
+
           <CardActions>
-            <Button size="large" color="primary">
-              Share
-            </Button>
+            <Order
+              handleSubmit={handleSubmit}
+              handleOpen={handleOpen}
+              handleClose={handleClose}
+              open={open}
+            />
+            {/* <Button size="large" color="primary" variant="contained">
+              Book Now!
+            </Button> */}
           </CardActions>
         </Card>
       </Grid>
