@@ -5,4 +5,4 @@ SELECT products_transactions.id AS products_transactions_id,products.name, produ
       JOIN products ON products_transactions.product_id = products.id
       JOIN users ON products.user_id = users.id
       
-      WHERE (products_transactions.status = 'rejected' OR products_transactions.status = 'returned' OR products_transactions.status = 'canceled' OR products.user_id = 3 OR transactions.user_id = 3);
+      WHERE (products_transactions.status = 'rejected' OR products_transactions.status = 'returned' OR products_transactions.status = 'canceled' OR products.user_id = 1 OR transactions.user_id = 1);
