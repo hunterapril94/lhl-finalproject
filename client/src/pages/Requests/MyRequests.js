@@ -91,7 +91,7 @@ export default function MyRequests() {
         {selectedTab === 0 && (
           <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
-              <Typography>You have no Pending Requests</Typography>
+              <Typography>You have no pending incoming request</Typography>
             )}
             <Table sx={{ minWidth: 550 }}>
               {IncomingRequests.length !== 0 && (
@@ -162,8 +162,8 @@ export default function MyRequests() {
         )}
         {selectedTab === 1 && (
           <TableContainer component={paperOrNot}>
-            {IncomingRequests.length === 0 && (
-              <Typography>You have no Pending Requests</Typography>
+            {OutgoingRequests.length === 0 && (
+              <Typography>You have no pending outgoing request</Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (

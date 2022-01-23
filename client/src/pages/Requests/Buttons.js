@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { useState } from "react";
 import { useOutletContext } from "react-router";
 
@@ -51,13 +51,16 @@ export const AcceptButton = (props) => {
   };
   return (
     <>
+      {/* <Box sx={{ m: 1 }}> */}
       <SecondChanceButton
+        sx={{ m: 1 }}
         onClick={handleSubmit}
         variant="contained"
         color="success"
       >
         ACCEPT
       </SecondChanceButton>
+      {/* </Box> */}
     </>
   );
 };
@@ -91,7 +94,11 @@ export const RejectButton = (props) => {
   };
   return (
     <>
-      <SecondChanceButton color="error" onClick={handleSubmit}>
+      <SecondChanceButton
+        color="error"
+        variant="outlined"
+        onClick={handleSubmit}
+      >
         REJECT
       </SecondChanceButton>
     </>
