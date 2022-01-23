@@ -60,6 +60,8 @@ export default function MyRequests() {
       .catch((err) => console.log(err.message));
   }, []);
 
+  const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
+  const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
   return (
     <>
       <Typography
@@ -87,7 +89,7 @@ export default function MyRequests() {
           <Tab label="Outgoing requests" />
         </Tabs>
         {selectedTab === 0 && (
-          <TableContainer component={IncomingRequests.length !== 0 && Paper}>
+          <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
               <Typography>You have no Pending Requests</Typography>
             )}
@@ -159,9 +161,9 @@ export default function MyRequests() {
           </TableContainer>
         )}
         {selectedTab === 1 && (
-          <TableContainer component={OutgoingRequests.length !== 0 && Paper}>
-            {OutgoingRequests.length === 0 && (
-              <Typography>You have no Pending Request</Typography>
+          <TableContainer component={paperOrNot}>
+            {IncomingRequests.length === 0 && (
+              <Typography>You have no Pending Requests</Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (

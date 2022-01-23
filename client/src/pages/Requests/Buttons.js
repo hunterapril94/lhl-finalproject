@@ -35,7 +35,7 @@ export const AcceptButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/approved`
+        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/activate`
       )
       .then((res) => {
         props.setIncomingRequests(newIncomingRequests);
@@ -63,6 +63,7 @@ export const AcceptButton = (props) => {
 };
 
 export const RejectButton = (props) => {
+  const [appState, setAppState] = useOutletContext();
   const handleSubmit = () => {
     const newIncomingRequests = props.requests.filter((req) => {
       return (
@@ -74,9 +75,18 @@ export const RejectButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/rejected`
+        `http://localhost:8001/api/requests/incomming/${props.request.products_transactions_id}/reject`
       )
-      .then((res) => props.setIncomingRequests(newIncomingRequests))
+      .then((res) => {
+        props.setIncomingRequests(newIncomingRequests);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            auth: res.data.auth,
+            profile: res.data.userProfile,
+          };
+        });
+      })
       .catch((err) => {});
   };
   return (
@@ -89,6 +99,7 @@ export const RejectButton = (props) => {
 };
 
 export const CancelButton = (props) => {
+  const [appState, setAppState] = useOutletContext();
   const handleSubmit = () => {
     const newIncomingRequests = props.requests.filter((req) => {
       return (
@@ -100,9 +111,18 @@ export const CancelButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/canceled`
+        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/cancel`
       )
-      .then((res) => props.setIncomingRequests(newIncomingRequests))
+      .then((res) => {
+        props.setIncomingRequests(newIncomingRequests);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            auth: res.data.auth,
+            profile: res.data.userProfile,
+          };
+        });
+      })
       .catch((err) => {
         console.log(err.message);
       });
@@ -120,6 +140,7 @@ export const CancelButton = (props) => {
 // };
 
 export const ReturnButton = (props) => {
+  const [appState, setAppState] = useOutletContext();
   const handleSubmit = () => {
     const newBorrowedItems = props.items.filter((item) => {
       return item.name != props.item.name;
@@ -129,9 +150,18 @@ export const ReturnButton = (props) => {
 
     axios
       .post(
-        `http://localhost:8001/api/requests/outgoing/${props.request.products_transactions_id}/returned`
+        `http://localhost:8001/api/requests/active/${props.item.products_transactions_id}/returned`
       )
-      .then((res) => props.setItems(newBorrowedItems))
+      .then((res) => {
+        props.setProducts(newBorrowedItems);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            auth: res.data.auth,
+            profile: res.data.userProfile,
+          };
+        });
+      })
       .catch((err) => {
         console.log(err.message);
       });

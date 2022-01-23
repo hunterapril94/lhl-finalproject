@@ -10,7 +10,7 @@ const Items = (props) => {
   const dataArray = Array.isArray(items)
     ? items.map((item) => (
         <Item
-          key={item.name}
+          key={item.products_transactions_id}
           email={item.owner_email}
           phone={item.owner_phone}
           ownerName={`${item.owner_first_name} ${item.owner_last_name}`}
@@ -21,7 +21,7 @@ const Items = (props) => {
             item.price_per_day_cents
           )}
           returnDate={dayFormater(item.end_time)}
-          setItems={setProducts}
+          setProducts={setProducts}
           item={item}
           items={items}
         ></Item>

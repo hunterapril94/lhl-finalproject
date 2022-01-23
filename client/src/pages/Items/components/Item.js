@@ -22,7 +22,7 @@ export default function Item(props) {
     name,
     amount,
     returnDate,
-    setItem,
+    setProducts,
     items,
     item,
     ownerName,
@@ -52,7 +52,12 @@ export default function Item(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <ReturnButton size="small"></ReturnButton>
+          <ReturnButton
+            size="small"
+            item={item}
+            items={items}
+            setProducts={setProducts}
+          ></ReturnButton>
         </CardActions>
       </Card>
     </Box>
