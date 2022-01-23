@@ -4,5 +4,6 @@ CREATE TABLE reviews (
   product_id INTEGER NOT NULL REFERENCES products(id),
   user_id INTEGER NOT NULL REFERENCES users(id),
   stars INTEGER,
+  title TEXT,
   text TEXT
 );

@@ -58,7 +58,7 @@
 //     </ListItem>
 //   );
 // }
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -68,63 +68,54 @@ import { Grid } from "@mui/material";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import ReviewItem from "./ReviewItem";
+import axios from "axios";
 
-function renderRow(props) {
+// import Review from "./Review";
+
+export default function ReviewList(props) {
+  const [reviews, setReviews] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  console.log(reviews);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8001/api/products/reviews/${props.productId}`)
+      .then((res) => {
+        console.log(res.data.reviews);
+        setReviews(res.data.reviews);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err.message));
+  }, []);
+  function renderRow(props, style) {
+    const { index } = props;
+
+    return <ReviewItem review={reviews[index]} style={style} />;
+  }
   const { index, style } = props;
-
-  return (
-    // <ListItem style={style} key={index} component="div" disablePadding>
-    //   <ListItemText primary={`Item ${index + 1}`} />
-
-    // </ListItem>
-
-    <ListItem alignItems="flex-start" style={style} key={index} component="div">
-      <ListItemAvatar>
-        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-      </ListItemAvatar>
-      <ListItemText
-        primary="Summer BBQ"
-        secondary={
-          <React.Fragment>
-            <Typography
-              sx={{ display: "inline" }}
-              component="span"
-              variant="body2"
-              color="text.primary"
-            >
-              to Scott, Alex, Jennifer
-            </Typography>
-            {" — Wish I could come, but I'm out of town this…"}
-          </React.Fragment>
-        }
-      />
-    </ListItem>
-  );
-}
-
-export default function ReviewList() {
-  return (
-    <Grid md={7.5} sm={12} xs={12} mr={1}>
+  return isLoading ? (
+    <div></div>
+  ) : (
+    <Grid item md={7.5} sm={12} xs={12} mr={1}>
       <Box
         sx={{
           width: "100%",
-          height: 180,
+          height: 250,
           maxWidth: 550,
           bgcolor: "background.paper",
           display: "flex",
           justifyContent: "center",
           mt: 2,
-          mb: 2,
         }}
       >
         <FixedSizeList
-          height={180}
+          height={240}
           width={"100%"}
-          itemSize={70}
-          itemCount={200}
-          overscanCount={5}
+          itemSize={90}
+          itemCount={reviews.length}
         >
           {renderRow}
+          {/* <Review index={index} style={style} /> */}
         </FixedSizeList>
       </Box>
     </Grid>
