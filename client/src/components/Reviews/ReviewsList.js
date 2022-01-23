@@ -1,20 +1,41 @@
 import React from "react";
 import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+import Review from "./Review";
 
 const ReviewsList = (props) => {
-  axios
-    .get("http://localhost:8001/api/products/reviews/1")
-    .then((res) => {
-      console.log(res);
-      // console.log(res.data.products);
-      // setProducts(res.data.products);
-      // setIsLoading(false);
-      // setAppState((prev) => {
-      //   return { ...prev, auth: res.data.auth };
-      // });
-    })
-    .catch((err) => console.log(err.message));
-  return <div></div>;
+  const [reviews, setReviews] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  console.log(reviews);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8001/api/products/reviews/${props.productId}`)
+      .then((res) => {
+        console.log(res.data.reviews);
+        setReviews(res.data.reviews);
+        setIsLoading(false);
+        // console.log(res.data.products);
+        // setProducts(res.data.products);
+        // setIsLoading(false);
+        // setAppState((prev) => {
+        //   return { ...prev, auth: res.data.auth };
+        // });
+      })
+      .catch((err) => console.log(err.message));
+  }, []);
+
+  return isLoading ? (
+    <div>loading</div>
+  ) : (
+    <div>
+      {reviews.map((review) => {
+        // return <div key={review.id}>{review.text}</div>;
+        console.log(review);
+        return <Review key={review.id} text={review.text} />;
+      })}
+    </div>
+  );
 };
 
 export default ReviewsList;
