@@ -289,6 +289,33 @@ module.exports = (db) => {
       });
   };
 
+  const createProduct = function (userId, object) {
+    const queryParams = [
+      userId,
+      object.category,
+      object.name,
+      object.price_per_day_cents,
+      object.description,
+      object.deposit_amount_cents,
+      object.image,
+    ];
+    return db
+      .query(
+        `
+        INSERT INTO products (user_id, category, name, price_per_day_cents, description, deposit_amount_cents, image)
+        VALUES
+        ($1, $2, $3, $4, $5, $6, $7);`,
+        queryParams
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
   const updateProductInfo = function (userId, object) {
     const queryParams = [
       userId,
@@ -636,6 +663,7 @@ module.exports = (db) => {
     getUserById,
     updateBalanceByEmail,
     // products
+    createProduct,
     getAllProducts,
     getProductById,
     getProductsByCategory,
