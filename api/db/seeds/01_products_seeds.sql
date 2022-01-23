@@ -12,7 +12,7 @@ VALUES
 (6, 'Other', 'Propane Camping Grill', 2000, 'Propane burning small camping stove. Has a lid for easy storage and transportation', 4000, 'https://images.unsplash.com/photo-1466220549276-aef9ce186540?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80' ),
 (3, 'Other', 'E-bike', 3000, 'Electric Bike. Great for mountain biking. Pedal assist up to 30 km per hour.', 20000, 'https://images.unsplash.com/photo-1624243519828-52a0f2c88af3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8ZWJpa2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60'),
 (3, 'Other', 'Polaroid Camera', 2000, 'Vintage polaroid camera great for adventures', 4000, 'https://images.unsplash.com/photo-1536087281516-18a0d76c45fd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1464&q=80'),
-(3, 'Kitchenware', 'Dutch Oven', 2000, 'Cast iron dutch oven well seasoned for several years, please do not wash with soap. Only rinse and oil it.', 5000, 'https://images.unsplash.com/photo-1623008473501-a58a2783d81d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'),
+(3, 'Kitchenware', 'Dutch Oven', 2000, 'Cast iron dutch oven well seasoned for several years, please do not wash with soap.', 5000, 'https://images.unsplash.com/photo-1623008473501-a58a2783d81d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'),
 (1, 'Kitchenware', '20 cocktail glasses', 1000, 'Set of 20 matching cocktail glasses', 1000, 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1557&q=80');
 
 

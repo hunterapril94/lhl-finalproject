@@ -9,4 +9,7 @@ VALUES
 (7, 1, 2, 'Top ten products'),
 (8, 3, 4, 'Worked for the job I was doing'),
 (9, 1, 4, 'That worked so well! It was a little dirty when I picked it up though'),
-(10, 5, 5, 'Just what I needed!');
+(10, 5, 5, 'Just what I needed!'),
+(11, 6, 4, 'Worked great!'),
+(12, 2, 3, 'It was fine'),
+(13, 3, 5, 'I was blown away by how amazing it was');
