@@ -27,7 +27,6 @@ import { useNavigate, useOutletContext } from "react-router";
 axios.defaults.withCredentials = true;
 
 const ProductDetail = () => {
-  const [value, setValue] = useState(2);
   const [appState, setAppState] = useOutletContext();
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -71,6 +70,11 @@ const ProductDetail = () => {
       navigate("/");
     }
   };
+
+  console.log("product");
+  console.log(product.user_id);
+  console.log("appState");
+  console.log(appState.profile.id);
 
   return isLoading ? (
     <div />
@@ -137,12 +141,16 @@ const ProductDetail = () => {
                 </Typography>
 
                 <Box ml={1} mb={5}>
-                  <Order
-                    handleSubmit={handleSubmit}
-                    handleOpen={handleOpen}
-                    handleClose={handleClose}
-                    open={open}
-                  />
+                  {product.user_id != appState.profile.id ? (
+                    <Order
+                      handleSubmit={handleSubmit}
+                      handleOpen={handleOpen}
+                      handleClose={handleClose}
+                      open={open}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </Box>
               </Box>
               <ReviewsList productId={id} mb={1.5} />
