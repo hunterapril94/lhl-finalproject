@@ -27,16 +27,16 @@ const MyProducts = () => {
   }, []);
 
   const handleSubmit = (itemInfo) => {
-    // event.preventDefault();
+    const object1 = {
+      category: itemInfo.category,
+      name: itemInfo.name,
+      price_per_day_cents: Number(itemInfo.price) * 100,
+      description: itemInfo.description,
+      deposit_amount_cents: Number(itemInfo.deposit) * 100,
+      image: itemInfo.imageUrl,
+    };
     axios
-      .post("/user", {
-        category: itemInfo.category,
-        name: itemInfo.name,
-        price_per_day_cents: Number(itemInfo.price) * 100,
-        description: itemInfo.description,
-        deposit_amount_cents: Number(itemInfo.deposit) * 100,
-        image: itemInfo.img,
-      })
+      .post("http://localhost:8001/api/products/", object1)
       .then((res) => {
         console.log(res);
       })
