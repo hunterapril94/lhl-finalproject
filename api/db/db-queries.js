@@ -229,7 +229,7 @@ module.exports = (db) => {
         SELECT users.*, messages.* from messages 
         JOIN products_transactions ON product_transaction_id =  products_transactions.id 
         JOIN products ON product_id = products.id
-        JOIN users ON users.id = products.user_id
+        JOIN users ON users.id = messages.user_id
         WHERE product_transaction_id = $1;`,
         [txID]
       )
