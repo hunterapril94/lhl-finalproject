@@ -242,6 +242,39 @@ module.exports = (db) => {
       });
   };
 
+  //   INSERT INTO messages (product_transaction_id , user_id, text)
+  // VALUES
+  // ( 1,3 , 'Where the hell is my stuff '),
+  // ( 1,1 , 'must have lost it ');
+
+  const addMessage = function (message) {
+    const values = [
+      message.product_transaction_id,
+      message.user_id,
+      message.text,
+    ];
+
+    return db
+      .query(
+        `INSERT INTO messages (product_transaction_id , user_id, text)
+        VALUES
+        ( $1,$2 ,$3),
+        RETURNING *;`,
+        values
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      })
+      .catch((err) => {
+        console.log("error" + err);
+        return null;
+      });
+  };
+
   const getBorrowedProductsByUserId = function (userId) {
     return db
       .query(
@@ -700,6 +733,7 @@ module.exports = (db) => {
     updateProductInfo,
     getStarsByProductId,
     getReviewsByProductId,
+    addMessage,
     // requests
     getPendingLendRequestsByUserId,
     getIncommingMessagesByProductTransactionID,
