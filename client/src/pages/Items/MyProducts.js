@@ -3,8 +3,10 @@ import Products from "../../components/Products/Products";
 import { useState, useEffect } from "react";
 import { useOutletContext, useNavigate } from "react-router";
 import axios from "axios";
+import AddIcon from "@mui/icons-material/Add";
 
 import CreateItem from "../../components/Modals/CreateItem";
+import { Button } from "@mui/material";
 // STRETCH
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
@@ -49,10 +51,17 @@ const MyProducts = () => {
   return (
     <>
       <h1>My Products</h1>
-
+      <Button
+        onClick={handleOpen}
+        size="large"
+        color="primary"
+        variant="outlined"
+      >
+        Create item
+        <AddIcon />
+      </Button>
       <CreateItem
         handleSubmit={handleSubmit}
-        handleOpen={handleOpen}
         handleClose={handleClose}
         open={open}
       ></CreateItem>
