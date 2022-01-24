@@ -230,6 +230,8 @@ module.exports = (db) => {
       return res.status(401).json({
         auth: false,
         message: "not authorized",
+        severity: "error",
+        isShown: true,
       });
     }
     // console.log(req.body)
@@ -240,6 +242,8 @@ module.exports = (db) => {
         auth: true,
         message: "you need line items, cant leave blank",
         success: false,
+        severity: "error",
+        isShown: true,
       });
     }
 
@@ -316,17 +320,26 @@ module.exports = (db) => {
       .then(() => {
         return res.json({
           auth: true,
-          message: "successfully submited pending request",
+          message: "successfully submited request",
           success: true,
           newBalance,
+          severity: "success",
+          isShown: true,
         });
       })
       .catch((err) => {
+        if (err === "insufficient balance") {
+          message = "insufficient balance";
+        } else {
+          message = "internal server error";
+        }
         return res.json({
           auth: true,
-          message: err,
+          message,
           success: false,
           newBalance: oldBalance,
+          severity: "error",
+          isShown: true,
         });
       });
   });

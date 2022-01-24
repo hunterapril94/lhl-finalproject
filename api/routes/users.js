@@ -160,6 +160,8 @@ module.exports = (db) => {
           return res.json({
             auth: false,
             message: "User information is incorrect",
+            severity: "error",
+            isShown: true,
           });
         }
         if (isLoggedIn) {
@@ -167,6 +169,8 @@ module.exports = (db) => {
             auth: true,
             message: "already logged in",
             userProfile: user,
+            severity: "error",
+            isShown: true,
           });
         }
         if (req.body.password !== user.password) {
@@ -175,6 +179,8 @@ module.exports = (db) => {
           return res.json({
             auth: false,
             message: "User information is incorrect",
+            severity: "error",
+            isShown: true,
           });
         }
 
@@ -185,14 +191,18 @@ module.exports = (db) => {
 
         res.json({
           auth: true,
-          message: "success",
+          message: "successfully logged in!",
           userProfile: user,
+          severity: "success",
+          isShown: true,
         });
       })
       .catch((err) => {
         res.status(500).json({
           auth: false,
           message: "internal server error",
+          severity: "error",
+          isShown: true,
         });
       });
   });
@@ -205,7 +215,9 @@ module.exports = (db) => {
     req.session = null; //deletes user cookies
     res.json({
       auth: false,
-      message: "sucessfully logged out user",
+      message: "Goodbye!",
+      severity: "success",
+      isShown: true,
     });
   });
 

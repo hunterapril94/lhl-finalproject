@@ -103,14 +103,34 @@ export default function LogIn() {
         password: data.get("password"),
       })
       .then((res) => {
+        console.log("response:");
+        console.log(res);
+        console.log(res.data.message);
         if (res.data.auth) {
           setAppState((prev) => {
-            return { ...prev, auth: true, profile: res.data.userProfile };
+            return {
+              ...prev,
+              auth: true,
+              profile: res.data.userProfile,
+              snackBar: {
+                isShown: res.data.isShown,
+                severity: res.data.severity,
+                message: res.data.message,
+              },
+            };
           });
           navigate("/");
         } else {
           setAppState((prev) => {
-            return { ...prev, auth: false };
+            return {
+              ...prev,
+              auth: false,
+              snackBar: {
+                isShown: res.data.isShown,
+                severity: res.data.severity,
+                message: res.data.message,
+              },
+            };
           });
         }
       });

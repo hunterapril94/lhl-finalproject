@@ -6,11 +6,14 @@ import { ThemeProvider } from "@mui/material";
 import theme from "./components/styles";
 import "./App.css";
 
+import ServerAlerts from "./components/ServerAlerts/ServerAlerts";
+
 const App = () => {
   const [appState, setAppState] = useState({
     auth: false,
     cart: [],
     profile: {},
+    snackBar: {},
   });
   return (
     <ThemeProvider theme={theme}>
@@ -20,6 +23,7 @@ const App = () => {
         setAppState={setAppState}
       >
         <Outlet context={[appState, setAppState]} />
+        <ServerAlerts appState={appState} setAppState={setAppState} />
       </NavMenu>
     </ThemeProvider>
   );

@@ -6,11 +6,21 @@ import theme from "../../components/styles";
 
 const Logout = () => {
   const [appState, setAppState] = useOutletContext();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   useEffect(() => {
     axios.post("http://localhost:8001/api/users/logout").then((res) => {
       setAppState((prev) => {
-        return { ...prev, auth: false, cart: [], profile: {} };
+        return {
+          ...prev,
+          auth: false,
+          cart: [],
+          profile: {},
+          snackBar: {
+            isShown: res.data.isShown,
+            severity: res.data.severity,
+            message: res.data.message,
+          },
+        };
       });
     });
   }, []);

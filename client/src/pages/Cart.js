@@ -49,7 +49,16 @@ export default function Cart() {
             ...prev.profile,
             cash_balance_cents: res.data.newBalance,
           };
-          return { ...prev, cart: [], profile: updatedProfile };
+          return {
+            ...prev,
+            cart: [],
+            profile: updatedProfile,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
         });
       })
       .then(() => {
@@ -127,16 +136,20 @@ export default function Cart() {
             <TableCell></TableCell>
             <TableCell></TableCell>
             <TableCell>
-              <Box
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
-                sx={{ mt: 1 }}
-              >
-                <Button variant="contained" type="submit">
-                  Request Items
-                </Button>
-              </Box>
+              {appState.cart.length > 0 ? (
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  noValidate
+                  sx={{ mt: 1 }}
+                >
+                  <Button variant="contained" type="submit">
+                    Request Items
+                  </Button>
+                </Box>
+              ) : (
+                <></>
+              )}
             </TableCell>
           </TableRow>
         </TableBody>
