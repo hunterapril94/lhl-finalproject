@@ -67,7 +67,9 @@ function UserDetail() {
               marginLeft="10px"
               fontWeight="normal"
             >
-              <Link to='/my-requests'><Button variant='contained'>Pending Transactions</Button></Link>
+              <Link to='/my-requests'           
+              style={{ textDecoration: "none", color: "white" }}>
+                <Button variant='contained'>Pending Transactions</Button></Link>
             </Typography>
           <Grid display="flex" direction="column" container>
             <Grid
@@ -82,7 +84,8 @@ function UserDetail() {
                   marginTop="20px"
                   marginLeft="10px"
                 >
-                  <Link to='/my-lent-items'><Button variant='contained'>Currently Lent</Button></Link>
+                  <Link to='/my-lent-items'          
+                  style={{ textDecoration: "none", color: "white" }}><Button variant='contained'>Currently Lent</Button></Link>
                 </Typography>
                 <Typography
                   color={theme.palette.primary.main}
@@ -90,7 +93,8 @@ function UserDetail() {
                   marginTop="20px"
                   marginLeft="10px"
                 >
-                  <Link to='/my-borrowed'><Button variant='contained'>Currently Borrowed</Button></Link>
+                  <Link to='/my-borrowed'          
+                  style={{ textDecoration: "none", color: "white" }}><Button variant='contained'>Currently Borrowed</Button></Link>
                 </Typography>
                 <Typography
                   color={theme.palette.primary.main}
@@ -98,7 +102,8 @@ function UserDetail() {
                   marginTop="20px"
                   marginLeft="10px"
                 >
-                  <Link to='/my-completed-transactions'><Button variant='contained'>Transaction History</Button></Link>
+                  <Link to='/my-completed-transactions'          
+                  style={{ textDecoration: "none", color: "white" }}><Button variant='contained'>Transaction History</Button></Link>
                 </Typography>
             </Grid>
 
