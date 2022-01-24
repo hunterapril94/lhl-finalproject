@@ -200,11 +200,12 @@ module.exports = (db) => {
   const getProductsByUserId = function (userId) {
     return db
       .query(
-        `SELECT (products.*), AVG(reviews.stars) AS avg_stars FROM products 
-        JOIN users ON products.user_id = users.id
-        LEFT JOIN reviews ON products.id = product_id
-        WHERE users.id = $1
-        GROUP BY products.id, users.id, reviews.id;`,
+        `  
+        SELECT products.*, AVG(reviews.stars) AS avg_stars 
+        FROM products
+        FULL OUTER JOIN reviews on products.id = product_id
+        WHERE  products.user_id = $1
+        GROUP BY products.id;`,
         [userId]
       )
       .then((result) => {
@@ -432,7 +433,7 @@ module.exports = (db) => {
   const getTransactionHistoryByUserID = function (userId) {
     return db
       .query(
-        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, products.user_id AS owner_id,transactions.user_id AS requester_id,  status,deposit_amount_cents
+        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, products.id AS product_id, products.user_id AS owner_id,transactions.user_id AS requester_id,  status,deposit_amount_cents
       
         FROM products_transactions
         JOIN transactions ON transaction_id = transactions.id
