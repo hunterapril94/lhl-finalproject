@@ -53,7 +53,7 @@ const MyProducts = () => {
       <CreateItem
         handleSubmit={handleSubmit}
         handleOpen={handleOpen}
-        // handleClose={handleClose}
+        handleClose={handleClose}
         open={open}
       ></CreateItem>
       <Products products={products} isMyProducts={true} />

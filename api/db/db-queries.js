@@ -162,7 +162,7 @@ module.exports = (db) => {
       .query(
         ` SELECT products.*, AVG(reviews.stars) AS avg_stars 
         FROM products
-        JOIN reviews on products.id = product_id
+        LEFT JOIN reviews on products.id = product_id
         WHERE products.id = $1
         GROUP BY products.id
         `,
@@ -183,7 +183,7 @@ module.exports = (db) => {
         `
         SELECT products.*, AVG(reviews.stars) AS avg_stars 
         FROM products
-        JOIN reviews on products.id = product_id  
+        LEFT JOIN reviews on products.id = product_id  
         WHERE products.category = $1
         GROUP BY products.id;`,
         [category]
@@ -202,7 +202,7 @@ module.exports = (db) => {
       .query(
         `SELECT (products.*), AVG(reviews.stars) AS avg_stars FROM products 
         JOIN users ON products.user_id = users.id
-        JOIN reviews ON products.id = product_id
+        LEFT JOIN reviews ON products.id = product_id
         WHERE users.id = $1
         GROUP BY products.id, users.id, reviews.id;`,
         [userId]
