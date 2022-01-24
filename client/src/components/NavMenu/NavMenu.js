@@ -133,7 +133,11 @@ export default function NavMenu(props) {
             {/* <Typography variant="h6" noWrap component="div"> */}
             <Link to="/">
               {" "}
-              <img src="../logo.png" alt="Next Door Lenders logo" height="60" />
+              <img
+                src="../logo/logo_white.png"
+                alt="Next Door Lenders logo"
+                height="60"
+              />
             </Link>
             {/* </Typography> */}
           </Toolbar>
