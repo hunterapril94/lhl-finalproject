@@ -109,7 +109,7 @@ module.exports = (db) => {
         ` 
     SELECT products.*, AVG(reviews.stars) AS avg_stars 
     FROM products
-    JOIN reviews on products.id = product_id
+    FULL OUTER JOIN reviews on products.id = product_id
     GROUP BY products.id;`
       )
       .then((result) => {
@@ -123,7 +123,7 @@ module.exports = (db) => {
         ` 
     SELECT products.*, AVG(reviews.stars) AS avg_stars 
     FROM products
-    JOIN reviews on products.id = product_id
+    FULL OUTER JOIN reviews on products.id = product_id
     WHERE NOT products.user_id = $1
     GROUP BY products.id;`,
         [userId]
@@ -162,7 +162,7 @@ module.exports = (db) => {
       .query(
         ` SELECT products.*, AVG(reviews.stars) AS avg_stars 
         FROM products
-        JOIN reviews on products.id = product_id
+        LEFT JOIN reviews on products.id = product_id
         WHERE products.id = $1
         GROUP BY products.id
         `,
@@ -183,7 +183,7 @@ module.exports = (db) => {
         `
         SELECT products.*, AVG(reviews.stars) AS avg_stars 
         FROM products
-        JOIN reviews on products.id = product_id  
+        LEFT JOIN reviews on products.id = product_id  
         WHERE products.category = $1
         GROUP BY products.id;`,
         [category]
@@ -202,7 +202,7 @@ module.exports = (db) => {
       .query(
         `SELECT (products.*), AVG(reviews.stars) AS avg_stars FROM products 
         JOIN users ON products.user_id = users.id
-        JOIN reviews ON products.id = product_id
+        LEFT JOIN reviews ON products.id = product_id
         WHERE users.id = $1
         GROUP BY products.id, users.id, reviews.id;`,
         [userId]
@@ -278,6 +278,33 @@ module.exports = (db) => {
     OR LOWER(products.category) LIKE LOWER($1)
     GROUP BY products.id;`,
         [queryParam]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const createProduct = function (userId, object) {
+    const queryParams = [
+      userId,
+      object.category,
+      object.name,
+      object.price_per_day_cents,
+      object.description,
+      object.deposit_amount_cents,
+      object.image,
+    ];
+    return db
+      .query(
+        `
+        INSERT INTO products (user_id, category, name, price_per_day_cents, description, deposit_amount_cents, image)
+        VALUES
+        ($1, $2, $3, $4, $5, $6, $7);`,
+        queryParams
       )
       .then((result) => {
         if (result) {
@@ -635,6 +662,7 @@ module.exports = (db) => {
     getUserById,
     updateBalanceByEmail,
     // products
+    createProduct,
     getAllProducts,
     getProductById,
     getProductsByCategory,

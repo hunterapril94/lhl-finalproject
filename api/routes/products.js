@@ -43,6 +43,58 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
+  // POST /api/products/
+  //-----------------------------------------------------------------
+
+  router.post("/", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    // createProduct;
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+        isApproved: false,
+      });
+    }
+    console.log(req.body);
+
+    const test = {
+      category: "test",
+      name: "blender",
+      price_per_day_cents: 1000,
+      description: "some thing",
+      deposit_amount_cents: 1000,
+      image: "",
+    };
+
+    newProduct = {
+      userId: userID,
+      category: req.body.category,
+      name: req.body.name,
+      price_per_day_cents: req.body.price_per_day_cents,
+      description: req.body.description,
+      deposit_amount_cents: req.body.deposit_amount_cents,
+      image: req.body.image,
+    };
+
+    console.log(newProduct);
+
+    db.createProduct(userID, newProduct)
+      .then(() => {
+        res.json({
+          auth: isLoggedIn,
+          message: "successfully added new product",
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: isLoggedIn,
+          message: "internal server error",
+        });
+      });
+  });
+
+  //-----------------------------------------------------------------
   // GET /api/products/reviews/:product-id
   //-----------------------------------------------------------------
 

@@ -6,10 +6,6 @@ import Typography from "@mui/material/Typography";
 import Items from "./components/Items";
 // THIS IS STRETCH
 const LentItems = () => {
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-  const [expanded, setExpanded] = React.useState(false);
   const [products, setProducts] = useState([]);
   const [appState, setAppState] = useOutletContext();
   useEffect(() => {
