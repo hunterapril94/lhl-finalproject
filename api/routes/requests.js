@@ -374,38 +374,38 @@ module.exports = (db) => {
         });
       });
   });
+  //-----------------------------------------------------------------
+  // GET /api/requests/messages/:products-tx-id
+  //-----------------------------------------------------------------
 
+  router.get("/messages/:txID", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+
+    if (!isLoggedIn) {
+      return res.json({
+        auth: false,
+        message: "not logged in",
+      });
+    }
+
+    // console.log(req.params.txID);
+    const productsTxId = req.params.txID;
+    console.log(productsTxId);
+
+    db.getAllMessagesByTransactionID(1)
+      .then((messages) => {
+        return res.json({
+          auth: true,
+          message: "successfully got messages",
+          messages,
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          auth: true,
+          message: "internal server error",
+        });
+      });
+  });
   return router;
 };
-
-//-----------------------------------------------------------------
-// GET /api/requests/messages
-//-----------------------------------------------------------------
-
-router.get("/messages", (req, res) => {
-  const { isLoggedIn, userID } = req; //gets this from middleware
-
-  if (!isLoggedIn) {
-    return res.json({
-      auth: false,
-      message: "not logged in",
-    });
-  }
-
-  console.log(req.body.txID);
-
-  // db.getAllMessagesByTransactionID(userID)
-  //   .then((messages) => {
-  //     return res.json({
-  //       auth: true,
-  //       message: "successfully got messages",
-  //       messages,
-  //     });
-  //   })
-  //   .catch(() => {
-  //     res.status(500).json({
-  //       auth: true,
-  //       message: "internal server error",
-  //     });
-  //   });
-});
