@@ -33,6 +33,8 @@ export default function MyTransactions() {
 
       .catch((err) => console.log(err.message));
   }, []);
+
+  const paperOrNot = transactions.length !== 0 ? Paper : null;
   return (
     <>
       <Typography
@@ -51,7 +53,7 @@ export default function MyTransactions() {
           marginTop: 5,
         }}
       >
-        <TableContainer component={Paper}>
+        <TableContainer component={paperOrNot}>
           {transactions.length === 0 && (
             <Typography>You have no transaction history</Typography>
           )}
