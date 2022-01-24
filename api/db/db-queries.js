@@ -200,11 +200,12 @@ module.exports = (db) => {
   const getProductsByUserId = function (userId) {
     return db
       .query(
-        `SELECT (products.*), AVG(reviews.stars) AS avg_stars FROM products 
-        JOIN users ON products.user_id = users.id
-        LEFT JOIN reviews ON products.id = product_id
-        WHERE users.id = $1
-        GROUP BY products.id, users.id, reviews.id;`,
+        `  
+        SELECT products.*, AVG(reviews.stars) AS avg_stars 
+        FROM products
+        FULL OUTER JOIN reviews on products.id = product_id
+        WHERE  products.user_id = $1
+        GROUP BY products.id;`,
         [userId]
       )
       .then((result) => {
