@@ -19,7 +19,7 @@ const MyProducts = () => {
     axios
       .get("http://localhost:8001/api/users/myproducts")
       .then((res) => {
-        // console.log(res.data.products);
+        console.log(res.data.myProducts);
         setProducts(res.data.myProducts);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };

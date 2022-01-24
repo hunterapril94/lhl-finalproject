@@ -70,7 +70,6 @@ import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import theme from "../../components/styles";
 
-axios.defaults.withCredentials = true;
 
 function Copyright(props) {
   return (
