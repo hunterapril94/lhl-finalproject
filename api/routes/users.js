@@ -215,7 +215,9 @@ module.exports = (db) => {
     req.session = null; //deletes user cookies
     res.json({
       auth: false,
-      message: "sucessfully logged out user",
+      message: "Goodbye!",
+      severity: "success",
+      isShown: true,
     });
   });
 
