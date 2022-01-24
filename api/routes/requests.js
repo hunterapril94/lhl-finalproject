@@ -377,3 +377,35 @@ module.exports = (db) => {
 
   return router;
 };
+
+//-----------------------------------------------------------------
+// GET /api/requests/messages
+//-----------------------------------------------------------------
+
+router.get("/messages", (req, res) => {
+  const { isLoggedIn, userID } = req; //gets this from middleware
+
+  if (!isLoggedIn) {
+    return res.json({
+      auth: false,
+      message: "not logged in",
+    });
+  }
+
+  console.log(req.body.txID);
+
+  // db.getAllMessagesByTransactionID(userID)
+  //   .then((messages) => {
+  //     return res.json({
+  //       auth: true,
+  //       message: "successfully got messages",
+  //       messages,
+  //     });
+  //   })
+  //   .catch(() => {
+  //     res.status(500).json({
+  //       auth: true,
+  //       message: "internal server error",
+  //     });
+  //   });
+});
