@@ -49,7 +49,16 @@ export default function Cart() {
             ...prev.profile,
             cash_balance_cents: res.data.newBalance,
           };
-          return { ...prev, cart: [], profile: updatedProfile };
+          return {
+            ...prev,
+            cart: [],
+            profile: updatedProfile,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
         });
       })
       .then(() => {
