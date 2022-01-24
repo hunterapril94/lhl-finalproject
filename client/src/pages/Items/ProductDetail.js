@@ -40,7 +40,15 @@ const ProductDetail = () => {
     axios.get(`http://localhost:8001/api/products/${id}`).then((res) => {
       setProduct(res.data.product);
       setAppState((prev) => {
-        return { ...prev, auth: res.data.auth };
+        return {
+          ...prev,
+          auth: res.data.auth,
+          snackBar: {
+            isShown: res.data.isShown,
+            severity: res.data.severity,
+            message: res.data.message,
+          },
+        };
       });
       setIsLoading(false);
     });
