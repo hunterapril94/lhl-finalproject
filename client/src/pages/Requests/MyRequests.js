@@ -13,8 +13,11 @@ import { Typography } from "@mui/material";
 import { Box, typography } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import AvatarWithColor from "../../components/AvatarWithColor/AvatarWithColor.js";
+import { Grid } from "@mui/material";
 
-import { AcceptButton, CancelButton, RejectButton } from "./Buttons.js";
+import { AcceptButton, CancelButton, RejectButton, MessageButton } from "./Buttons.js";
+import theme from "../../components/styles.js";
 
 export const dayCalulator = (startDay, endDate) => {
   return Math.floor((Date.parse(endDate) - Date.parse(startDay)) / 86400000);
@@ -37,9 +40,12 @@ export default function MyRequests() {
   const [IncomingRequests, setIncomingRequests] = useState([]);
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
   const [selectedTab, setSelectedTab] = React.useState(0);
+  const [messageDisplay, setMessageDisplay] = useState('none')
+  const [messages, setMessages] = useState([{firstName: 'April', text: 'Could I come around 4?'}])
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
+
   };
 
   useEffect(() => {
@@ -58,10 +64,21 @@ export default function MyRequests() {
       })
 
       .catch((err) => console.log(err.message));
-  }, []);
+  }, [setAppState]);
+
+  const message = function(event) {
+    event.preventDefault();
+    if(messageDisplay === 'none') {
+      setMessageDisplay('inline-block')
+    } else {
+      setMessageDisplay('none')
+    }
+
+  }
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
+  
   return (
     <>
       <Typography
@@ -104,6 +121,7 @@ export default function MyRequests() {
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
+                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
@@ -153,6 +171,14 @@ export default function MyRequests() {
                         requests={IncomingRequests}
                         setIncomingRequests={setIncomingRequests}
                       />
+                      
+                      
+                    </TableCell>
+                    <TableCell>
+                      <Box component='form' handleSubmit={(event)=>{message(event)}}>
+                      <MessageButton  handleSubmit={message}/>
+                      </Box>
+                      
                     </TableCell>
                   </TableRow>
                 ))}
@@ -176,6 +202,7 @@ export default function MyRequests() {
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
+                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
@@ -217,12 +244,43 @@ export default function MyRequests() {
                         setIncomingRequests={setOutgoingRequests}
                       />
                     </TableCell>
+                    <TableCell>
+                      <MessageButton handleSubmit={message} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
         )}
+        <TableContainer 
+        sx={{  position: 'fixed',
+          bottom: '0',
+          right: '0',
+          width: '300px'}}>
+            <Table sx={{width: '300px'}}>
+              <TableHead sx={{backgroundColor: theme.palette.primary.main, color: 'white'}}>
+                <TableRow>
+                <TableCell>
+                  Messages
+                </TableCell>
+                </TableRow>
+
+              </TableHead>
+              <TableBody sx={{display: messageDisplay, backgroundColor: 'white', width: '300px'}}>
+                {messages.map((message)=>{
+                  return (
+                  <TableRow >
+                    <TableCell sx={{display: 'flex'}}>
+                      <AvatarWithColor firstName={message.firstName}/>
+                      <Typography sx={{margin: '10px'}}>{message.text}</Typography>
+                    </TableCell>
+                  </TableRow>
+                )})}
+              </TableBody>
+
+            </Table>
+        </TableContainer>
       </Box>
     </>
   );

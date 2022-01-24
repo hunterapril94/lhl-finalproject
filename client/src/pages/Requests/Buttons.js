@@ -181,3 +181,7 @@ export const ReturnButton = (props) => {
     </>
   );
 };
+
+export const MessageButton = function(props) {
+  return <Button variant='contained' onClick={(event) =>{props.handleSubmit(event)}}>Message</Button>
+}
