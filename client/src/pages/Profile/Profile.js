@@ -1,19 +1,12 @@
 //this file is throwing console errors --KM
-
-import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Grid,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
   CardMedia,
   CardContent,
   Button,
   Box,
   Typography,
-  TableHead,
 } from "@mui/material";
 import { useOutletContext } from "react-router";
 import EditIcon from "@mui/icons-material/Edit";
