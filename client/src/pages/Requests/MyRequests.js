@@ -43,6 +43,7 @@ export default function MyRequests() {
   const [selectedTab, setSelectedTab] = React.useState(0);
   const [messageDisplay, setMessageDisplay] = useState('none')
   const [messages, setMessages] = useState([{firstName: 'April', text: 'Can I come at 4?'}])
+  const [transactionId, setTransactionId] = useState()
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -55,7 +56,7 @@ export default function MyRequests() {
       .then((res) => {
         const { pendingIncommingLendRequests, pendingOutgoingBorrowRequests } =
           res.data;
-        // console.log(res.data);
+        console.log(res.data);
         setIncomingRequests(pendingIncommingLendRequests);
         setOutgoingRequests(pendingOutgoingBorrowRequests);
         setIsLoading(false);
@@ -67,8 +68,13 @@ export default function MyRequests() {
       .catch((err) => console.log(err.message));
   }, [setAppState]);
 
-  const message = function(event) {
+  const message = function(event, id) {
     event.preventDefault();
+    axios
+    .get(`http://localhost:8001/api/requests/messages/${id}`)
+    .then((res)=>{
+      console.log(res.data)
+    })
     if(messageDisplay === 'none') {
       setMessageDisplay('inline-block')
     } else {
@@ -76,10 +82,10 @@ export default function MyRequests() {
     }
 
   }
-  const send = function(event) {
+  const send = function(event, text) {
     event.preventDefault();
     const time = Date.now();
-    
+
 
   }
 
@@ -182,7 +188,7 @@ export default function MyRequests() {
                       
                     </TableCell>
                     <TableCell>
-                      <Box component='form' handleSubmit={(event)=>{message(event)}}>
+                      <Box component='form' handleSubmit={(event)=>{message(event, request.products_transactions_id)}}>
                       <MessageButton  handleSubmit={message}/>
                       </Box>
                       
@@ -252,7 +258,7 @@ export default function MyRequests() {
                       />
                     </TableCell>
                     <TableCell>
-                      <MessageButton handleSubmit={message} />
+                      <MessageButton handleSubmit={(event)=>{message(event, request.products_transactions_id)}} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -290,8 +296,8 @@ export default function MyRequests() {
               <TableFooter sx={{display: messageDisplay, backgroundColor: 'white', width: '300px'}}>
                 <TableRow>
                   <TableCell>
-                    <Box component='form' onSubmit={(event)=>{send(event)}}>
-                    <TextField />
+                    <Box component='form' onSubmit={(event, text)=>{send(event, text, transactionId)}}>
+                    <TextField id='text' />
                     <Button variant='contained' sx={{marginTop: '10px'}}>Send</Button>
                     </Box>
                   </TableCell>
