@@ -136,16 +136,20 @@ export default function Cart() {
             <TableCell></TableCell>
             <TableCell></TableCell>
             <TableCell>
-              <Box
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
-                sx={{ mt: 1 }}
-              >
-                <Button variant="contained" type="submit">
-                  Request Items
-                </Button>
-              </Box>
+              {appState.cart.length > 0 ? (
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  noValidate
+                  sx={{ mt: 1 }}
+                >
+                  <Button variant="contained" type="submit">
+                    Request Items
+                  </Button>
+                </Box>
+              ) : (
+                <></>
+              )}
             </TableCell>
           </TableRow>
         </TableBody>
