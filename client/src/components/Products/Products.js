@@ -48,7 +48,7 @@ export default function Products(props) {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            {props.products.length > 1 ? (
+            {props.products.length >= 1 ? (
               products
             ) : (
               <Product key={4000} name="No Products Available" />
