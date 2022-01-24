@@ -24,22 +24,25 @@ const style = {
 };
 
 export default function CreateItem(props) {
-  const [itmeInfo, setItemInfo] = useState({
+  const [itemInfo, setItemInfo] = useState({
     name: null,
     category: null,
     price: null,
     deposit: null,
-    imagUrl: null,
+    imageUrl: null,
     description: null,
   });
 
   const handleOnChange = (e) => {
     const name = e.target.name;
     setItemInfo({
-      ...itmeInfo,
+      ...itemInfo,
       [name]: e.target.value,
     });
   };
+
+  // pass in the object as a prob
+  // initialize use state with either with props.existing or default
 
   return (
     <div>
@@ -116,6 +119,7 @@ export default function CreateItem(props) {
                   id="price_per_day_cents"
                   label="Price per-day"
                   name="price"
+                  type="number"
                   onChange={handleOnChange}
                   InputProps={{
                     startAdornment: (
@@ -145,6 +149,7 @@ export default function CreateItem(props) {
                 id="image"
                 label="Image url"
                 name="imageUrl"
+                onChange={handleOnChange}
               />
               <TextField
                 margin="normal"
@@ -163,7 +168,10 @@ export default function CreateItem(props) {
                 size="large"
                 variant="contained"
                 sx={{ marginTop: "10px" }}
-                onClick={() => props.handleSubmit(itmeInfo)}
+                onClick={(e) => {
+                  // e.preventDefault();
+                  props.handleSubmit(itemInfo);
+                }}
               >
                 Create
               </Button>
