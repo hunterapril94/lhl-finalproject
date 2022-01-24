@@ -406,5 +406,48 @@ module.exports = (db) => {
         });
       });
   });
+
+  //-----------------------------------------------------------------
+  // POST /api/requests/messages/
+  //-----------------------------------------------------------------
+  router.post("/messages", (req, res) => {
+    console.log("hi");
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+      });
+    }
+
+    const message = {
+      product_transaction_id: req.body.product_transaction_id,
+      user_id: userID,
+      text: req.body.text,
+    };
+
+    db.addMessage(message)
+      .then((newMessage) => {
+        if (!newMessage) {
+          res.json({
+            auth: true,
+            message: "new Message could not be created",
+          });
+        }
+
+        return res.json({
+          auth: true,
+          message: "created new message",
+          newMessage,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: true,
+          message: "internal server error",
+        });
+      });
+  });
+
   return router;
 };

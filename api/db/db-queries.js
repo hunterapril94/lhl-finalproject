@@ -58,10 +58,6 @@ module.exports = (db) => {
         } else {
           return null;
         }
-      })
-      .catch((err) => {
-        console.log("error" + err);
-        return null;
       });
   };
 
@@ -258,7 +254,7 @@ module.exports = (db) => {
       .query(
         `INSERT INTO messages (product_transaction_id , user_id, text)
         VALUES
-        ( $1,$2 ,$3),
+        ( $1,$2 ,$3)
         RETURNING *;`,
         values
       )
@@ -268,10 +264,6 @@ module.exports = (db) => {
         } else {
           return null;
         }
-      })
-      .catch((err) => {
-        console.log("error" + err);
-        return null;
       });
   };
 
