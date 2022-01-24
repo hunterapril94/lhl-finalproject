@@ -114,7 +114,9 @@ export default function MyTransactions() {
                     {transaction.status}
                   </TableCell>
                   <TableCell>
-                    <Link to={`/product/${transaction.product_id}/review/new`}           style={{ textDecoration: "none", color: "white" }}><Button variant='contained'>Leave Review</Button></Link>
+                    <Link to={`/product/${transaction.product_id}/review/new`}           
+                    style={{ textDecoration: "none", color: "white" }}>
+                      <Button variant='contained'>Leave Review</Button></Link>
                   </TableCell>
                 </TableRow>
               ))}
