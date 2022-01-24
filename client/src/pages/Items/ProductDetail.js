@@ -90,7 +90,6 @@ const ProductDetail = () => {
       image: itemInfo.imageUrl,
       id: itemInfo.id,
     };
-    console.log("this is item info", itemInfo);
     axios
       .post(`http://localhost:8001/api/products/${object1.id}/edit`, object1)
       .then((res) => {
