@@ -77,7 +77,7 @@ module.exports = (db) => {
       image: req.body.image,
     };
 
-    console.log(newProduct);
+    //  console.log(newProduct);
 
     db.createProduct(userID, newProduct)
       .then(() => {
@@ -116,6 +116,66 @@ module.exports = (db) => {
         });
       });
   });
+
+  //-----------------------------------------------------------------
+  // POST /api/products/:id/edit
+  //-----------------------------------------------------------------
+
+  router.post("/:id/edit", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    // createProduct;
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+        isApproved: false,
+      });
+    }
+
+    console.log(req.params.id);
+    console.log(userID);
+    if (userID !== Number(req.params.id)) {
+      return res.status(401).json({
+        auth: true,
+        message: "not authorized to edit other users items",
+      });
+    }
+
+    console.log("here");
+
+    editProduct = {
+      userId: userID,
+      category: req.body.category,
+      name: req.body.name,
+      price_per_day_cents: req.body.price_per_day_cents,
+      description: req.body.description,
+      deposit_amount_cents: req.body.deposit_amount_cents,
+      image: req.body.image,
+      id: req.params.id,
+    };
+
+    console.log(editProduct);
+
+    db.updateProductInfo(userID, editProduct)
+      .then(() => {
+        res.json({
+          auth: isLoggedIn,
+          message: "successfully added new product",
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: isLoggedIn,
+          message: "internal server error",
+        });
+      });
+  });
+
+  // updateProductInfo
+
+  //-----------------------------------------------------------------
+  // POST /api/products/catagory/:name
+  //-----------------------------------------------------------------
 
   //-----------------------------------------------------------------
   // GET /api/products/:id
@@ -173,7 +233,3 @@ module.exports = (db) => {
 
   return router;
 };
-
-//-----------------------------------------------------------------
-// POST /api/products/catagory/:name
-//-----------------------------------------------------------------

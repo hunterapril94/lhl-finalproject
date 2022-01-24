@@ -43,7 +43,7 @@ module.exports = (db) => {
       user.phone,
       user.password,
     ];
-    // console.log("here");
+
     return db
       .query(
         `INSERT INTO users (first_name, last_name, address, neighborhood, 
