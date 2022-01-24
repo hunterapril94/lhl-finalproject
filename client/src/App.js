@@ -13,6 +13,7 @@ const App = () => {
     auth: false,
     cart: [],
     profile: {},
+    snackBar: {},
   });
   return (
     <ThemeProvider theme={theme}>
