@@ -171,7 +171,7 @@ export default function CreateItem(props) {
                 variant="contained"
                 sx={{ marginTop: "10px" }}
                 onClick={(e) => {
-                  e.preventDefault();
+                  // e.preventDefault();
                   props.handleSubmit(itemInfo);
                 }}
               >
