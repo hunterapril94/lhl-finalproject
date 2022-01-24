@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+
 import InputAdornment from "@mui/material/InputAdornment";
 import { useState } from "react";
 
@@ -24,15 +24,22 @@ const style = {
 };
 
 export default function CreateItem(props) {
-  const [itemInfo, setItemInfo] = useState({
-    name: null,
-    category: null,
-    price: null,
-    deposit: null,
-    imageUrl: null,
-    description: null,
-  });
+  // console.log(props.product);
 
+  const [itemInfo, setItemInfo] = useState({
+    name: props.product?.name ?? "",
+    category: props.product?.category ?? "",
+    price: props.product?.price_per_day_cents
+      ? props.product.price_per_day_cents / 100
+      : "",
+    deposit: props.product?.deposit_amount_cents
+      ? props.product.deposit_amount_cents / 100
+      : "",
+    imageUrl: props.product?.image ?? "",
+    description: props.product?.description ?? "",
+    id: props.product?.id ?? "",
+  });
+  console.log(props.product);
   const handleOnChange = (e) => {
     const name = e.target.name;
     setItemInfo({
@@ -41,19 +48,8 @@ export default function CreateItem(props) {
     });
   };
 
-  // pass in the object as a prob
-  // initialize use state with either with props.existing or default
-
   return (
     <div>
-      <Button
-        size="large"
-        color="primary"
-        variant="outlined"
-        onClick={props.handleOpen}
-      >
-        Create item <AddIcon />
-      </Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -85,6 +81,7 @@ export default function CreateItem(props) {
                 margin="normal"
                 required
                 fullWidth
+                value={itemInfo.name}
                 id="itemName"
                 label="Item name"
                 name="name"
@@ -108,6 +105,7 @@ export default function CreateItem(props) {
                   id="category"
                   label="Category"
                   name="category"
+                  value={itemInfo.category}
                   onChange={handleOnChange}
                 />
 
@@ -120,6 +118,7 @@ export default function CreateItem(props) {
                   label="Price per-day"
                   name="price"
                   type="number"
+                  value={itemInfo.price}
                   onChange={handleOnChange}
                   InputProps={{
                     startAdornment: (
@@ -134,6 +133,7 @@ export default function CreateItem(props) {
                   id="deposit_amount_cents"
                   label="Deposit"
                   name="deposit"
+                  value={itemInfo.deposit}
                   onChange={handleOnChange}
                   InputProps={{
                     startAdornment: (
@@ -149,6 +149,7 @@ export default function CreateItem(props) {
                 id="image"
                 label="Image url"
                 name="imageUrl"
+                value={itemInfo.imageUrl}
                 onChange={handleOnChange}
               />
               <TextField
@@ -160,6 +161,7 @@ export default function CreateItem(props) {
                 name="description"
                 multiline
                 rows="6"
+                value={itemInfo.description}
                 onChange={handleOnChange}
               />
               <Button
@@ -169,11 +171,11 @@ export default function CreateItem(props) {
                 variant="contained"
                 sx={{ marginTop: "10px" }}
                 onClick={(e) => {
-                  // e.preventDefault();
+                  e.preventDefault();
                   props.handleSubmit(itemInfo);
                 }}
               >
-                Create
+                {props.product ? "Create" : "Save"}
               </Button>
             </Box>
           </Grid>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Order from "../../components/Modals/Order";
+import CreateItem from "../../components/Modals/CreateItem";
 
 import {
   Card,
@@ -79,6 +80,27 @@ const ProductDetail = () => {
     }
   };
 
+  const updateItem = (itemInfo) => {
+    const object1 = {
+      category: itemInfo.category,
+      name: itemInfo.name,
+      price_per_day_cents: Number(itemInfo.price) * 100,
+      description: itemInfo.description,
+      deposit_amount_cents: Number(itemInfo.deposit) * 100,
+      image: itemInfo.imageUrl,
+      id: itemInfo.id,
+    };
+    console.log("this is item info", itemInfo);
+    axios
+      .post(`http://localhost:8001/api/products/${object1.id}/edit`, object1)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // navigate("/my-products");
+  };
   console.log("product");
   console.log(product.user_id);
   console.log("appState");
@@ -120,7 +142,18 @@ const ProductDetail = () => {
               {description}
             </Typography>
           </CardContent>
-
+          {product.user_id === appState.profile.id && (
+            <Box sx={{ display: "flex" }}>
+              <Button onClick={handleOpen}>Edit</Button>
+              <CreateItem
+                handleSubmit={updateItem}
+                handleClose={handleClose}
+                open={open}
+                product={product}
+              ></CreateItem>
+              <Button>Delete</Button>
+            </Box>
+          )}
           <CardActions>
             <Grid
               ml={0.5}
