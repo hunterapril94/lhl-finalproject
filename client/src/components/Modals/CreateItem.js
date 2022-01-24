@@ -47,7 +47,7 @@ export default function CreateItem(props) {
       [name]: e.target.value,
     });
   };
-
+  const createOrNot = props.product ? "Save" : "Create";
   return (
     <div>
       <Modal
@@ -175,7 +175,7 @@ export default function CreateItem(props) {
                   props.handleSubmit(itemInfo);
                 }}
               >
-                {props.product ? "Create" : "Save"}
+                {props.product ? "Save" : "Create"}
               </Button>
             </Box>
           </Grid>
