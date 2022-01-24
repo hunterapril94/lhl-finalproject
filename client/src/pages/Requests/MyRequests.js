@@ -9,12 +9,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
+import { TableFooter, TextField, Typography } from "@mui/material";
 import { Box, typography } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AvatarWithColor from "../../components/AvatarWithColor/AvatarWithColor.js";
 import { Grid } from "@mui/material";
+import { Button } from "@mui/material";
 
 import { AcceptButton, CancelButton, RejectButton, MessageButton } from "./Buttons.js";
 import theme from "../../components/styles.js";
@@ -74,6 +75,9 @@ export default function MyRequests() {
       setMessageDisplay('none')
     }
 
+  }
+  const send = function(event) {
+    event.preventDefault();
   }
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
@@ -261,13 +265,13 @@ export default function MyRequests() {
             <Table sx={{width: '300px'}}>
               <TableHead sx={{backgroundColor: theme.palette.primary.main, color: 'white'}}>
                 <TableRow>
-                <TableCell>
+                <TableCell sx={{color:'white'}}>
                   Messages
                 </TableCell>
                 </TableRow>
 
               </TableHead>
-              <TableBody sx={{display: messageDisplay, backgroundColor: 'white', width: '300px'}}>
+              <TableBody sx={{display: messageDisplay, backgroundColor: 'white', width: '300px', height: '300px'}}>
                 {messages.map((message)=>{
                   return (
                   <TableRow >
@@ -278,7 +282,16 @@ export default function MyRequests() {
                   </TableRow>
                 )})}
               </TableBody>
-
+              <TableFooter sx={{display: messageDisplay, backgroundColor: 'white', width: '300px'}}>
+                <TableRow>
+                  <TableCell>
+                    <Box component='form' onSubmit={(event)=>{send(event)}}>
+                    <TextField />
+                    <Button variant='contained' sx={{marginTop: '10px'}}>Send</Button>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
             </Table>
         </TableContainer>
       </Box>
