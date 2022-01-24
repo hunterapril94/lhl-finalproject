@@ -432,7 +432,7 @@ module.exports = (db) => {
   const getTransactionHistoryByUserID = function (userId) {
     return db
       .query(
-        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, products.user_id AS owner_id,transactions.user_id AS requester_id,  status,deposit_amount_cents
+        `SELECT products_transactions.id AS products_transactions_id,products.name, products.price_per_day_cents, products_transactions.start_time, products_transactions.end_time, products.id AS product_id, products.user_id AS owner_id,transactions.user_id AS requester_id,  status,deposit_amount_cents
       
         FROM products_transactions
         JOIN transactions ON transaction_id = transactions.id
