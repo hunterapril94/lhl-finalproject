@@ -113,6 +113,9 @@ export default function MyTransactions() {
                   >
                     {transaction.status}
                   </TableCell>
+                  <TableCell>
+                    <Link to={`/product/${transaction.product_id}/review/new`}><Button>Leave Review</Button></Link>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
