@@ -7,6 +7,7 @@ import { FixedSizeList } from "react-window";
 import { Grid } from "@mui/material";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
+import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 import ReviewItem from "./ReviewItem";
 import axios from "axios";
@@ -27,59 +28,31 @@ export default function ReviewList(props) {
       })
       .catch((err) => console.log(err.message));
   }, []);
-  function renderRow(props, style) {
-    const { index } = props;
-
-    return <ReviewItem review={reviews[index]} style={style} />;
+  if (isLoading) {
+    return <></>;
   }
-  const { index, style } = props;
-  return isLoading ? (
-    <div></div>
-  ) : (
-    <Grid item md={7.5} sm={12} xs={12} mr={1}>
-      {reviews.length >= 3 ? (
-        <Box
-          sx={{
-            width: "100%",
-            height: 250,
-            maxWidth: 550,
-            bgcolor: "background.paper",
-            display: "flex",
-            justifyContent: "center",
-            mt: 2,
-          }}
-        >
-          <FixedSizeList
-            height={240}
-            width={"100%"}
-            itemSize={90}
-            itemCount={reviews.length}
-          >
-            {renderRow}
-            {/* <Review index={index} style={style} /> */}
-          </FixedSizeList>
-        </Box>
-      ) : (
-        <List>
-          {reviews.map((review, index) => {
-            return (
-              <Box
-                key={index}
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  maxWidth: 550,
-                  bgcolor: "background.paper",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <ReviewItem review={review} style={style} />
-              </Box>
-            );
-          })}
-        </List>
-      )}
-    </Grid>
+  return (
+    <List
+      sx={{
+        width: "100%",
+        maxWidth: 550,
+        bgcolor: "background.paper",
+        position: "relative",
+        overflow: "auto",
+        maxHeight: 210,
+        mb: 3,
+        "& ul": { padding: 0 },
+      }}
+      subheader={<li />}
+    >
+      <ul>
+        {reviews.map((review, index) => (
+          // <ListItem key={index}>
+          //   <ListItemText primary={`Item ${item}`} />
+          // </ListItem>
+          <ReviewItem index={index} review={review} />
+        ))}
+      </ul>
+    </List>
   );
 }
