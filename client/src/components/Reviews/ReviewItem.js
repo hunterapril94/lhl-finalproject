@@ -9,7 +9,7 @@ import AvatarWithColor from "../AvatarWithColor/AvatarWithColor";
 
 const ReviewItem = (props) => {
   return (
-    <ListItem alignItems="flex-start" key={props.index} component="div">
+    <ListItem alignItems="flex-start" component="div">
       <ListItemAvatar>
         <AvatarWithColor
           firstName={props.review.first_name}

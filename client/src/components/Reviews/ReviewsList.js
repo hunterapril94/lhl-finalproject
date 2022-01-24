@@ -50,7 +50,7 @@ export default function ReviewList(props) {
           // <ListItem key={index}>
           //   <ListItemText primary={`Item ${item}`} />
           // </ListItem>
-          <ReviewItem index={index} review={review} />
+          <ReviewItem key={index} review={review} />
         ))}
       </ul>
     </List>
