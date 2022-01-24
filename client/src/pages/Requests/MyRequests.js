@@ -42,7 +42,7 @@ export default function MyRequests() {
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
   const [selectedTab, setSelectedTab] = React.useState(0);
   const [messageDisplay, setMessageDisplay] = useState('none')
-  const [messages, setMessages] = useState([{firstName: 'April', text: 'Could I come around 4?'}])
+  const [messages, setMessages] = useState([{firstName: 'April', text: 'Can I come at 4?'}])
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -78,6 +78,9 @@ export default function MyRequests() {
   }
   const send = function(event) {
     event.preventDefault();
+    const time = Date.now();
+    
+
   }
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
@@ -271,7 +274,9 @@ export default function MyRequests() {
                 </TableRow>
 
               </TableHead>
-              <TableBody sx={{display: messageDisplay, backgroundColor: 'white', width: '300px', height: '300px'}}>
+              <TableBody sx={{display: messageDisplay, backgroundColor: 'white', width: '300px', height: '300px', 
+                overflowX: 'hidden',
+                overflowY: 'auto'}}>
                 {messages.map((message)=>{
                   return (
                   <TableRow >
