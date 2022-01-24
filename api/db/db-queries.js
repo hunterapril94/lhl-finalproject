@@ -222,14 +222,14 @@ module.exports = (db) => {
   // JOIN products ON product_id = products.id
   // JOIN users ON users.id = products.user_id;
 
-  const getAllMessagesByTransactionID = function (txID) {
+  const getIncommingMessagesByProductTransactionID = function (txID) {
     return db
       .query(
         `  
         SELECT users.*, messages.* from messages 
         JOIN products_transactions ON product_transaction_id =  products_transactions.id 
         JOIN products ON product_id = products.id
-        JOIN users ON users.id = products.user_id
+        JOIN users ON users.id = messages.user_id
         WHERE product_transaction_id = $1;`,
         [txID]
       )
@@ -702,7 +702,7 @@ module.exports = (db) => {
     getReviewsByProductId,
     // requests
     getPendingLendRequestsByUserId,
-    getAllMessagesByTransactionID,
+    getIncommingMessagesByProductTransactionID,
     getBorrowRequestsByUserId,
     getAllProductsNotOwned,
     // transactions

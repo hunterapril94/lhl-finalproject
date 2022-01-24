@@ -391,7 +391,7 @@ module.exports = (db) => {
     // console.log(req.params.txID);
     const productsTxId = req.params.txID;
 
-    db.getAllMessagesByTransactionID(productsTxId)
+    db.getIncommingMessagesByProductTransactionID(productsTxId)
       .then((messages) => {
         return res.json({
           auth: true,
