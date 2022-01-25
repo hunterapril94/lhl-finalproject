@@ -42,7 +42,7 @@ export default function MyRequests() {
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
   const [selectedTab, setSelectedTab] = React.useState(0);
   const [messageDisplay, setMessageDisplay] = useState('none')
-  const [messages, setMessages] = useState([{firstName: 'April', text: 'Can I come at 4?'}])
+  const [messages, setMessages] = useState([{first_name: 'April', text: 'Can I come at 4?'}])
   const [transactionId, setTransactionId] = useState()
 
   const handleChange = (event, newValue) => {
@@ -56,7 +56,7 @@ export default function MyRequests() {
       .then((res) => {
         const { pendingIncommingLendRequests, pendingOutgoingBorrowRequests } =
           res.data;
-        // console.log(res.data);
+        console.log(res.data);
         setIncomingRequests(pendingIncommingLendRequests);
         setOutgoingRequests(pendingOutgoingBorrowRequests);
         setIsLoading(false);
@@ -70,25 +70,32 @@ export default function MyRequests() {
 
   const message = function(event, id) {
     event.preventDefault();
-    axios
-    .get(`http://localhost:8001/api/requests/messages/${id}`)
-    .then((res)=>{
-      // console.log(res.data)
-      setMessages(res.data.messages)
-    })
+      axios
+      .get(`http://localhost:8001/api/requests/messages/${id}`)
+      .then((res)=>{
+        // console.log(res.data)
+        setMessages(res.data.messages)
+      })
+  
+
     if(messageDisplay === 'none') {
       setMessageDisplay('inline-block')
     } else {
       setMessageDisplay('none')
     }
-
+    setTransactionId(id)
   }
   const send = function(event, transactionId, firstName) {
     event.preventDefault();
     const time = Date.now();
     const data = new FormData(event.currentTarget);
     const text = data.get('text')
-    setMessages([{firstName, text, send_time: time}])
+    setMessages((prev)=>{
+      return [...prev, {first_name: firstName, text}]
+    })
+    console.log(transactionId, text)
+    axios
+    .post(`http://localhost:8001/api/requests/messages`, {product_transaction_id: transactionId, text: text,})
     // console.log(messages)
     document.getElementById('text').value = ''
 
@@ -294,7 +301,7 @@ export default function MyRequests() {
                   return (
                   <TableRow >
                     <TableCell sx={{display: 'flex'}}>
-                      <AvatarWithColor firstName={message.firstName}/>
+                      <AvatarWithColor firstName={message.first_name}/>
                       <Typography sx={{margin: '10px'}}>{message.text}</Typography>
                     </TableCell>
                   </TableRow>

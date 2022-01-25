@@ -354,7 +354,6 @@ module.exports = (db) => {
         message: "not authorized",
       });
     }
-    console.log("###########");
 
     db.updateProductTransactionStatus(req.params.id, "returned")
       .then(() => {
@@ -391,7 +390,7 @@ module.exports = (db) => {
     // console.log(req.params.txID);
     const productsTxId = req.params.txID;
 
-    db.getIncommingMessagesByProductTransactionID(productsTxId)
+    db.getIncommingMessagesByProductTransactionID(productsTxId, userID)
       .then((messages) => {
         return res.json({
           auth: true,
@@ -411,7 +410,6 @@ module.exports = (db) => {
   // POST /api/requests/messages/
   //-----------------------------------------------------------------
   router.post("/messages", (req, res) => {
-    console.log("hi");
     const { isLoggedIn, userID } = req; //gets this from middleware
     if (!isLoggedIn) {
       return res.status(401).json({
@@ -447,6 +445,60 @@ module.exports = (db) => {
           message: "internal server error",
         });
       });
+  });
+
+  //-----------------------------------------------------------------
+  // POST /api/requests/messages/:id/is-read
+  //-----------------------------------------------------------------
+  router.post("/messages/:id/is-read", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+      });
+    }
+
+    db.updateMessageToReadByMessageID(req.params.id, userID)
+      .then((message) => {
+        if (!message) {
+          return Promise.reject("unable to update status!");
+        }
+        res.status(500).json({
+          auth: true,
+          message,
+          updated: true,
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          auth: true,
+          message: "internal server error",
+          updated: false,
+        });
+      });
+
+    // db.addMessage(message)
+    //   .then((newMessage) => {
+    //     if (!newMessage) {
+    //       res.json({
+    //         auth: true,
+    //         message: "new Message could not be created",
+    //       });
+    //     }
+
+    //     return res.json({
+    //       auth: true,
+    //       message: "created new message",
+    //       newMessage,
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     res.status(500).json({
+    //       auth: true,
+    //       message: "internal server error",
+    //     });
+    //   });
   });
 
   return router;

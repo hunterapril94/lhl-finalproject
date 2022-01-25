@@ -218,7 +218,7 @@ module.exports = (db) => {
   // JOIN products ON product_id = products.id
   // JOIN users ON users.id = products.user_id;
 
-  const getIncommingMessagesByProductTransactionID = function (txID) {
+  const getIncommingMessagesByProductTransactionID = function (txID, userID) {
     return db
       .query(
         `  
@@ -226,12 +226,52 @@ module.exports = (db) => {
         JOIN products_transactions ON product_transaction_id =  products_transactions.id 
         JOIN products ON product_id = products.id
         JOIN users ON users.id = messages.user_id
-        WHERE product_transaction_id = $1;`,
-        [txID]
+        JOIN transactions ON transactions.id  = products_transactions.transaction_id 
+        WHERE product_transaction_id = $1 AND products.user_id = $2 OR messages.user_id = $2 OR transactions.user_id = $2
+        ;`,
+        [txID, userID]
       )
       .then((result) => {
         if (result) {
           return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const getMessageByUserIDandMessageID = function (msgID, userID) {
+    return db
+      .query(
+        `  
+        SELECT * FROM messages
+        WHERE user_id = $2 AND  id= $1
+        ;`,
+        [msgID, userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const updateMessageToReadByMessageID = function (msgID, userID) {
+    console.log("here!!");
+    return db
+      .query(
+        `  
+        UPDATE messages
+        SET is_read = true
+        WHERE id = $1 AND user_id = $2
+      	RETURNING *;`,
+        [msgID, userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
         } else {
           return null;
         }
@@ -712,6 +752,8 @@ module.exports = (db) => {
     addUser,
     getUserById,
     updateBalanceByEmail,
+    getMessageByUserIDandMessageID,
+    updateMessageToReadByMessageID,
     // products
     createProduct,
     getAllProducts,
