@@ -240,6 +240,44 @@ module.exports = (db) => {
       });
   };
 
+  const getMessageByUserIDandMessageID = function (msgID, userID) {
+    return db
+      .query(
+        `  
+        SELECT * FROM messages
+        WHERE user_id = $2 AND  id= $1
+        ;`,
+        [msgID, userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
+  };
+
+  const updateMessageToReadByMessageID = function (msgID, userID) {
+    console.log("here!!");
+    return db
+      .query(
+        `  
+        UPDATE messages
+        SET is_read = true
+        WHERE id = $1 AND user_id = $2
+      	RETURNING *;`,
+        [msgID, userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows[0];
+        } else {
+          return null;
+        }
+      });
+  };
+
   //   INSERT INTO messages (product_transaction_id , user_id, text)
   // VALUES
   // ( 1,3 , 'Where the hell is my stuff '),
@@ -714,6 +752,8 @@ module.exports = (db) => {
     addUser,
     getUserById,
     updateBalanceByEmail,
+    getMessageByUserIDandMessageID,
+    updateMessageToReadByMessageID,
     // products
     createProduct,
     getAllProducts,
