@@ -91,9 +91,29 @@ export default function MyRequests() {
             !message.is_read &&
             message.first_name !== appState.profile.first_name
           ) {
-            axios.post(
-              `http://localhost:8001/api/requests/messages/${message.id}/is-read`
-            );
+            axios
+              .post(
+                `http://localhost:8001/api/requests/messages/${message.id}/is-read`
+              )
+              .then((res) => {
+                console.log("id");
+                console.log(id);
+                console.log(message.id);
+
+                console.log(unread);
+                setUnread((prev) => {
+                  const newUnread = [];
+                  prev.forEach((pre) => {
+                    if (pre.products_tx_id === id) {
+                      newUnread.push({ products_tx_id: 0 });
+                    } else {
+                      newUnread.push(pre);
+                    }
+                  });
+                  return newUnread;
+                });
+                //you need to set the state here to read so it
+              });
           }
         }
       });
@@ -125,6 +145,7 @@ export default function MyRequests() {
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
+
   const unreadFunc = function (id) {
     console.log("incomming id");
     console.log(id);
