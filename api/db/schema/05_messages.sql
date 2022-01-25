@@ -4,5 +4,6 @@ CREATE TABLE messages (
   product_transaction_id INTEGER NOT NULL REFERENCES products_transactions(id),
   user_id INTEGER NOT NULL REFERENCES users(id),
   text TEXT,
+  isRead BOOLEAN NOT NULL DEFAULT FALSE,
   send_time TIMESTAMP
 );
