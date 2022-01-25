@@ -269,6 +269,7 @@ module.exports = (db) => {
       )
       .then((result) => {
         if (result) {
+          console.log(result);
           return result.rows[0];
         } else {
           return null;
@@ -277,13 +278,12 @@ module.exports = (db) => {
   };
 
   const updateMessageToReadByMessageID = function (msgID, userID) {
-    console.log("here!!");
     return db
       .query(
         `  
         UPDATE messages
         SET is_read = true
-        WHERE id = $1 AND user_id = $2
+        WHERE id = $1 AND NOT user_id = $2
       	RETURNING *;`,
         [msgID, userID]
       )
