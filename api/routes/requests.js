@@ -466,7 +466,7 @@ module.exports = (db) => {
         if (!message) {
           return Promise.reject("unable to update status!");
         }
-        res.status(500).json({
+        res.json({
           auth: true,
           message,
           updated: true,
