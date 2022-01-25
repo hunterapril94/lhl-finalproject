@@ -213,10 +213,28 @@ module.exports = (db) => {
       });
   };
 
-  // SELECT users.*, messages.* from messages
-  // JOIN products_transactions ON product_transaction_id =  products_transactions.id
-  // JOIN products ON product_id = products.id
-  // JOIN users ON users.id = products.user_id;
+  const getUnreadMessagesCountForProductTxByUserID = function (userID) {
+    return db
+      .query(
+        `  
+        SELECT   products_transactions.id AS   products_tx_id, COUNT(messages.id) AS unread_total from messages 
+        JOIN products_transactions ON product_transaction_id =  products_transactions.id 
+        JOIN products ON product_id = products.id
+        JOIN users ON users.id = messages.user_id
+        JOIN transactions ON transactions.id  = products_transactions.transaction_id 
+        WHERE (products.user_id = $1 OR  transactions.user_id = $1)
+        AND  NOT messages.user_id  = $1 AND messages.is_read = false
+	      GROUP BY products_transactions.id;`,
+        [userID]
+      )
+      .then((result) => {
+        if (result) {
+          return result.rows;
+        } else {
+          return null;
+        }
+      });
+  };
 
   const getIncommingMessagesByProductTransactionID = function (txID, userID) {
     return db
@@ -227,7 +245,7 @@ module.exports = (db) => {
         JOIN products ON product_id = products.id
         JOIN users ON users.id = messages.user_id
         JOIN transactions ON transactions.id  = products_transactions.transaction_id 
-        WHERE product_transaction_id = $1 AND products.user_id = $2 OR messages.user_id = $2 OR transactions.user_id = $2
+        WHERE product_transaction_id = $1 AND (products.user_id = $2 OR messages.user_id = $2 OR transactions.user_id = $2)
         ;`,
         [txID, userID]
       )
@@ -752,6 +770,7 @@ module.exports = (db) => {
     addUser,
     getUserById,
     updateBalanceByEmail,
+    getUnreadMessagesCountForProductTxByUserID,
     getMessageByUserIDandMessageID,
     updateMessageToReadByMessageID,
     // products
