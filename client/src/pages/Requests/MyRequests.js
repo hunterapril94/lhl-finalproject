@@ -155,11 +155,7 @@ export default function MyRequests() {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        component="h3"
-        sx={{ marginTop: 3, textAlign: "center" }}
-      >
+      <Typography variant="h4" component="h3" sx={{ marginTop: 2 }}>
         My Pending Requests
       </Typography>
 
@@ -182,21 +178,21 @@ export default function MyRequests() {
         {selectedTab === 0 && (
           <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
-              <Typography>You have no pending incoming request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending incoming request
+              </Typography>
             )}
-            <Table sx={{ minWidth: 550 }}>
+            <Table sx={{ minWidth: 550 }} size="small">
               {IncomingRequests.length !== 0 && (
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Borrower's email</TableCell>
-                    <TableCell align="center">cost per day</TableCell>
+                    <TableCell align="center">cost/day</TableCell>
                     <TableCell align="center">days requested</TableCell>
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -235,30 +231,40 @@ export default function MyRequests() {
                       )}
                     </TableCell>
                     <TableCell align="center">
-                      <AcceptButton
-                        request={request}
-                        requests={IncomingRequests}
-                        setIncomingRequests={setIncomingRequests}
-                      />
-                      <RejectButton
-                        request={request}
-                        requests={IncomingRequests}
-                        setIncomingRequests={setIncomingRequests}
-                      />
-                    </TableCell>
-                    <TableCell>
                       <Box
-                        component="form"
-                        handleSubmit={(event) => {
-                          message(event, request.products_transactions_id);
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
                         }}
                       >
-                        <MessageButton
+                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                          <AcceptButton
+                            request={request}
+                            requests={IncomingRequests}
+                            setIncomingRequests={setIncomingRequests}
+                          />
+                          <RejectButton
+                            request={request}
+                            requests={IncomingRequests}
+                            setIncomingRequests={setIncomingRequests}
+                          />
+                        </Box>
+                        <Box
+                          component="form"
                           handleSubmit={(event) => {
                             message(event, request.products_transactions_id);
                           }}
-                          unread={unreadFunc(request.products_transactions_id)}
-                        />
+                        >
+                          <MessageButton
+                            handleSubmit={(event) => {
+                              message(event, request.products_transactions_id);
+                            }}
+                            unread={unreadFunc(
+                              request.products_transactions_id
+                            )}
+                          />
+                        </Box>
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -270,7 +276,9 @@ export default function MyRequests() {
         {selectedTab === 1 && (
           <TableContainer component={paperOrNot}>
             {OutgoingRequests.length === 0 && (
-              <Typography>You have no pending outgoing request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending outgoing request
+              </Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (
@@ -278,13 +286,11 @@ export default function MyRequests() {
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Owner's Email</TableCell>
-                    <TableCell align="center">cost per day</TableCell>
+                    <TableCell align="center">cost/day</TableCell>
                     <TableCell align="center">days requested</TableCell>
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>

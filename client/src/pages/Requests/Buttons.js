@@ -55,7 +55,8 @@ export const AcceptButton = (props) => {
     <>
       {/* <Box sx={{ m: 1 }}> */}
       <SecondChanceButton
-        sx={{ m: 1 }}
+        sx={{ m: 0.5 }}
+        size="small"
         onClick={handleSubmit}
         variant="contained"
         color="success"
@@ -97,6 +98,8 @@ export const RejectButton = (props) => {
   return (
     <>
       <SecondChanceButton
+        sx={{ m: 0.5 }}
+        size="small"
         color="error"
         variant="outlined"
         onClick={handleSubmit}
@@ -199,7 +202,8 @@ export const ReturnButton = (props) => {
 export const MessageButton = function (props) {
   return (
     <Button
-      variant="outlined"
+      // variant="contained"
+      size="small"
       color="secondary"
       onClick={(event) => {
         props.handleSubmit(event);
