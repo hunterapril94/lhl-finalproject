@@ -80,7 +80,7 @@ export default function Cart() {
     navigate("/cart");
   };
 
-  const cartItems = appState.cart.map((item) => {
+  const cartItems = appState.cart.map((item, index) => {
     let start_date = new Date(item.start_date);
     let end_date = new Date(item.end_date);
     let itemTotal =
@@ -90,7 +90,7 @@ export default function Cart() {
     depositSubtotal += item.product.deposit_amount_cents / 100;
     total = total + itemTotal + item.product.deposit_amount_cents / 100;
     return (
-      <TableRow>
+      <TableRow key={index}>
         <TableCell>{item.product.name}</TableCell>
         <TableCell>{item.start_date}</TableCell>
         <TableCell>{item.end_date}</TableCell>

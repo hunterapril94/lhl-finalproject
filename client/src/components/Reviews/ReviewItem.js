@@ -15,9 +15,6 @@ const ReviewItem = (props) => {
           firstName={props.review.first_name}
           lastName={props.review.last_name}
         />
-        {/* <Avatar sx={{ bgcolor: "deeppink" }}>
-          {props.review.first_name.charAt(0)}
-        </Avatar> */}
       </ListItemAvatar>
       <ListItemText
         primary={props.review.title}

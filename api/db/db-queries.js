@@ -269,7 +269,7 @@ module.exports = (db) => {
       )
       .then((result) => {
         if (result) {
-          console.log(result);
+          // console.log(result);
           return result.rows[0];
         } else {
           return null;
@@ -289,7 +289,7 @@ module.exports = (db) => {
       )
       .then((result) => {
         if (result) {
-          console.log('rows')
+          //console.log("rows");
           return result.rows[0];
         } else {
           return null;

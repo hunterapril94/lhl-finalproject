@@ -14,9 +14,8 @@ import { Box, typography } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AvatarWithColor from "../../components/AvatarWithColor/AvatarWithColor.js";
-import { Grid } from "@mui/material";
+
 import { Button } from "@mui/material";
-import { Badge } from "@mui/material";
 
 import {
   AcceptButton,
@@ -65,11 +64,11 @@ export default function MyRequests() {
           pendingOutgoingBorrowRequests,
           unreadMessages,
         } = res.data;
-        console.log(res.data);
+        //  console.log(res.data);
         setIncomingRequests(pendingIncommingLendRequests);
         setOutgoingRequests(pendingOutgoingBorrowRequests);
         setUnread(unreadMessages);
-        console.log(unreadMessages);
+        // console.log(unreadMessages);
         setIsLoading(false);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
@@ -84,18 +83,32 @@ export default function MyRequests() {
     axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setMessages(res.data.messages);
         for (const message of res.data.messages) {
-          // console.log(message.first_name)
-          // console.log(message.id)
+          //  console.log(message.first_name);
           if (
             !message.is_read &&
             message.first_name !== appState.profile.first_name
           ) {
-            axios.post(
-              `http://localhost:8001/api/requests/messages/${message.id}/is-read`
-            );
+            axios
+              .post(
+                `http://localhost:8001/api/requests/messages/${message.id}/is-read`
+              )
+              .then((res) => {
+                setUnread((prev) => {
+                  const newUnread = [];
+                  prev.forEach((pre) => {
+                    if (pre.products_tx_id === id) {
+                      newUnread.push({ products_tx_id: 0 });
+                    } else {
+                      newUnread.push(pre);
+                    }
+                  });
+                  return newUnread;
+                });
+                //you need to set the state here to read so it
+              });
           }
         }
       });
@@ -116,7 +129,7 @@ export default function MyRequests() {
     setMessages((prev) => {
       return [...prev, { first_name: firstName, text }];
     });
-    console.log(transactionId, text);
+    // console.log(transactionId, text);
     axios.post(`http://localhost:8001/api/requests/messages`, {
       product_transaction_id: transactionId,
       text: text,
@@ -127,14 +140,16 @@ export default function MyRequests() {
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
+
   const unreadFunc = function (id) {
     let amount = 0;
+
     for (const message of unread) {
-      if (message.products_transactions_id === id) {
-        amount = message.unread_total;
+      if (message.products_tx_id === id) {
+        amount = Number(message.unread_total);
       }
     }
-    console.log(amount);
+
     return amount;
   };
 
@@ -145,7 +160,7 @@ export default function MyRequests() {
       </Typography>
 
       <Box
-        component="form"
+        component="form" //this should not be nested it is throwing errors, maybe move it down to the accept button
         sx={{
           display: "flex",
           width: "100%",
@@ -245,7 +260,9 @@ export default function MyRequests() {
                             handleSubmit={(event) => {
                               message(event, request.products_transactions_id);
                             }}
-                            unread={unreadFunc(request.id)}
+                            unread={unreadFunc(
+                              request.products_transactions_id
+                            )}
                           />
                         </Box>
                       </Box>
@@ -313,11 +330,13 @@ export default function MyRequests() {
                         requests={OutgoingRequests}
                         setIncomingRequests={setOutgoingRequests}
                       />
+                    </TableCell>
+                    <TableCell>
                       <MessageButton
                         handleSubmit={(event) => {
                           message(event, request.products_transactions_id);
                         }}
-                        unread={unreadFunc(request.id)}
+                        unread={unreadFunc(request.products_transactions_id)}
                       />
                     </TableCell>
                   </TableRow>
@@ -352,9 +371,9 @@ export default function MyRequests() {
               overflowY: "auto",
             }}
           >
-            {messages.map((message) => {
+            {messages.map((message, index) => {
               return (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell sx={{ display: "flex" }}>
                     <AvatarWithColor firstName={message.first_name} />
                     <Typography sx={{ margin: "10px" }}>

@@ -58,6 +58,8 @@ module.exports = (db) => {
         auth: false,
         message: "not authorized",
         isApproved: false,
+        severity: "error",
+        isShown: true,
       });
     }
     if (!req.params.id) {
@@ -65,6 +67,8 @@ module.exports = (db) => {
         auth: false,
         message: "error: req params products_transactions_id not sent",
         isApproved: false,
+        severity: "error",
+        isShown: true,
       });
     }
     let requestsPending;
@@ -131,6 +135,8 @@ module.exports = (db) => {
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
           userProfile,
+          severity: "success",
+          isShown: true,
         });
       })
       .catch((err) => {
@@ -211,6 +217,8 @@ module.exports = (db) => {
           auth: true,
           message: `updated transaction to be ${req.params.action}`,
           userProfile,
+          severity: "success",
+          isShown: true,
         });
       })
       .catch((err) => {
@@ -466,7 +474,7 @@ module.exports = (db) => {
         if (!message) {
           return Promise.reject("unable to update status!");
         }
-        res.status(500).json({
+        res.json({
           auth: true,
           message,
           updated: true,

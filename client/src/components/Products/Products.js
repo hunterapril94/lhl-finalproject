@@ -15,8 +15,6 @@ export default function Products(props) {
           style={{ textDecoration: "none", color: "white" }}
         >
           <Product
-            // key={product.id}
-            // isBorrowedItems={props.isBorrowedItems}
             isMyProducts={props.isMyProducts}
             name={product.name}
             category={product.category}

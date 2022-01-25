@@ -34,8 +34,8 @@ export default function ServerAlerts(props) {
       };
     });
   };
-  console.log("server alerts renders");
-  console.log(props.appState);
+  //("server alerts renders");
+  // console.log(props.appState);
 
   // if (props.appState.snackBar.isShown === true) {
   //   setOpen(true);
