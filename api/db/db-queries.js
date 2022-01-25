@@ -227,7 +227,7 @@ module.exports = (db) => {
         JOIN products ON product_id = products.id
         JOIN users ON users.id = messages.user_id
         JOIN transactions ON transactions.id  = products_transactions.transaction_id 
-        WHERE product_transaction_id = $1 AND products.user_id = $2 OR messages.user_id = $2 OR transactions.user_id = $2
+        WHERE product_transaction_id = $1 AND (products.user_id = $2 OR messages.user_id = $2 OR transactions.user_id = $2)
         ;`,
         [txID, userID]
       )
