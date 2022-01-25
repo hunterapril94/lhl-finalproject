@@ -6,7 +6,7 @@ import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 
 import CreateItem from "../../components/Modals/CreateItem";
-import { Button } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 // STRETCH
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
@@ -50,22 +50,27 @@ const MyProducts = () => {
   // console.log(appState);
   return (
     <>
-      <h1>My Products</h1>
-      <Button
-        onClick={handleOpen}
-        size="large"
-        color="primary"
-        variant="outlined"
-      >
-        Create item
-        <AddIcon />
-      </Button>
-      <CreateItem
-        handleSubmit={handleSubmit}
-        handleClose={handleClose}
-        open={open}
-      ></CreateItem>
-      <Products products={products} isMyProducts={true} />
+      <Typography variant="h4" sx={{ mt: 2 }}>
+        My Products
+      </Typography>
+      <Box sx={{ textAlign: "center" }}>
+        <Button
+          sx={{ textAlign: "center" }}
+          onClick={handleOpen}
+          size="large"
+          color="primary"
+          variant="outlined"
+        >
+          Create item
+          <AddIcon />
+        </Button>
+        <CreateItem
+          handleSubmit={handleSubmit}
+          handleClose={handleClose}
+          open={open}
+        ></CreateItem>
+        <Products products={products} isMyProducts={true} />
+      </Box>
     </>
   );
 };

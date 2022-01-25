@@ -25,8 +25,8 @@ export default function Order(props) {
   return (
     <div>
       <Button
+        color="secondary"
         size="large"
-        color="primary"
         variant="contained"
         onClick={props.handleOpen}
       >

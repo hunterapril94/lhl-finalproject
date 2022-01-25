@@ -70,6 +70,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
+
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
@@ -109,9 +110,9 @@ export default function NavMenu(props) {
   //console.log(props.appState.profile);
 
   return (
-    <Box sx={{ display: "flex" }} backgroundColor={theme.palette.tertiary.main}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} style={{ background: "#2E3B55" }}>
         <Grid
           backgroundColor={theme.palette.primary.main}
           container

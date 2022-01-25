@@ -24,11 +24,14 @@ const LentItems = () => {
 
   return (
     <>
+      <Typography variant="h4" sx={{ mt: 2 }}>
+        {" "}
+        Lent Items
+      </Typography>
+      <Typography sx={{ textAlign: "center" }}>
+        {products.length === 0 && "You have no lent items"}
+      </Typography>
       <main>
-        <Typography variant="h2"> Lent Items</Typography>
-        <Typography>
-          {products.length === 0 && "You have no lent items"}
-        </Typography>
         <Items items={products} setProducts={setProducts} lent={true}></Items>
       </main>
     </>
