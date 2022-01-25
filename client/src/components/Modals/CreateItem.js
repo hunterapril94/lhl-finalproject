@@ -169,6 +169,7 @@ export default function CreateItem(props) {
                 fullWidth
                 size="large"
                 variant="contained"
+                color="secondary"
                 sx={{ marginTop: "10px" }}
                 onClick={(e) => {
                   // e.preventDefault();

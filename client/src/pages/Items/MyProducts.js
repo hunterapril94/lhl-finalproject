@@ -69,8 +69,8 @@ const MyProducts = () => {
           handleClose={handleClose}
           open={open}
         ></CreateItem>
-        <Products products={products} isMyProducts={true} />
       </Box>
+      <Products products={products} isMyProducts={true} />
     </>
   );
 };
