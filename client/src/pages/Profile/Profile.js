@@ -1,4 +1,5 @@
 //this file is throwing console errors --KM
+import React from "react";
 import axios from "axios";
 import {
   Grid,
@@ -17,6 +18,8 @@ import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
+import EditProfile from "./EditProfile";
+import { useEffect, useState } from "react";
 
 axios.defaults.withCredentials = true;
 
@@ -29,6 +32,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function UserDetail() {
   const [appState, setAppState] = useOutletContext();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   console.log(appState);
   const user = appState.profile;
 
@@ -60,6 +66,27 @@ function UserDetail() {
 
     return color;
   }
+
+  const updateUserInfo = (itemInfo) => {
+    const object1 = {
+      category: itemInfo.category,
+      name: itemInfo.name,
+      price_per_day_cents: Number(itemInfo.price) * 100,
+      description: itemInfo.description,
+      deposit_amount_cents: Number(itemInfo.deposit) * 100,
+      image: itemInfo.imageUrl,
+      id: itemInfo.id,
+    };
+    axios
+      .post(`http://localhost:8001/api/products/${object1.id}/edit`, object1)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // navigate("/my-products");
+  };
   return (
     <>
       <Typography variant="h4" sx={{ mt: 2 }}>
@@ -110,7 +137,15 @@ function UserDetail() {
             <Chip label="Borrower" />
           )}
         </Box>
-        <Button sx={{ textAlign: "right" }}>Edit profile</Button>
+        <Button sx={{ textAlign: "right" }} onClick={handleOpen}>
+          Edit profile
+        </Button>
+        <EditProfile
+          handleSubmit={updateUserInfo}
+          handleClose={handleClose}
+          open={open}
+          user={user}
+        ></EditProfile>
       </Box>
     </>
     // <p>Borrower: {user.borrower ? "yes" : "no"}</p>
