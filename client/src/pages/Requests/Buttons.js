@@ -1,7 +1,9 @@
 import axios from "axios";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Badge } from "@mui/material";
 import { useState } from "react";
 import { useOutletContext } from "react-router";
+import MailIcon from '@mui/icons-material/Mail';
+import theme from "../../components/styles";
 
 const SecondChanceButton = ({ onClick, children, ...rest }) => {
   const [confirmed, setConfimed] = useState(false);
@@ -193,7 +195,10 @@ export const MessageButton = function (props) {
         props.handleSubmit(event);
       }}
     >
-      Message
+      <Badge badgeContent={props.unread} color='secondary'>
+      <MailIcon />
+      </Badge>
+  
     </Button>
   );
 };
