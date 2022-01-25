@@ -17,12 +17,12 @@ import axios from "axios";
 export default function ReviewList(props) {
   const [reviews, setReviews] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  console.log(reviews);
+  // console.log(reviews);
   useEffect(() => {
     axios
       .get(`http://localhost:8001/api/products/reviews/${props.productId}`)
       .then((res) => {
-        console.log(res.data.reviews);
+        //  console.log(res.data.reviews);
         setReviews(res.data.reviews);
         setIsLoading(false);
       })

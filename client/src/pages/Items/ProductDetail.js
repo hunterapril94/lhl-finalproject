@@ -93,17 +93,13 @@ const ProductDetail = () => {
     axios
       .post(`http://localhost:8001/api/products/${object1.id}/edit`, object1)
       .then((res) => {
-        console.log(res);
+        //  console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     // navigate("/my-products");
   };
-  console.log("product");
-  console.log(product.user_id);
-  console.log("appState");
-  console.log(appState.profile.id);
 
   return isLoading ? (
     <div />

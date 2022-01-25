@@ -129,11 +129,16 @@ export const CancelButton = (props) => {
             ...prev,
             auth: res.data.auth,
             profile: res.data.userProfile,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
           };
         });
       })
       .catch((err) => {
-        console.log(err.message);
+        // console.log(err.message);
       });
   };
   return (
@@ -170,11 +175,16 @@ export const ReturnButton = (props) => {
             ...prev,
             auth: res.data.auth,
             profile: res.data.userProfile,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
           };
         });
       })
       .catch((err) => {
-        console.log(err.message);
+        // console.log(err.message);
       });
   };
   return (

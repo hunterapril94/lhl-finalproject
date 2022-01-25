@@ -19,10 +19,18 @@ const MyProducts = () => {
     axios
       .get("http://localhost:8001/api/users/myproducts")
       .then((res) => {
-        console.log(res.data.myProducts);
+        //console.log(res.data.myProducts);
         setProducts(res.data.myProducts);
         setAppState((prev) => {
-          return { ...prev, auth: res.data.auth };
+          return {
+            ...prev,
+            auth: res.data.auth,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
         });
       })
       .catch((err) => console.log(err.message));
@@ -41,6 +49,16 @@ const MyProducts = () => {
       .post("http://localhost:8001/api/products/", object1)
       .then((res) => {
         console.log(res);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
+        });
       })
       .catch((err) => {
         console.log(err);

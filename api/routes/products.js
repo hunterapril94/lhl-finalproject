@@ -83,7 +83,9 @@ module.exports = (db) => {
       .then(() => {
         res.json({
           auth: isLoggedIn,
-          message: "successfully added new product",
+          message: "successfully created new product",
+          severity: "success",
+          isShown: true,
         });
       })
       .catch((err) => {

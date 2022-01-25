@@ -29,7 +29,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function UserDetail() {
   const [appState, setAppState] = useOutletContext();
-  console.log(appState);
+  //console.log(appState);
   const user = appState.profile;
 
   function stringAvatar(name) {

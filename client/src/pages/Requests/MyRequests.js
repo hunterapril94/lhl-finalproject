@@ -96,11 +96,6 @@ export default function MyRequests() {
                 `http://localhost:8001/api/requests/messages/${message.id}/is-read`
               )
               .then((res) => {
-                console.log("id");
-                console.log(id);
-                console.log(message.id);
-
-                console.log(unread);
                 setUnread((prev) => {
                   const newUnread = [];
                   prev.forEach((pre) => {
@@ -147,25 +142,17 @@ export default function MyRequests() {
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
 
   const unreadFunc = function (id) {
-    console.log("incomming id");
-    console.log(id);
     let amount = 0;
-    console.log("unread");
-    console.log(unread);
 
     for (const message of unread) {
       if (message.products_tx_id === id) {
-        console.log("matched");
         amount = Number(message.unread_total);
       }
     }
-    console.log("outgoing amount");
-    console.log(amount);
+
     return amount;
   };
 
-  console.log("incomming requests");
-  console.log(IncomingRequests);
   return (
     <>
       <Typography
@@ -177,7 +164,7 @@ export default function MyRequests() {
       </Typography>
 
       <Box
-        component="form"
+        component="form" //this should not be nested it is throwing errors, maybe move it down to the accept button
         sx={{
           display: "flex",
           width: "100%",
@@ -378,9 +365,9 @@ export default function MyRequests() {
               overflowY: "auto",
             }}
           >
-            {messages.map((message) => {
+            {messages.map((message, index) => {
               return (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell sx={{ display: "flex" }}>
                     <AvatarWithColor firstName={message.first_name} />
                     <Typography sx={{ margin: "10px" }}>

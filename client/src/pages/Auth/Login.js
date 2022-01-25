@@ -70,7 +70,6 @@ import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import theme from "../../components/styles";
 
-
 function Copyright(props) {
   return (
     <Typography
@@ -102,9 +101,9 @@ export default function LogIn() {
         password: data.get("password"),
       })
       .then((res) => {
-        console.log("response:");
-        console.log(res);
-        console.log(res.data.message);
+        // console.log("response:");
+        // console.log(res);
+        // console.log(res.data.message);
         if (res.data.auth) {
           setAppState((prev) => {
             return {

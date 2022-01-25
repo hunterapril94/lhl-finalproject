@@ -25,7 +25,6 @@ export default function MyTransactions() {
     axios
       .get("http://localhost:8001/api/users/transaction-history")
       .then((res) => {
-        console.log(res.data.transactionHistory);
         setTransactions(res.data.transactionHistory);
         setIsLoading(false);
         setAppState((prev) => {
