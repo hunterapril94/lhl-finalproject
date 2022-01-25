@@ -7,6 +7,9 @@ import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import { useState } from "react";
@@ -25,21 +28,26 @@ const style = {
 
 export default function EditProfile(props) {
   // console.log(props.product);
-
+  const { user } = props;
   const [userInfo, setUserInfo] = useState({
-    firstName: props.first_name,
-    lastName: props.last_name,
-    email: props.email,
-    phone: props.phone,
-    neighborhood: props.neighborhood,
-    lender: props.lender,
-    borrower: props.borrower,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
+    phone: user.phone,
+    neighborhood: user.neighborhood,
+    lender: user.lender,
+    borrower: user.borrower,
   });
+
   const handleOnChange = (e) => {
     const name = e.target.name;
+
     setUserInfo({
       ...userInfo,
-      [name]: e.target.value,
+      [name]:
+        name === "borrower" || name === "lender"
+          ? e.target.checked
+          : e.target.value,
     });
   };
   return (
@@ -59,6 +67,7 @@ export default function EditProfile(props) {
           <Grid>
             <Box
               component="form"
+              onSubmit={(e) => e.preventDefault()}
               margin="auto"
               sx={style}
               onSubmit={props.handleSubmit}
@@ -71,19 +80,9 @@ export default function EditProfile(props) {
               >
                 Edit profile
               </Typography>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                value={userInfo.name}
-                id="FirstName"
-                label="first name"
-                name="firstName"
-                onChange={handleOnChange}
-              />
               <Box
+                fullWidth
                 sx={{
-                  width: 1,
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "center",
@@ -94,6 +93,17 @@ export default function EditProfile(props) {
               >
                 <TextField
                   margin="normal"
+                  sx={{ mr: 2 }}
+                  required
+                  fullWidth
+                  value={userInfo.firstName}
+                  id="firstName"
+                  label="first name"
+                  name="firstName"
+                  onChange={handleOnChange}
+                />
+                <TextField
+                  margin="normal"
                   required
                   fullWidth
                   id="lastName"
@@ -102,23 +112,29 @@ export default function EditProfile(props) {
                   value={userInfo.lastName}
                   onChange={handleOnChange}
                 />
-
+              </Box>
+              <Box
+                fullWidth
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <TextField
+                  fullWidth
+                  sx={{ mr: 2 }}
                   margin="normal"
-                  sx={{ ml: 2, mr: 2 }}
                   required
                   id="email"
                   label="Email"
                   name="email"
                   value={userInfo.email}
                   onChange={handleOnChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">$</InputAdornment>
-                    ),
-                  }}
                 />
                 <TextField
+                  fullWidth
                   margin="normal"
                   required
                   type="text"
@@ -127,11 +143,6 @@ export default function EditProfile(props) {
                   name="phone"
                   value={userInfo.phone}
                   onChange={handleOnChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">$</InputAdornment>
-                    ),
-                  }}
                 />
               </Box>
               <TextField
@@ -144,15 +155,43 @@ export default function EditProfile(props) {
                 value={userInfo.neighborhood}
                 onChange={handleOnChange}
               />
-              <TextField
+
+              <FormGroup
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  mb: 2,
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="lender"
+                      checked={userInfo.lender}
+                      onChange={handleOnChange}
+                    />
+                  }
+                  label="Borrower"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="borrower"
+                      checked={userInfo.borrower}
+                      onChange={handleOnChange}
+                    />
+                  }
+                  label="Lender"
+                />
+              </FormGroup>
+              {/* <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="borrower"
                 label="Borrower"
                 name="borrower"
-                multiline
-                rows="6"
                 value={userInfo.borrower}
                 onChange={handleOnChange}
               />
@@ -163,11 +202,9 @@ export default function EditProfile(props) {
                 id="lender"
                 label="Lender"
                 name="lender"
-                multiline
-                rows="6"
                 value={userInfo.lender}
                 onChange={handleOnChange}
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth

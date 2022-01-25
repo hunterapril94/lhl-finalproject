@@ -145,6 +145,7 @@ function UserDetail() {
           handleClose={handleClose}
           open={open}
           user={user}
+          handleSubmit={handleSubmit}
         ></EditProfile>
       </Box>
     </>
