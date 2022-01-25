@@ -32,6 +32,34 @@ function UserDetail() {
   console.log(appState);
   const user = appState.profile;
 
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.substr(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
   return (
     <>
       <Typography variant="h4" sx={{ mt: 2 }}>
@@ -49,8 +77,8 @@ function UserDetail() {
       >
         <Avatar
           alt="Remy Sharp"
-          src="https://149352953.v2.pressablecdn.com/wp-content/uploads/2011/03/Picture-1.png"
-          sx={{ m: "auto", mb: 2, width: 200, height: 200 }}
+          {...stringAvatar(`${user.first_name} ${user.last_name}`)}
+          sx={{ m: "auto", mb: 2, width: 200, height: 200, fontSize: 60 }}
         />
         <Typography variant="h4">{`${user.first_name} ${user.last_name}`}</Typography>
         <Typography variant="body1"> {user.email}</Typography>
@@ -82,7 +110,7 @@ function UserDetail() {
             <Chip label="Borrower" />
           )}
         </Box>
-        <Button sx={{ textAlign: "right" }}>Edit</Button>
+        <Button sx={{ textAlign: "right" }}>Edit profile</Button>
       </Box>
     </>
     // <p>Borrower: {user.borrower ? "yes" : "no"}</p>
