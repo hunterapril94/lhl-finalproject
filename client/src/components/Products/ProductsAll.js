@@ -33,10 +33,11 @@ const ProductsAll = () => {
   }, []);
   const handleSearchChange = (e) => {
     // console.log(e.target.value);
+
     setFilter(e.target.value);
   };
 
-  const getFilteredProducts = () => {
+  const getFilteredProducts = (e) => {
     return products.filter((product) => {
       return (
         product.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -69,7 +70,7 @@ const ProductsAll = () => {
         />
         <SearchSharpIcon />
       </Box>
-      <Products products={getFilteredProducts()} />;
+      <Products products={getFilteredProducts()} />
     </>
   );
 };
