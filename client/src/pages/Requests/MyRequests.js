@@ -74,7 +74,7 @@ export default function MyRequests() {
           setIncomingRequests(pendingIncommingLendRequests);
           setOutgoingRequests(pendingOutgoingBorrowRequests);
           setUnread(unreadMessages);
-          // console.log(unreadMessages);
+
           setIsLoading(false);
           setAppState((prev) => {
             return { ...prev, auth: res.data.auth };
