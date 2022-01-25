@@ -265,12 +265,13 @@ module.exports = (db) => {
         `  
         UPDATE messages
         SET is_read = true
-        WHERE id = $1 AND user_id = $2
+        WHERE id = $1 AND user_id NOT $2
       	RETURNING *;`,
         [msgID, userID]
       )
       .then((result) => {
         if (result) {
+          console.log('rows')
           return result.rows[0];
         } else {
           return null;

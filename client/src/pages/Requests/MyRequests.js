@@ -73,8 +73,14 @@ export default function MyRequests() {
       axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
       .then((res)=>{
-        // console.log(res.data)
+        console.log(res.data)
         setMessages(res.data.messages)
+        for(const message of res.data.messages) {
+          console.log(message.first_name)
+          if(!message.is_read && message.first_name !== appState.profile.first_name) {
+            axios.post(`http://localhost:8001/api/requests/messages/${message.id}/is-read`)
+          }
+        }
       })
   
 
