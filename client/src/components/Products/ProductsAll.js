@@ -37,6 +37,7 @@ const ProductsAll = () => {
     setFilter(e.target.value);
   };
 
+  const handleSubmit = (e) => e.preventDefault();
   const getFilteredProducts = (e) => {
     return products.filter((product) => {
       return (
@@ -60,6 +61,7 @@ const ProductsAll = () => {
         }}
         noValidate
         autoComplete="off"
+        onSubmit={handleSubmit}
       >
         <TextField
           id="standard-basic"
