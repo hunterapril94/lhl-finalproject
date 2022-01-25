@@ -46,9 +46,11 @@ export default function MyRequests() {
   const [IncomingRequests, setIncomingRequests] = useState([]);
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const [messageDisplay, setMessageDisplay] = useState('none')
-  const [messages, setMessages] = useState([{first_name: 'April', text: 'Can I come at 4?'}])
-  const [transactionId, setTransactionId] = useState()
+  const [messageDisplay, setMessageDisplay] = useState("none");
+  const [messages, setMessages] = useState([
+    { first_name: "April", text: "Can I come at 4?" },
+  ]);
+  const [transactionId, setTransactionId] = useState();
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -74,32 +76,33 @@ export default function MyRequests() {
 
   const message = function (event, id) {
     event.preventDefault();
-      axios
+    axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
-      .then((res)=>{
+      .then((res) => {
         // console.log(res.data)
-        setMessages(res.data.messages)
-      })
-  
+        setMessages(res.data.messages);
+      });
 
-    if(messageDisplay === 'none') {
-      setMessageDisplay('inline-block')
+    if (messageDisplay === "none") {
+      setMessageDisplay("inline-block");
     } else {
       setMessageDisplay("none");
     }
-    setTransactionId(id)
-  }
-  const send = function(event, transactionId, firstName) {
+    setTransactionId(id);
+  };
+  const send = function (event, transactionId, firstName) {
     event.preventDefault();
     const time = Date.now();
     const data = new FormData(event.currentTarget);
-    const text = data.get('text')
-    setMessages((prev)=>{
-      return [...prev, {first_name: firstName, text}]
-    })
-    console.log(transactionId, text)
-    axios
-    .post(`http://localhost:8001/api/requests/messages`, {product_transaction_id: transactionId, text: text,})
+    const text = data.get("text");
+    setMessages((prev) => {
+      return [...prev, { first_name: firstName, text }];
+    });
+    console.log(transactionId, text);
+    axios.post(`http://localhost:8001/api/requests/messages`, {
+      product_transaction_id: transactionId,
+      text: text,
+    });
     // console.log(messages)
     document.getElementById("text").value = "";
   };
@@ -109,7 +112,11 @@ export default function MyRequests() {
 
   return (
     <>
-      <Typography variant="h4" sx={{ mt: 3 }}>
+      <Typography
+        variant="h4"
+        component="h3"
+        sx={{ marginTop: 3, textAlign: "center" }}
+      >
         My Pending Requests
       </Typography>
 
@@ -132,9 +139,7 @@ export default function MyRequests() {
         {selectedTab === 0 && (
           <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
-              <Typography sx={{ textAlign: "center", mt: 4 }}>
-                You have no pending incoming request
-              </Typography>
+              <Typography>You have no pending incoming request</Typography>
             )}
             <Table sx={{ minWidth: 550 }}>
               {IncomingRequests.length !== 0 && (
@@ -221,9 +226,7 @@ export default function MyRequests() {
         {selectedTab === 1 && (
           <TableContainer component={paperOrNot}>
             {OutgoingRequests.length === 0 && (
-              <Typography sx={{ textAlign: "center", mt: 4 }}>
-                You have no pending outgoing request
-              </Typography>
+              <Typography>You have no pending outgoing request</Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (
@@ -293,37 +296,35 @@ export default function MyRequests() {
         )}
       </Box>
 
-      <TableContainer 
-        sx={{  position: 'fixed',
-          bottom: '0',
-          right: '0',
-          width: '300px'}}>
-            <Table sx={{width: '300px'}}>
-              <TableHead sx={{backgroundColor: theme.palette.primary.main, color: 'white'}} onClick={()=>{setMessageDisplay('none')}}>
-                <TableRow>
-                <TableCell sx={{color:'white'}}>
-                  Messages
-                </TableCell>
-                </TableRow>
-
-              </TableHead>
-              <TableBody sx={{display: messageDisplay, backgroundColor: 'white', width: '300px', height: '300px', 
-                overflowX: 'hidden',
-                overflowY: 'auto'}}>
-                {messages.map((message)=>{
-                  return (
-                  <TableRow >
-                    <TableCell sx={{display: 'flex'}}>
-                      <AvatarWithColor firstName={message.first_name}/>
-                      <Typography sx={{margin: '10px'}}>{message.text}</Typography>
-                    </TableCell>
-                  </TableRow>
-                )})}
-              </TableBody>
-              <TableFooter sx={{display: messageDisplay, backgroundColor: 'white', width: '300px'}}>
+      <TableContainer
+        sx={{ position: "fixed", bottom: "0", right: "0", width: "300px" }}
+      >
+        <Table sx={{ width: "300px" }}>
+          <TableHead
+            sx={{ backgroundColor: theme.palette.primary.main, color: "white" }}
+            onClick={() => {
+              setMessageDisplay("none");
+            }}
+          >
+            <TableRow>
+              <TableCell sx={{ color: "white" }}>Messages</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody
+            sx={{
+              display: messageDisplay,
+              backgroundColor: "white",
+              width: "300px",
+              height: "300px",
+              overflowX: "hidden",
+              overflowY: "auto",
+            }}
+          >
+            {messages.map((message) => {
+              return (
                 <TableRow>
                   <TableCell sx={{ display: "flex" }}>
-                    <AvatarWithColor firstName={message.firstName} />
+                    <AvatarWithColor firstName={message.first_name} />
                     <Typography sx={{ margin: "10px" }}>
                       {message.text}
                     </Typography>
@@ -331,4 +332,36 @@ export default function MyRequests() {
                 </TableRow>
               );
             })}
-         
+          </TableBody>
+          <TableFooter
+            sx={{
+              display: messageDisplay,
+              backgroundColor: "white",
+              width: "300px",
+            }}
+          >
+            <TableRow>
+              <TableCell>
+                <Box
+                  component="form"
+                  onSubmit={(event) => {
+                    send(event, transactionId, appState.profile.first_name);
+                  }}
+                >
+                  <TextField id="text" name="text" />
+                  <Button
+                    variant="contained"
+                    sx={{ marginTop: "10px" }}
+                    type="submit"
+                  >
+                    Send
+                  </Button>
+                </Box>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </>
+  );
+}
