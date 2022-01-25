@@ -14,9 +14,8 @@ import { Box, typography } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AvatarWithColor from "../../components/AvatarWithColor/AvatarWithColor.js";
-import { Grid } from "@mui/material";
+
 import { Button } from "@mui/material";
-import { Badge } from "@mui/material";
 
 import {
   AcceptButton,
@@ -60,13 +59,16 @@ export default function MyRequests() {
     axios
       .get("http://localhost:8001/api/requests/pending")
       .then((res) => {
-        const { pendingIncommingLendRequests, pendingOutgoingBorrowRequests, unreadMessages } =
-          res.data;
-        console.log(res.data);
+        const {
+          pendingIncommingLendRequests,
+          pendingOutgoingBorrowRequests,
+          unreadMessages,
+        } = res.data;
+        //  console.log(res.data);
         setIncomingRequests(pendingIncommingLendRequests);
         setOutgoingRequests(pendingOutgoingBorrowRequests);
-        setUnread(unreadMessages)
-        console.log(unreadMessages)
+        setUnread(unreadMessages);
+        // console.log(unreadMessages);
         setIsLoading(false);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
@@ -80,18 +82,21 @@ export default function MyRequests() {
     event.preventDefault();
     axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
-      .then((res)=>{
-        console.log(res.data)
-        setMessages(res.data.messages)
-        for(const message of res.data.messages) {
-          // console.log(message.first_name)
-          // console.log(message.id)
-          if(!message.is_read && message.first_name !== appState.profile.first_name) {
-            axios.post(`http://localhost:8001/api/requests/messages/${message.id}/is-read`)
+      .then((res) => {
+        // console.log(res.data);
+        setMessages(res.data.messages);
+        for (const message of res.data.messages) {
+          //  console.log(message.first_name);
+          if (
+            !message.is_read &&
+            message.first_name !== appState.profile.first_name
+          ) {
+            axios.post(
+              `http://localhost:8001/api/requests/messages/${message.id}/is-read`
+            );
           }
         }
-      })
-  
+      });
 
     if (messageDisplay === "none") {
       setMessageDisplay("inline-block");
@@ -105,11 +110,11 @@ export default function MyRequests() {
     const time = Date.now();
     const data = new FormData(event.currentTarget);
     const text = data.get("text");
-    
+
     setMessages((prev) => {
       return [...prev, { first_name: firstName, text }];
     });
-    console.log(transactionId, text);
+    // console.log(transactionId, text);
     axios.post(`http://localhost:8001/api/requests/messages`, {
       product_transaction_id: transactionId,
       text: text,
@@ -120,17 +125,26 @@ export default function MyRequests() {
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
-  const unreadFunc = function(id) {
+  const unreadFunc = function (id) {
+    console.log("incomming id");
+    console.log(id);
     let amount = 0;
-    for(const message of unread) {
-      if(message.products_transactions_id === id) {
-        amount = message.unread_total
+    console.log("unread");
+    console.log(unread);
+
+    for (const message of unread) {
+      if (message.products_tx_id === id) {
+        console.log("matched");
+        amount = Number(message.unread_total);
       }
     }
-    console.log(amount)
+    console.log("outgoing amount");
+    console.log(amount);
     return amount;
-  }
+  };
 
+  console.log("incomming requests");
+  console.log(IncomingRequests);
   return (
     <>
       <Typography
@@ -235,11 +249,8 @@ export default function MyRequests() {
                           handleSubmit={(event) => {
                             message(event, request.products_transactions_id);
                           }}
-
-                        unread={unreadFunc(request.id)}
+                          unread={unreadFunc(request.products_transactions_id)}
                         />
-                        
-                        
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -307,14 +318,12 @@ export default function MyRequests() {
                       />
                     </TableCell>
                     <TableCell>
-                      
-                        <MessageButton
+                      <MessageButton
                         handleSubmit={(event) => {
                           message(event, request.products_transactions_id);
                         }}
-                        unread={unreadFunc(request.id)}
+                        unread={unreadFunc(request.products_transactions_id)}
                       />
-                      
                     </TableCell>
                   </TableRow>
                 ))}
