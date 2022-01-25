@@ -173,12 +173,11 @@ export default function MyRequests() {
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Borrower's email</TableCell>
-                    <TableCell align="center">cost per day</TableCell>
+                    <TableCell align="center">cost/day</TableCell>
                     <TableCell align="center">days requested</TableCell>
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -217,32 +216,38 @@ export default function MyRequests() {
                       )}
                     </TableCell>
                     <TableCell align="center">
-                      <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <AcceptButton
-                          request={request}
-                          requests={IncomingRequests}
-                          setIncomingRequests={setIncomingRequests}
-                        />
-                        <RejectButton
-                          request={request}
-                          requests={IncomingRequests}
-                          setIncomingRequests={setIncomingRequests}
-                        />
-                      </Box>
-                    </TableCell>
-                    <TableCell>
                       <Box
-                        component="form"
-                        handleSubmit={(event) => {
-                          message(event, request.products_transactions_id);
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
                         }}
                       >
-                        <MessageButton
+                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                          <AcceptButton
+                            request={request}
+                            requests={IncomingRequests}
+                            setIncomingRequests={setIncomingRequests}
+                          />
+                          <RejectButton
+                            request={request}
+                            requests={IncomingRequests}
+                            setIncomingRequests={setIncomingRequests}
+                          />
+                        </Box>
+                        <Box
+                          component="form"
                           handleSubmit={(event) => {
                             message(event, request.products_transactions_id);
                           }}
-                          unread={unreadFunc(request.id)}
-                        />
+                        >
+                          <MessageButton
+                            handleSubmit={(event) => {
+                              message(event, request.products_transactions_id);
+                            }}
+                            unread={unreadFunc(request.id)}
+                          />
+                        </Box>
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -264,7 +269,7 @@ export default function MyRequests() {
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Owner's Email</TableCell>
-                    <TableCell align="center">cost per day</TableCell>
+                    <TableCell align="center">cost/day</TableCell>
                     <TableCell align="center">days requested</TableCell>
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
@@ -308,7 +313,6 @@ export default function MyRequests() {
                         requests={OutgoingRequests}
                         setIncomingRequests={setOutgoingRequests}
                       />
-
                       <MessageButton
                         handleSubmit={(event) => {
                           message(event, request.products_transactions_id);
