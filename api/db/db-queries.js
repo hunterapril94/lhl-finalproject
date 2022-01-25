@@ -289,6 +289,7 @@ module.exports = (db) => {
       )
       .then((result) => {
         if (result) {
+          console.log('rows')
           return result.rows[0];
         } else {
           return null;
