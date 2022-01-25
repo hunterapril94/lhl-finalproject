@@ -126,14 +126,17 @@ export default function NavMenu(props) {
               onClick={handleDrawerOpen}
               edge="start"
               size="large"
-              sx={{ mr: 2, ...(open && { display: "none" }) }}
+              sx={{ mr: 5, ...(open && { display: "none" }) }}
             >
               <MenuIcon />
             </IconButton>
             {/* <Typography variant="h6" noWrap component="div"> */}
             <Link to="/">
-              {" "}
-              <img src="../logo.png" alt="Next Door Lenders logo" height="60" />
+              <img
+                src="../logo/logo_white.png"
+                alt="Next Door Lenders logo"
+                height="60"
+              />
             </Link>
             {/* </Typography> */}
           </Toolbar>

@@ -133,26 +133,32 @@ const ProductDetail = () => {
           />
 
           <CardMedia component="img" image={image} alt="" />
+
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
               Item Description
+              {product.user_id === appState.profile.id && (
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button onClick={handleOpen}>Edit</Button>
+                  <CreateItem
+                    handleSubmit={updateItem}
+                    handleClose={handleClose}
+                    open={open}
+                    product={product}
+                  ></CreateItem>
+                  <Button sx={{ color: "red" }}>Delete</Button>
+                </Box>
+              )}
             </Typography>
             <Typography variant="h6" color="text.secondary">
               {description}
             </Typography>
           </CardContent>
-          {product.user_id === appState.profile.id && (
-            <Box sx={{ display: "flex" }}>
-              <Button onClick={handleOpen}>Edit</Button>
-              <CreateItem
-                handleSubmit={updateItem}
-                handleClose={handleClose}
-                open={open}
-                product={product}
-              ></CreateItem>
-              <Button>Delete</Button>
-            </Box>
-          )}
           <CardActions>
             <Grid
               ml={0.5}
