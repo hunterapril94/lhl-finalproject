@@ -71,6 +71,7 @@ module.exports = (db) => {
       object.email,
       object.phone,
     ];
+    console.log(queryParams);
     return db
       .query(
         `
@@ -727,20 +728,20 @@ module.exports = (db) => {
         }
       });
   };
-  const addNewReview = function(productId, userId, stars, title, text) {
-
+  const addNewReview = function (productId, userId, stars, title, text) {
     return db
-    .query(
-      `
+      .query(
+        `
       INSERT INTO reviews (product_id, user_id, stars, title, text)
       VALUES 
       ($1, $2, $3, $4, $5);
       `,
-      [Number(productId), Number(userId), Number(stars), title, text]
-    ).then((res) => {
-      console.log('db query worked')
-    })
-  }
+        [Number(productId), Number(userId), Number(stars), title, text]
+      )
+      .then((res) => {
+        console.log("db query worked");
+      });
+  };
 
   // const addToBalance = function (id, amount) {
   //   return db
@@ -814,7 +815,7 @@ module.exports = (db) => {
     updateBalance,
     getBalanceByUserID,
     getTransactionHistoryByUserID,
-    addNewReview
+    addNewReview,
     // addToBalance,
     // subtractFromBalance,
   };
