@@ -8,7 +8,6 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActionArea,
   Typography,
   CardActions,
   CardHeader,
@@ -17,9 +16,6 @@ import {
   Box,
   Fade,
   Button,
-  Stack,
-  TextField,
-  ThemeProvider,
 } from "@mui/material";
 // import theme from "../../components/styles";
 import ReviewsList from "../../components/Reviews/ReviewsList";
@@ -81,6 +77,7 @@ const ProductDetail = () => {
   };
 
   const updateItem = (itemInfo) => {
+    //no default prevented
     const object1 = {
       category: itemInfo.category,
       name: itemInfo.name,

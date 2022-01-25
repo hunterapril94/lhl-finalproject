@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
+
 import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { FixedSizeList } from "react-window";
+
 import { Grid } from "@mui/material";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
@@ -47,9 +45,6 @@ export default function ReviewList(props) {
     >
       <ul>
         {reviews.map((review, index) => (
-          // <ListItem key={index}>
-          //   <ListItemText primary={`Item ${item}`} />
-          // </ListItem>
           <ReviewItem key={index} review={review} />
         ))}
       </ul>
