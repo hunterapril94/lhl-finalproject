@@ -3,7 +3,6 @@ import Products from "../../components/Products/Products";
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import axios from "axios";
-import SearchBar from "../Search/SearchBar";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
@@ -37,6 +36,7 @@ const ProductsAll = () => {
     setFilter(e.target.value);
   };
 
+  const handleSubmit = (e) => e.preventDefault();
   const getFilteredProducts = (e) => {
     return products.filter((product) => {
       return (
@@ -60,6 +60,7 @@ const ProductsAll = () => {
         }}
         noValidate
         autoComplete="off"
+        onSubmit={handleSubmit}
       >
         <TextField
           id="standard-basic"
