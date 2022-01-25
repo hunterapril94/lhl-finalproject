@@ -47,14 +47,15 @@ export default function MyTransactions() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0)
   const handleClose = function() {
-    setOpen(false)
+    setOpen(false);
+    setValue(0)
   }
   const handleSubmit = function(e) {
     e.preventDefault();
     handleClose();
     const data = new FormData(e.currentTarget);
     axios
-    .post(`http://localhost:8001/api/review/new`, {product_id: itemInfo.product_id, title: data.get('title'), text: data.get('text'), stars: value})
+    .post(`http://localhost:8001/api/products/reviews/new`, {product_id: itemInfo.product_id, title: data.get('title'), text: data.get('text'), stars: value})
     console.log({product_id: itemInfo.product_id, title: data.get('title'), text: data.get('text'), stars: value})
   }
   const handleOpen = function(product_id) {
@@ -201,7 +202,7 @@ export default function MyTransactions() {
                                 <Rating
                                   name="stars"
                                   value={value}
-                                  precision={0.5}
+                                  precision={1}
                                   onChange={(event, newValue) => {
                                   setValue(newValue);
                                   }}

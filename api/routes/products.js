@@ -233,5 +233,42 @@ module.exports = (db) => {
       });
   });
 
+  //-----------------------------------------------------------------
+  // post /api/products/reviews/new
+  //-----------------------------------------------------------------
+
+  router.post("/reviews/new", (req, res) =>{
+    const { isLoggedIn, userID } = req; //gets this from middleware
+    // createProduct;
+    if (!isLoggedIn) {
+      return res.status(401).json({
+        auth: false,
+        message: "not authorized",
+        isApproved: false,
+      });
+    }
+    console.log('request received')
+    db
+    .addNewReview(req.body.product_id, 
+      userID, 
+      req.body.stars, 
+      req.body.title, 
+      req.body.text)
+    .then(() => {
+      console.log('sucessfully added')
+      res.json({
+        auth: true,
+        message: "successfully added review"
+      });
+    })
+    .catch((err) => {
+      console.log(err.message)
+      res.status(500).json({
+        auth: isLoggedIn,
+        message: err.message,
+      });
+    });
+  });
+
   return router;
 };
