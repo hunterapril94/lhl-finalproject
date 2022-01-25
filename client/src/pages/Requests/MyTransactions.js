@@ -14,6 +14,7 @@ import axios from "axios";
 import { useOutletContext } from "react-router";
 import { dayFormater, dayCalulator } from "./MyRequests";
 import { Link } from "react-router-dom";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 export default function MyTransactions() {
   let number = 1;
@@ -38,11 +39,7 @@ export default function MyTransactions() {
   const paperOrNot = transactions.length !== 0 ? Paper : null;
   return (
     <>
-      <Typography
-        variant="h4"
-        component="h3"
-        sx={{ marginTop: 3, textAlign: "center" }}
-      >
+      <Typography variant="h4" component="h3" sx={{ marginTop: 2 }}>
         Request History
       </Typography>
       <Box
@@ -56,7 +53,9 @@ export default function MyTransactions() {
       >
         <TableContainer component={paperOrNot}>
           {transactions.length === 0 && (
-            <Typography>You have no transaction history</Typography>
+            <Typography sx={{ textAlign: "center" }}>
+              You have no transaction history
+            </Typography>
           )}
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
             {transactions.length !== 0 && (
@@ -114,9 +113,12 @@ export default function MyTransactions() {
                     {transaction.status}
                   </TableCell>
                   <TableCell>
-                    <Link to={`/product/${transaction.product_id}/review/new`}           
-                    style={{ textDecoration: "none", color: "white" }}>
-                      <Button variant='contained'>Leave Review</Button></Link>
+                    <Link
+                      to={`/product/${transaction.product_id}/review/new`}
+                      style={{ textDecoration: "none", color: "white" }}
+                    >
+                      <Button color="secondary">Leave Review</Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

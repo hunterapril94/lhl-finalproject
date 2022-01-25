@@ -44,6 +44,7 @@ function Product(props) {
               </CardContent>
             </Box>
             <Button
+              color="secondary"
               size="small"
               sx={{
                 textDecoration: "none",

@@ -17,7 +17,12 @@ import AvatarWithColor from "../../components/AvatarWithColor/AvatarWithColor.js
 import { Grid } from "@mui/material";
 import { Button } from "@mui/material";
 
-import { AcceptButton, CancelButton, RejectButton, MessageButton } from "./Buttons.js";
+import {
+  AcceptButton,
+  CancelButton,
+  RejectButton,
+  MessageButton,
+} from "./Buttons.js";
 import theme from "../../components/styles.js";
 
 export const dayCalulator = (startDay, endDate) => {
@@ -47,7 +52,6 @@ export default function MyRequests() {
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
-
   };
 
   useEffect(() => {
@@ -68,7 +72,7 @@ export default function MyRequests() {
       .catch((err) => console.log(err.message));
   }, [setAppState]);
 
-  const message = function(event, id) {
+  const message = function (event, id) {
     event.preventDefault();
       axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
@@ -81,7 +85,7 @@ export default function MyRequests() {
     if(messageDisplay === 'none') {
       setMessageDisplay('inline-block')
     } else {
-      setMessageDisplay('none')
+      setMessageDisplay("none");
     }
     setTransactionId(id)
   }
@@ -97,20 +101,15 @@ export default function MyRequests() {
     axios
     .post(`http://localhost:8001/api/requests/messages`, {product_transaction_id: transactionId, text: text,})
     // console.log(messages)
-    document.getElementById('text').value = ''
-
-  }
+    document.getElementById("text").value = "";
+  };
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
-  
+
   return (
     <>
-      <Typography
-        variant="h4"
-        component="h3"
-        sx={{ marginTop: 3, textAlign: "center" }}
-      >
+      <Typography variant="h4" sx={{ mt: 3 }}>
         My Pending Requests
       </Typography>
 
@@ -133,7 +132,9 @@ export default function MyRequests() {
         {selectedTab === 0 && (
           <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
-              <Typography>You have no pending incoming request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending incoming request
+              </Typography>
             )}
             <Table sx={{ minWidth: 550 }}>
               {IncomingRequests.length !== 0 && (
@@ -196,14 +197,20 @@ export default function MyRequests() {
                         requests={IncomingRequests}
                         setIncomingRequests={setIncomingRequests}
                       />
-                      
-                      
                     </TableCell>
                     <TableCell>
-                      <Box component='form' handleSubmit={(event)=>{message(event, request.products_transactions_id)}}>
-                      <MessageButton  handleSubmit={(event)=>{message(event, request.products_transactions_id)}}/>
+                      <Box
+                        component="form"
+                        handleSubmit={(event) => {
+                          message(event, request.products_transactions_id);
+                        }}
+                      >
+                        <MessageButton
+                          handleSubmit={(event) => {
+                            message(event, request.products_transactions_id);
+                          }}
+                        />
                       </Box>
-                      
                     </TableCell>
                   </TableRow>
                 ))}
@@ -214,7 +221,9 @@ export default function MyRequests() {
         {selectedTab === 1 && (
           <TableContainer component={paperOrNot}>
             {OutgoingRequests.length === 0 && (
-              <Typography>You have no pending outgoing request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending outgoing request
+              </Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (
@@ -270,7 +279,11 @@ export default function MyRequests() {
                       />
                     </TableCell>
                     <TableCell>
-                      <MessageButton handleSubmit={(event)=>{message(event, request.products_transactions_id)}} />
+                      <MessageButton
+                        handleSubmit={(event) => {
+                          message(event, request.products_transactions_id);
+                        }}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -309,16 +322,13 @@ export default function MyRequests() {
               </TableBody>
               <TableFooter sx={{display: messageDisplay, backgroundColor: 'white', width: '300px'}}>
                 <TableRow>
-                  <TableCell>
-                    <Box component='form' onSubmit={(event)=>{send(event, transactionId, appState.profile.first_name)}}>
-                    <TextField id="text" name='text' />
-                    <Button variant='contained' sx={{marginTop: '10px'}} type='submit'>Send</Button>
-                    </Box>
+                  <TableCell sx={{ display: "flex" }}>
+                    <AvatarWithColor firstName={message.firstName} />
+                    <Typography sx={{ margin: "10px" }}>
+                      {message.text}
+                    </Typography>
                   </TableCell>
                 </TableRow>
-              </TableFooter>
-            </Table>
-        </TableContainer>
-    </>
-  );
-}
+              );
+            })}
+         

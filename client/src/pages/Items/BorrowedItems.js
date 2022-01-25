@@ -31,8 +31,11 @@ export default function BorrrowedItems() {
   return (
     <>
       <main>
-        <Typography variant="h2"> Borrowed Items</Typography>
-        <Typography>
+        <Typography variant="h4" sx={{ mt: 2 }}>
+          {" "}
+          Borrowed Items
+        </Typography>
+        <Typography sx={{ textAlign: "center" }}>
           {products.length === 0 && "You have no borrowed items"}
         </Typography>
         <Items items={products} setProducts={setProducts}></Items>

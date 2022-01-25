@@ -136,7 +136,9 @@ export const CancelButton = (props) => {
   };
   return (
     <>
-      <SecondChanceButton onClick={handleSubmit}>CANCEL</SecondChanceButton>
+      <SecondChanceButton color="error" onClick={handleSubmit}>
+        CANCEL
+      </SecondChanceButton>
     </>
   );
 };
@@ -182,6 +184,16 @@ export const ReturnButton = (props) => {
   );
 };
 
-export const MessageButton = function(props) {
-  return <Button variant='contained' onClick={(event) =>{props.handleSubmit(event)}}>Message</Button>
-}
+export const MessageButton = function (props) {
+  return (
+    <Button
+      variant="outlined"
+      color="secondary"
+      onClick={(event) => {
+        props.handleSubmit(event);
+      }}
+    >
+      Message
+    </Button>
+  );
+};
