@@ -60,13 +60,16 @@ export default function MyRequests() {
     axios
       .get("http://localhost:8001/api/requests/pending")
       .then((res) => {
-        const { pendingIncommingLendRequests, pendingOutgoingBorrowRequests, unreadMessages } =
-          res.data;
+        const {
+          pendingIncommingLendRequests,
+          pendingOutgoingBorrowRequests,
+          unreadMessages,
+        } = res.data;
         console.log(res.data);
         setIncomingRequests(pendingIncommingLendRequests);
         setOutgoingRequests(pendingOutgoingBorrowRequests);
-        setUnread(unreadMessages)
-        console.log(unreadMessages)
+        setUnread(unreadMessages);
+        console.log(unreadMessages);
         setIsLoading(false);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
@@ -80,18 +83,22 @@ export default function MyRequests() {
     event.preventDefault();
     axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
-      .then((res)=>{
-        console.log(res.data)
-        setMessages(res.data.messages)
-        for(const message of res.data.messages) {
+      .then((res) => {
+        console.log(res.data);
+        setMessages(res.data.messages);
+        for (const message of res.data.messages) {
           // console.log(message.first_name)
           // console.log(message.id)
-          if(!message.is_read && message.first_name !== appState.profile.first_name) {
-            axios.post(`http://localhost:8001/api/requests/messages/${message.id}/is-read`)
+          if (
+            !message.is_read &&
+            message.first_name !== appState.profile.first_name
+          ) {
+            axios.post(
+              `http://localhost:8001/api/requests/messages/${message.id}/is-read`
+            );
           }
         }
-      })
-  
+      });
 
     if (messageDisplay === "none") {
       setMessageDisplay("inline-block");
@@ -105,7 +112,7 @@ export default function MyRequests() {
     const time = Date.now();
     const data = new FormData(event.currentTarget);
     const text = data.get("text");
-    
+
     setMessages((prev) => {
       return [...prev, { first_name: firstName, text }];
     });
@@ -120,24 +127,20 @@ export default function MyRequests() {
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
-  const unreadFunc = function(id) {
+  const unreadFunc = function (id) {
     let amount = 0;
-    for(const message of unread) {
-      if(message.products_transactions_id === id) {
-        amount = message.unread_total
+    for (const message of unread) {
+      if (message.products_transactions_id === id) {
+        amount = message.unread_total;
       }
     }
-    console.log(amount)
+    console.log(amount);
     return amount;
-  }
+  };
 
   return (
     <>
-      <Typography
-        variant="h4"
-        component="h3"
-        sx={{ marginTop: 3, textAlign: "center" }}
-      >
+      <Typography variant="h4" component="h3" sx={{ marginTop: 2 }}>
         My Pending Requests
       </Typography>
 
@@ -160,9 +163,11 @@ export default function MyRequests() {
         {selectedTab === 0 && (
           <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
-              <Typography>You have no pending incoming request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending incoming request
+              </Typography>
             )}
-            <Table sx={{ minWidth: 550 }}>
+            <Table sx={{ minWidth: 550 }} size="small">
               {IncomingRequests.length !== 0 && (
                 <TableHead>
                   <TableRow>
@@ -173,7 +178,6 @@ export default function MyRequests() {
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
@@ -213,16 +217,18 @@ export default function MyRequests() {
                       )}
                     </TableCell>
                     <TableCell align="center">
-                      <AcceptButton
-                        request={request}
-                        requests={IncomingRequests}
-                        setIncomingRequests={setIncomingRequests}
-                      />
-                      <RejectButton
-                        request={request}
-                        requests={IncomingRequests}
-                        setIncomingRequests={setIncomingRequests}
-                      />
+                      <Box sx={{ display: "flex", flexDirection: "column" }}>
+                        <AcceptButton
+                          request={request}
+                          requests={IncomingRequests}
+                          setIncomingRequests={setIncomingRequests}
+                        />
+                        <RejectButton
+                          request={request}
+                          requests={IncomingRequests}
+                          setIncomingRequests={setIncomingRequests}
+                        />
+                      </Box>
                     </TableCell>
                     <TableCell>
                       <Box
@@ -235,11 +241,8 @@ export default function MyRequests() {
                           handleSubmit={(event) => {
                             message(event, request.products_transactions_id);
                           }}
-
-                        unread={unreadFunc(request.id)}
+                          unread={unreadFunc(request.id)}
                         />
-                        
-                        
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -251,7 +254,9 @@ export default function MyRequests() {
         {selectedTab === 1 && (
           <TableContainer component={paperOrNot}>
             {OutgoingRequests.length === 0 && (
-              <Typography>You have no pending outgoing request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending outgoing request
+              </Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (
@@ -264,8 +269,6 @@ export default function MyRequests() {
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -305,16 +308,13 @@ export default function MyRequests() {
                         requests={OutgoingRequests}
                         setIncomingRequests={setOutgoingRequests}
                       />
-                    </TableCell>
-                    <TableCell>
-                      
-                        <MessageButton
+
+                      <MessageButton
                         handleSubmit={(event) => {
                           message(event, request.products_transactions_id);
                         }}
                         unread={unreadFunc(request.id)}
                       />
-                      
                     </TableCell>
                   </TableRow>
                 ))}

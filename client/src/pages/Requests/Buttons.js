@@ -2,7 +2,7 @@ import axios from "axios";
 import { Button, Box, Badge } from "@mui/material";
 import { useState } from "react";
 import { useOutletContext } from "react-router";
-import MailIcon from '@mui/icons-material/Mail';
+import MailIcon from "@mui/icons-material/Mail";
 import theme from "../../components/styles";
 
 const SecondChanceButton = ({ onClick, children, ...rest }) => {
@@ -55,7 +55,8 @@ export const AcceptButton = (props) => {
     <>
       {/* <Box sx={{ m: 1 }}> */}
       <SecondChanceButton
-        sx={{ m: 1 }}
+        sx={{ m: 0.5 }}
+        size="small"
         onClick={handleSubmit}
         variant="contained"
         color="success"
@@ -97,6 +98,8 @@ export const RejectButton = (props) => {
   return (
     <>
       <SecondChanceButton
+        sx={{ m: 0.5 }}
+        size="small"
         color="error"
         variant="outlined"
         onClick={handleSubmit}
@@ -189,16 +192,16 @@ export const ReturnButton = (props) => {
 export const MessageButton = function (props) {
   return (
     <Button
-      variant="outlined"
+      // variant="contained"
+      size="small"
       color="secondary"
       onClick={(event) => {
         props.handleSubmit(event);
       }}
     >
-      <Badge badgeContent={props.unread} color='secondary'>
-      <MailIcon />
+      <Badge badgeContent={props.unread} color="secondary">
+        <MailIcon />
       </Badge>
-  
     </Button>
   );
 };
