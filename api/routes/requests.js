@@ -459,7 +459,7 @@ module.exports = (db) => {
       });
     }
 
-    db.updateMessageToReadByMessageID(1, 1)
+    db.updateMessageToReadByMessageID(req.params.id, userID)
       .then((message) => {
         if (!message) {
           return Promise.reject("unable to update status!");
