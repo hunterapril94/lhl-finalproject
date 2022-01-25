@@ -132,8 +132,8 @@ module.exports = (db) => {
       });
     }
 
-    console.log(req.params.id);
-    console.log(userID);
+    //console.log(req.params.id);
+    // console.log(userID);
     if (userID !== Number(req.params.id)) {
       return res.status(401).json({
         auth: true,
@@ -154,7 +154,7 @@ module.exports = (db) => {
       id: req.params.id,
     };
 
-    console.log(editProduct);
+    //console.log(editProduct);
 
     db.updateProductInfo(userID, editProduct)
       .then(() => {

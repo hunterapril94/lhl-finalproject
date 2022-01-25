@@ -68,7 +68,7 @@ module.exports = (db) => {
 
     db.getTransactionHistoryByUserID(userID)
       .then((transactionHistory) => {
-        console.log(transactionHistory);
+        //console.log(transactionHistory);
         return res.json({
           auth: true,
           message: "successfully got my products",
