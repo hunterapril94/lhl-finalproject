@@ -18,6 +18,7 @@ module.exports = (db) => {
     Promise.all([
       db.getPendingLendRequestsByUserId(userID),
       db.getBorrowRequestsByUserId(userID),
+      db.getUnreadMessagesCountForProductTxByUserID(userID),
     ])
       .then((values) => {
         if (!values[0] || !values[1]) {
@@ -33,6 +34,7 @@ module.exports = (db) => {
           message: "successfully retrieved user by ID",
           pendingIncommingLendRequests: values[0],
           pendingOutgoingBorrowRequests: values[1],
+          unreadMessages: values[2],
         });
       })
       .catch((err) => {
@@ -477,28 +479,6 @@ module.exports = (db) => {
           updated: false,
         });
       });
-
-    // db.addMessage(message)
-    //   .then((newMessage) => {
-    //     if (!newMessage) {
-    //       res.json({
-    //         auth: true,
-    //         message: "new Message could not be created",
-    //       });
-    //     }
-
-    //     return res.json({
-    //       auth: true,
-    //       message: "created new message",
-    //       newMessage,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     res.status(500).json({
-    //       auth: true,
-    //       message: "internal server error",
-    //     });
-    //   });
   });
 
   return router;
