@@ -83,7 +83,7 @@ export default function MyRequests() {
     } else {
       setMessageDisplay('none')
     }
-
+    setTransactionId(id)
   }
   const send = function(event, transactionId, firstName) {
     event.preventDefault();
@@ -91,8 +91,9 @@ export default function MyRequests() {
     const data = new FormData(event.currentTarget);
     const text = data.get('text')
     setMessages((prev)=>{
-      return [...prev, {firstName, text}]
+      return [...prev, {first_name: firstName, text}]
     })
+    console.log(transactionId, text)
     axios
     .post(`http://localhost:8001/api/requests/messages`, {product_transaction_id: transactionId, text: text,})
     // console.log(messages)

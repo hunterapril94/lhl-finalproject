@@ -4,5 +4,5 @@ CREATE TABLE messages (
   product_transaction_id INTEGER NOT NULL REFERENCES products_transactions(id),
   user_id INTEGER NOT NULL REFERENCES users(id),
   text TEXT,
-  send_time TIMESTAMP
+  send_time TIMESTAMP NOT NULL DEFAULT NOW()
 );
