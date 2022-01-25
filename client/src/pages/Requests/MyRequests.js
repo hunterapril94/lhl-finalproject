@@ -70,14 +70,14 @@ export default function MyRequests() {
 
   const message = function(event, id) {
     event.preventDefault();
-    // setInterval(
       axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
       .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         setMessages(res.data.messages)
       })
-    // )
+  
+
     if(messageDisplay === 'none') {
       setMessageDisplay('inline-block')
     } else {
