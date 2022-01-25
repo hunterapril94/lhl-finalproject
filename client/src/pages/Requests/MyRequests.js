@@ -17,7 +17,12 @@ import AvatarWithColor from "../../components/AvatarWithColor/AvatarWithColor.js
 import { Grid } from "@mui/material";
 import { Button } from "@mui/material";
 
-import { AcceptButton, CancelButton, RejectButton, MessageButton } from "./Buttons.js";
+import {
+  AcceptButton,
+  CancelButton,
+  RejectButton,
+  MessageButton,
+} from "./Buttons.js";
 import theme from "../../components/styles.js";
 
 export const dayCalulator = (startDay, endDate) => {
@@ -41,13 +46,14 @@ export default function MyRequests() {
   const [IncomingRequests, setIncomingRequests] = useState([]);
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const [messageDisplay, setMessageDisplay] = useState('none')
-  const [messages, setMessages] = useState([{first_name: 'April', text: 'Can I come at 4?'}])
-  const [transactionId, setTransactionId] = useState()
+  const [messageDisplay, setMessageDisplay] = useState("none");
+  const [messages, setMessages] = useState([
+    { first_name: "April", text: "Can I come at 4?" },
+  ]);
+  const [transactionId, setTransactionId] = useState();
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
-
   };
 
   useEffect(() => {
@@ -68,9 +74,9 @@ export default function MyRequests() {
       .catch((err) => console.log(err.message));
   }, [setAppState]);
 
-  const message = function(event, id) {
+  const message = function (event, id) {
     event.preventDefault();
-      axios
+    axios
       .get(`http://localhost:8001/api/requests/messages/${id}`)
       .then((res)=>{
         console.log(res.data)
@@ -84,32 +90,33 @@ export default function MyRequests() {
       })
   
 
-    if(messageDisplay === 'none') {
-      setMessageDisplay('inline-block')
+    if (messageDisplay === "none") {
+      setMessageDisplay("inline-block");
     } else {
-      setMessageDisplay('none')
+      setMessageDisplay("none");
     }
-    setTransactionId(id)
-  }
-  const send = function(event, transactionId, firstName) {
+    setTransactionId(id);
+  };
+  const send = function (event, transactionId, firstName) {
     event.preventDefault();
     const time = Date.now();
     const data = new FormData(event.currentTarget);
-    const text = data.get('text')
-    setMessages((prev)=>{
-      return [...prev, {first_name: firstName, text}]
-    })
-    console.log(transactionId, text)
-    axios
-    .post(`http://localhost:8001/api/requests/messages`, {product_transaction_id: transactionId, text: text,})
+    const text = data.get("text");
+    setMessages((prev) => {
+      return [...prev, { first_name: firstName, text }];
+    });
+    console.log(transactionId, text);
+    axios.post(`http://localhost:8001/api/requests/messages`, {
+      product_transaction_id: transactionId,
+      text: text,
+    });
     // console.log(messages)
-    document.getElementById('text').value = ''
-
-  }
+    document.getElementById("text").value = "";
+  };
 
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
-  
+
   return (
     <>
       <Typography
@@ -202,14 +209,20 @@ export default function MyRequests() {
                         requests={IncomingRequests}
                         setIncomingRequests={setIncomingRequests}
                       />
-                      
-                      
                     </TableCell>
                     <TableCell>
-                      <Box component='form' handleSubmit={(event)=>{message(event, request.products_transactions_id)}}>
-                      <MessageButton  handleSubmit={(event)=>{message(event, request.products_transactions_id)}}/>
+                      <Box
+                        component="form"
+                        handleSubmit={(event) => {
+                          message(event, request.products_transactions_id);
+                        }}
+                      >
+                        <MessageButton
+                          handleSubmit={(event) => {
+                            message(event, request.products_transactions_id);
+                          }}
+                        />
                       </Box>
-                      
                     </TableCell>
                   </TableRow>
                 ))}
@@ -276,7 +289,11 @@ export default function MyRequests() {
                       />
                     </TableCell>
                     <TableCell>
-                      <MessageButton handleSubmit={(event)=>{message(event, request.products_transactions_id)}} />
+                      <MessageButton
+                        handleSubmit={(event) => {
+                          message(event, request.products_transactions_id);
+                        }}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -286,45 +303,72 @@ export default function MyRequests() {
         )}
       </Box>
 
-      <TableContainer 
-        sx={{  position: 'fixed',
-          bottom: '0',
-          right: '0',
-          width: '300px'}}>
-            <Table sx={{width: '300px'}}>
-              <TableHead sx={{backgroundColor: theme.palette.primary.main, color: 'white'}} onClick={()=>{setMessageDisplay('none')}}>
+      <TableContainer
+        sx={{ position: "fixed", bottom: "0", right: "0", width: "300px" }}
+      >
+        <Table sx={{ width: "300px" }}>
+          <TableHead
+            sx={{ backgroundColor: theme.palette.primary.main, color: "white" }}
+            onClick={() => {
+              setMessageDisplay("none");
+            }}
+          >
+            <TableRow>
+              <TableCell sx={{ color: "white" }}>Messages</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody
+            sx={{
+              display: messageDisplay,
+              backgroundColor: "white",
+              width: "300px",
+              height: "300px",
+              overflowX: "hidden",
+              overflowY: "auto",
+            }}
+          >
+            {messages.map((message) => {
+              return (
                 <TableRow>
-                <TableCell sx={{color:'white'}}>
-                  Messages
-                </TableCell>
-                </TableRow>
-
-              </TableHead>
-              <TableBody sx={{display: messageDisplay, backgroundColor: 'white', width: '300px', height: '300px', 
-                overflowX: 'hidden',
-                overflowY: 'auto'}}>
-                {messages.map((message)=>{
-                  return (
-                  <TableRow >
-                    <TableCell sx={{display: 'flex'}}>
-                      <AvatarWithColor firstName={message.first_name}/>
-                      <Typography sx={{margin: '10px'}}>{message.text}</Typography>
-                    </TableCell>
-                  </TableRow>
-                )})}
-              </TableBody>
-              <TableFooter sx={{display: messageDisplay, backgroundColor: 'white', width: '300px'}}>
-                <TableRow>
-                  <TableCell>
-                    <Box component='form' onSubmit={(event)=>{send(event, transactionId, appState.profile.first_name)}}>
-                    <TextField id="text" name='text' />
-                    <Button variant='contained' sx={{marginTop: '10px'}} type='submit'>Send</Button>
-                    </Box>
+                  <TableCell sx={{ display: "flex" }}>
+                    <AvatarWithColor firstName={message.first_name} />
+                    <Typography sx={{ margin: "10px" }}>
+                      {message.text}
+                    </Typography>
                   </TableCell>
                 </TableRow>
-              </TableFooter>
-            </Table>
-        </TableContainer>
+              );
+            })}
+          </TableBody>
+          <TableFooter
+            sx={{
+              display: messageDisplay,
+              backgroundColor: "white",
+              width: "300px",
+            }}
+          >
+            <TableRow>
+              <TableCell>
+                <Box
+                  component="form"
+                  onSubmit={(event) => {
+                    send(event, transactionId, appState.profile.first_name);
+                  }}
+                >
+                  <TextField id="text" name="text" />
+                  <Button
+                    variant="contained"
+                    sx={{ marginTop: "10px" }}
+                    type="submit"
+                  >
+                    Send
+                  </Button>
+                </Box>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
     </>
   );
 }

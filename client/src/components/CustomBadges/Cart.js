@@ -18,7 +18,7 @@ export default function CustomizedBadges(props) {
     <IconButton aria-label="cart">
       <StyledBadge badgeContent={props.count} sx={{ color: "Chartreuse" }}>
         <ShoppingCartIcon
-          sx={{ fontSize: 45, padding: 0, margin: 0, color: "white" }}
+          sx={{ fontSize: 35, padding: 0, margin: 0, color: "white" }}
         />
       </StyledBadge>
     </IconButton>
