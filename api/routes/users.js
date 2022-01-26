@@ -354,6 +354,8 @@ module.exports = (db) => {
         res.status(500).json({
           auth: false,
           message: "internal server error",
+          severity: "error",
+          isShown: true,
         });
       });
   });

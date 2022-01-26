@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TableFooter, TextField, Typography } from "@mui/material";
-import { Box, typography } from "@mui/system";
+import { Box } from "@mui/system";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AvatarWithColor from "../../components/AvatarWithColor/AvatarWithColor.js";
@@ -158,7 +158,6 @@ export default function MyRequests() {
   }
   const send = function (event, transactionId, firstName) {
     event.preventDefault();
-    const time = Date.now();
     const data = new FormData(event.currentTarget);
     const text = data.get("text");
 

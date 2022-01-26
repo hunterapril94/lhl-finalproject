@@ -1,20 +1,8 @@
 //this file is throwing console errors --KM
 import React from "react";
 import axios from "axios";
-import {
-  Grid,
-  CardMedia,
-  CardContent,
-  Button,
-  Box,
-  Typography,
-  Avatar,
-  Chip,
-} from "@mui/material";
+import { Grid, Button, Box, Typography, Avatar, Chip } from "@mui/material";
 import { useOutletContext } from "react-router";
-import EditIcon from "@mui/icons-material/Edit";
-import theme from "../../components/styles";
-import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
