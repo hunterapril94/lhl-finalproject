@@ -38,25 +38,34 @@ export default function MyTransactions() {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [appState, setAppState] = useOutletContext();
-  const [itemInfo, setItemInfo] = useState()
+  const [itemInfo, setItemInfo] = useState();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(0)
-  const handleClose = function() {
+  const [value, setValue] = useState(0);
+  const handleClose = function () {
     setOpen(false);
-    setValue(0)
-  }
-  const handleSubmit = function(e) {
-    e.preventDefault();
+    setValue(0);
+  };
+  const handleSubmit = function (e) {
+    // e.preventDefault();
     handleClose();
     const data = new FormData(e.currentTarget);
-    axios
-    .post(`http://localhost:8001/api/products/reviews/new`, {product_id: itemInfo.product_id, title: data.get('title'), text: data.get('text'), stars: value})
-    console.log({product_id: itemInfo.product_id, title: data.get('title'), text: data.get('text'), stars: value})
-  }
-  const handleOpen = function(product_id) {
+    axios.post(`http://localhost:8001/api/products/reviews/new`, {
+      product_id: itemInfo.product_id,
+      title: data.get("title"),
+      text: data.get("text"),
+      stars: value,
+    });
+    console.log({
+      product_id: itemInfo.product_id,
+      title: data.get("title"),
+      text: data.get("text"),
+      stars: value,
+    });
+  };
+  const handleOpen = function (product_id) {
     setOpen(true);
-    setItemInfo({product_id})
-  }
+    setItemInfo({ product_id });
+  };
   useEffect(() => {
     axios
       .get("http://localhost:8001/api/users/transaction-history")
@@ -148,78 +157,85 @@ export default function MyTransactions() {
                     {transaction.status}
                   </TableCell>
                   <TableCell>
-                      <Button color="secondary" onClick={() =>{handleOpen(transaction.product_id)}}>Leave Review</Button>
-                      <Modal
-                        aria-labelledby="transition-modal-title"
-                        aria-describedby="transition-modal-description"
-                        open={open}
-                        onClose={handleClose}
-                        closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
+                    <Button
+                      color="secondary"
+                      onClick={() => {
+                        handleOpen(transaction.product_id);
+                      }}
+                    >
+                      Leave Review
+                    </Button>
+                    <Modal
+                      aria-labelledby="transition-modal-title"
+                      aria-describedby="transition-modal-description"
+                      open={open}
+                      onClose={handleClose}
+                      closeAfterTransition
+                      BackdropComponent={Backdrop}
+                      BackdropProps={{
                         timeout: 500,
-                        }}
-                      >
-                        <Fade in={open}>
-                          <Grid>
-                            <Box
-                              component="form"
-                              margin="auto"
-                              sx={style}
-                              onSubmit={(e) =>{handleSubmit(e)}}
+                      }}
+                    >
+                      <Fade in={open}>
+                        <Grid>
+                          <Box
+                            component="form"
+                            margin="auto"
+                            sx={style}
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              handleSubmit(e);
+                            }}
+                          >
+                            <Typography
+                              id="transition-modal-title"
+                              variant="h4"
+                              component="h2"
+                              sx={{ mb: 2, textAlign: "center" }}
                             >
-                              <Typography
-                                id="transition-modal-title"
-                                variant="h4"
-                                component="h2"
-                                sx={{ mb: 2, textAlign: "center" }}
-                              >
-                                Review Item
-                              </Typography>
-                                <TextField
-                                  margin="normal"
-                                  required
-                                  fullWidth
-                                  id="title"
-                                  label="Title"
-                                  name="title"
-                                />
-                                <TextField
-                                  margin="normal"
-                                  required
-                                  fullWidth
-                                  id="text"
-                                  label="Text"
-                                  name="text"
-                                  multiline
-                                  rows="6"
-                                />
-                                <Rating
-                                  name="stars"
-                                  value={value}
-                                  precision={1}
-                                  onChange={(event, newValue) => {
-                                  setValue(newValue);
-                                  }}
-                                />
-                                <Button
-                                  type="submit"
-                                  fullWidth
-                                  size="large"
-                                  variant="contained"
-                                  color="secondary"
-                                  sx={{ marginTop: "10px" }}
-                                  onClick={(e) => {
-                                  // e.preventDefault();
-                                  handleSubmit(itemInfo);
-                                  }}
-                                >
-                                  {itemInfo ? "Save" : "Create"}
-                                </Button>
-                              </Box>
-                            </Grid>
-                          </Fade>
-                        </Modal>
+                              Review Item
+                            </Typography>
+                            <TextField
+                              margin="normal"
+                              required
+                              fullWidth
+                              id="title"
+                              label="Title"
+                              name="title"
+                            />
+                            <TextField
+                              margin="normal"
+                              required
+                              fullWidth
+                              id="text"
+                              label="Text"
+                              name="text"
+                              multiline
+                              rows="6"
+                            />
+                            <Rating
+                              name="stars"
+                              value={value}
+                              precision={1}
+                              onChange={(event, newValue) => {
+                                setValue(newValue);
+                              }}
+                            />
+                            <Button
+                              type="submit"
+                              fullWidth
+                              size="large"
+                              variant="contained"
+                              color="secondary"
+                              sx={{ marginTop: "10px" }}
+                              //doesnt need click handler dont add again
+                            >
+                              {itemInfo ? "Save" : "Create"}
+                            </Button>
+                          </Box>
+                        </Grid>
+                      </Fade>
+                    </Modal>
                   </TableCell>
                 </TableRow>
               ))}

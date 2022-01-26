@@ -11,7 +11,8 @@ import { Button, Typography, Box } from "@mui/material";
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
   const [appState, setAppState] = useOutletContext();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -21,6 +22,7 @@ const MyProducts = () => {
       .then((res) => {
         console.log(res.data.myProducts);
         setProducts(res.data.myProducts);
+        setIsLoading(false);
         setAppState((prev) => {
           return { ...prev, auth: res.data.auth };
         });
@@ -28,24 +30,52 @@ const MyProducts = () => {
       .catch((err) => console.log(err.message));
   }, []);
 
-  const handleSubmit = (itemInfo) => {
+  const handleSubmit = (e) => {
+    const data = new FormData(e.currentTarget);
+
+    // console.log(data.get("name"));
     const object1 = {
-      category: itemInfo.category,
-      name: itemInfo.name,
-      price_per_day_cents: Number(itemInfo.price) * 100,
-      description: itemInfo.description,
-      deposit_amount_cents: Number(itemInfo.deposit) * 100,
-      image: itemInfo.imageUrl,
+      category: data.get("category"),
+      name: data.get("name"),
+      price_per_day_cents: Number(data.get("price")) * 100,
+      description: data.get("description"),
+      deposit_amount_cents: Number(data.get("deposit")) * 100,
+      image: data.get("imageUrl"),
     };
+
+    //console.log(object1);
     axios
       .post("http://localhost:8001/api/products/", object1)
       .then((res) => {
+        // console.log("responsre form server");
         console.log(res);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
+        });
+        //  console.log("products");
+        //  console.log(products);
+        setProducts((prev) => [...prev, res.data.product]);
+        handleClose();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setAppState((prev) => {
+          return {
+            ...prev,
+            snackBar: {
+              isShown: true,
+              severity: "error",
+              message: "error: cannot add new product",
+            },
+          };
+        });
       });
-    // navigate("/my-products");
   };
   // console.log(appState);
   return (
@@ -70,7 +100,7 @@ const MyProducts = () => {
           open={open}
         ></CreateItem>
       </Box>
-      <Products products={products} isMyProducts={true} />
+      {isLoading ? <></> : <Products products={products} isMyProducts={true} />}
     </>
   );
 };

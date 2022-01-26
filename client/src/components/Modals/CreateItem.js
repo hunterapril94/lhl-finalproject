@@ -67,7 +67,11 @@ export default function CreateItem(props) {
               component="form"
               margin="auto"
               sx={style}
-              onSubmit={props.handleSubmit}
+              onSubmit={(e) => {
+                console.log("submit item");
+                e.preventDefault();
+                props.handleSubmit(e);
+              }}
             >
               <Typography
                 id="transition-modal-title"
@@ -171,10 +175,10 @@ export default function CreateItem(props) {
                 variant="contained"
                 color="secondary"
                 sx={{ marginTop: "10px" }}
-                onClick={(e) => {
-                  // e.preventDefault();
-                  props.handleSubmit(itemInfo);
-                }}
+                // onClick={(e) => {
+                //   // e.preventDefault();
+                //   props.handleSubmit(itemInfo);
+                // }} again button action not required
               >
                 {props.product ? "Save" : "Create"}
               </Button>

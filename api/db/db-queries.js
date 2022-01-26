@@ -418,12 +418,14 @@ module.exports = (db) => {
         `
         INSERT INTO products (user_id, category, name, price_per_day_cents, description, deposit_amount_cents, image)
         VALUES
-        ($1, $2, $3, $4, $5, $6, $7);`,
+        ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING *
+        ;`,
         queryParams
       )
       .then((result) => {
         if (result) {
-          return result.rows;
+          return result.rows[0];
         } else {
           return null;
         }

@@ -192,11 +192,7 @@ export default function MyRequests() {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        component="h3"
-        sx={{ marginTop: 3, textAlign: "center" }}
-      >
+      <Typography variant="h4" component="h3" sx={{ marginTop: 2 }}>
         My Pending Requests
       </Typography>
 
@@ -219,7 +215,9 @@ export default function MyRequests() {
         {selectedTab === 0 && (
           <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
-              <Typography>You have no pending incoming request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending incoming request
+              </Typography>
             )}
             <Table sx={{ minWidth: 550 }}>
               {IncomingRequests.length !== 0 && (
@@ -312,7 +310,9 @@ export default function MyRequests() {
         {selectedTab === 1 && (
           <TableContainer component={paperOrNot}>
             {OutgoingRequests.length === 0 && (
-              <Typography>You have no pending outgoing request</Typography>
+              <Typography sx={{ textAlign: "center", mt: 4 }}>
+                You have no pending outgoing request
+              </Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (
