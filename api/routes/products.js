@@ -145,7 +145,7 @@ module.exports = (db) => {
 
     console.log("here");
 
-    editProduct = {
+    const editProduct = {
       userId: userID,
       category: req.body.category,
       name: req.body.name,

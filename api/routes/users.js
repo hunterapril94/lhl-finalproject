@@ -289,7 +289,9 @@ module.exports = (db) => {
   //-----------------------------------------------------------------
 
   router.post("/edit", (req, res) => {
-    const { isLoggedIn, userID } = req; //gets this from middleware
+    const { isLoggedIn, userID } = req; //gets this from middleware'
+
+    console.log("in route");
 
     if (!isLoggedIn) {
       return res.json({
@@ -298,27 +300,31 @@ module.exports = (db) => {
       });
     }
 
-    const user = {
+    const userInfo = {
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       address: req.body.address,
       neighborhood: req.body.neighborhood,
       email: req.body.email,
       phone: req.body.phone,
+      lender: req.body.lender,
+      borrower: req.body.borrower,
     };
 
-    console.log(user);
+    console.log(userInfo, userID);
 
     //makes sure the edit form is complete
 
     if (
       !(
-        user.first_name &&
-        user.last_name &&
-        user.email &&
-        user.neighborhood &&
-        user.address &&
-        user.phone
+        userInfo.first_name &&
+        userInfo.last_name &&
+        userInfo.email &&
+        userInfo.neighborhood &&
+        userInfo.address &&
+        userInfo.phone &&
+        userInfo.lender &&
+        userInfo.borrower
       )
     ) {
       return res.json({
@@ -329,7 +335,7 @@ module.exports = (db) => {
       });
     }
 
-    db.updateUserInfo(userID, user)
+    db.updateUserInfo(userID, userInfo)
       .then((result) => {
         if (!result) {
           return res.json({
@@ -339,7 +345,9 @@ module.exports = (db) => {
             isShown: true,
           });
         }
+        console.log("success in updating");
         res.json({
+          userProfile: result,
           auth: true,
           message: "succesful update of user info",
           severity: "success",

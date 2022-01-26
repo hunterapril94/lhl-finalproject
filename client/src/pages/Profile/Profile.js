@@ -1,20 +1,13 @@
 //this file is throwing console errors --KM
 import React from "react";
 import axios from "axios";
-import {
-  Grid,
-  Button,
-  Box,
-  Typography,
-  Avatar,
-  Chip,
-} from "@mui/material";
+import { Grid, Button, Box, Typography, Avatar, Chip } from "@mui/material";
 import { useOutletContext } from "react-router";
 import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
-import EditProfile from "./EditProfile";
-import { useState } from "react";
+import EditProfile from "../../components/Modals/EditProfile";
+import { useEffect, useState } from "react";
 
 axios.defaults.withCredentials = true;
 
@@ -62,25 +55,47 @@ function UserDetail() {
     return color;
   }
 
-  const updateUserInfo = (itemInfo) => {
+  const updateUserInfo = (e) => {
+    // console.log(userInfo);
+
+    // lender: data.get("lender"),
+    // borrower: data.get("borrower"),
+
+    const data = new FormData(e.currentTarget);
+
     const object1 = {
-      category: itemInfo.category,
-      name: itemInfo.name,
-      price_per_day_cents: Number(itemInfo.price) * 100,
-      description: itemInfo.description,
-      deposit_amount_cents: Number(itemInfo.deposit) * 100,
-      image: itemInfo.imageUrl,
-      id: itemInfo.id,
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+      phone: data.get("phone"),
+      neighborhood: data.get("neighborhood"),
+      address: data.get("address"),
+
+      lender: true,
+      borrower: true,
     };
     axios
-      .post(`http://localhost:8001/api/products/${object1.id}/edit`, object1)
+      .post(`http://localhost:8001/api/users/edit`, object1)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            auth: true,
+            profile: res.data.userProfile,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
+        });
+        setOpen(false);
       })
       .catch((err) => {
         console.log(err);
       });
-    // navigate("/my-products");
+    //  navigate("/my-products");
   };
   return (
     <>
@@ -106,6 +121,7 @@ function UserDetail() {
         <Typography variant="body1"> {user.email}</Typography>
         <Typography variant="body1"> {user.phone}</Typography>
         <Typography>From {user.neighborhood}</Typography>
+        <Typography>Address: {user.address}</Typography>
         <Box sx={{ m: 3 }}>
           {user.lender ? (
             <Chip
@@ -113,21 +129,17 @@ function UserDetail() {
               color="success"
               variant="outlined"
               icon={<CheckIcon />}
-            >
-              <CheckIcon />
-            </Chip>
+            ></Chip>
           ) : (
             <Chip label="Lender" />
           )}{" "}
           {user.borrower ? (
             <Chip
-              label="borrower"
+              label="Borrower"
               color="success"
               variant="outlined"
               icon={<CheckIcon />}
-            >
-              <CheckIcon />
-            </Chip>
+            ></Chip>
           ) : (
             <Chip label="Borrower" />
           )}
@@ -143,104 +155,6 @@ function UserDetail() {
         ></EditProfile>
       </Box>
     </>
-    // <p>Borrower: {user.borrower ? "yes" : "no"}</p>
-    //           <p>Lender: {user.lender ? "yes" : "no"}</p>
-    //   <Grid color={theme.palette.primary.main}>
-    //     <h1>User Profile</h1>
-    //     <Box display="flex" direction="row" container>
-    //       <Grid
-    //         backgroundColor="white"
-    //         color={theme.palette.primary.main}
-    //         xs={3}
-    //         item
-    //       >
-    //         <CardMedia
-    //           component="img"
-    //           image="https://www.pngitem.com/pimgs/m/294-2947257_interface-icons-user-avatar-profile-user-avatar-png.png"
-    //         />
-    //         <CardContent>
-    //           <p>
-    //             {user.first_name} {user.last_name}
-    //           </p>
-    //           <p>{user.email}</p>
-    //           <p>Neighborhood:</p>
-    //           <p>{user.neighborhood}</p>
-    //           <p>Phone: {user.phone}</p>
-    //           <p>Borrower: {user.borrower ? "yes" : "no"}</p>
-    //           <p>Lender: {user.lender ? "yes" : "no"}</p>
-    //           <Grid marginLeft="70%" container>
-    //             <Button variant="contained">
-    //               <EditIcon />
-    //             </Button>
-    //           </Grid>
-    //         </CardContent>
-    //       </Grid>
-    //       <Grid
-    //         color={theme.palette.primary.main}
-    //         backgroundColor='white'
-    //         display="flex"
-    //         direction="column"
-    //         container
-    //       >
-    //           <Typography
-    //             color={theme.palette.primary.main}
-    //             fontSize="20pt"
-    //             marginTop="20px"
-    //             marginLeft="10px"
-    //             fontWeight="normal"
-    //           >
-    //             <Link to='/my-requests'
-    //             style={{ textDecoration: "none", color: "white" }}>
-    //               <Button variant='contained'>Pending Transactions</Button></Link>
-    //           </Typography>
-    //         <Grid display="flex" direction="column" container>
-    //           <Grid
-    //             color={theme.palette.primary.main}
-    //             backgroundColor='white'
-    //             xs={9}
-    //             item
-    //           >
-    //               <Typography
-    //                 color={theme.palette.primary.main}
-    //                 fontSize="20pt"
-    //                 marginTop="20px"
-    //                 marginLeft="10px"
-    //               >
-    //                 <Link to='/my-lent-items'
-    //                 style={{ textDecoration: "none", color: "white" }}><Button variant='contained'>Currently Lent</Button></Link>
-    //               </Typography>
-    //               <Typography
-    //                 color={theme.palette.primary.main}
-    //                 fontSize="20pt"
-    //                 marginTop="20px"
-    //                 marginLeft="10px"
-    //               >
-    //                 <Link to='/my-borrowed'
-    //                 style={{ textDecoration: "none", color: "white" }}><Button variant='contained'>Currently Borrowed</Button></Link>
-    //               </Typography>
-    //               <Typography
-    //                 color={theme.palette.primary.main}
-    //                 fontSize="20pt"
-    //                 marginTop="20px"
-    //                 marginLeft="10px"
-    //               >
-    //                 <Link to='/my-completed-transactions'
-    //                 style={{ textDecoration: "none", color: "white" }}><Button variant='contained'>Transaction History</Button></Link>
-    //               </Typography>
-    //           </Grid>
-
-    //           <Typography
-    //             color={theme.palette.primary.main}
-    //             fontSize="20pt"
-    //             marginTop="20px"
-    //             marginLeft="10px"
-    //           >
-    //             Balance: ${user.cash_balance_cents / 100}
-    //           </Typography>
-    //         </Grid>
-    //       </Grid>
-    //     </Box>
-    //   </Grid>
   );
 }
 export default UserDetail;
