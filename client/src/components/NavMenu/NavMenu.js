@@ -135,7 +135,7 @@ export default function NavMenu(props) {
             <Link to="/">
               {" "}
               <img
-                src="../logo/logo_white.png"
+                src="../logo/Logo_white.png"
                 alt="Next Door Lenders logo"
                 height="60"
               />
