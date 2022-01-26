@@ -145,7 +145,7 @@ module.exports = (db) => {
 
     console.log("here");
 
-    editProduct = {
+    const editProduct = {
       userId: userID,
       category: req.body.category,
       name: req.body.name,
@@ -237,7 +237,7 @@ module.exports = (db) => {
   // post /api/products/reviews/new
   //-----------------------------------------------------------------
 
-  router.post("/reviews/new", (req, res) =>{
+  router.post("/reviews/new", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware
     // createProduct;
     if (!isLoggedIn) {
@@ -247,27 +247,28 @@ module.exports = (db) => {
         isApproved: false,
       });
     }
-    console.log('request received')
-    db
-    .addNewReview(req.body.product_id, 
-      userID, 
-      req.body.stars, 
-      req.body.title, 
-      req.body.text)
-    .then(() => {
-      console.log('sucessfully added')
-      res.json({
-        auth: true,
-        message: "successfully added review"
+    console.log("request received");
+    db.addNewReview(
+      req.body.product_id,
+      userID,
+      req.body.stars,
+      req.body.title,
+      req.body.text
+    )
+      .then(() => {
+        console.log("sucessfully added");
+        res.json({
+          auth: true,
+          message: "successfully added review",
+        });
+      })
+      .catch((err) => {
+        console.log(err.message);
+        res.status(500).json({
+          auth: isLoggedIn,
+          message: err.message,
+        });
       });
-    })
-    .catch((err) => {
-      console.log(err.message)
-      res.status(500).json({
-        auth: isLoggedIn,
-        message: err.message,
-      });
-    });
   });
 
   return router;

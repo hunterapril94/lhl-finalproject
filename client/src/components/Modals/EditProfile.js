@@ -35,6 +35,7 @@ export default function EditProfile(props) {
     email: user.email,
     phone: user.phone,
     neighborhood: user.neighborhood,
+    address: user.address,
     lender: user.lender,
     borrower: user.borrower,
   });
@@ -153,6 +154,16 @@ export default function EditProfile(props) {
                 label="Neighborhood"
                 name="neighborhood"
                 value={userInfo.neighborhood}
+                onChange={handleOnChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="address"
+                label="Address"
+                name="address"
+                value={userInfo.address}
                 onChange={handleOnChange}
               />
 

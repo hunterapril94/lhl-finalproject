@@ -70,6 +70,8 @@ module.exports = (db) => {
       object.neighborhood,
       object.email,
       object.phone,
+      object.lender,
+      object.borrower,
     ];
     console.log(queryParams);
     return db
@@ -81,7 +83,9 @@ module.exports = (db) => {
             address = $4,
             neighborhood = $5,
             email = $6,
-            phone = $7
+            phone = $7,
+            lender= $8,
+            borrower=$9
         
         WHERE id = $1
   RETURNING *;`,

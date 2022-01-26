@@ -122,5 +122,16 @@ updateProductTransactionStatus(44, "approved").then((res) => {
   console.log("updateProductTransactionStatus", res);
 });
 
+updateUserInfo(1, {
+  first_name: "test",
+  last_name: "test",
+  address: "test",
+  neighborhood: "test",
+  email: "test",
+  phone: "test",
+  lender: true,
+  borrower: false,
+}).then((res) => console.log(res));
+
 addToBalance(1, 7000);
 subtractFromBalance(1, 1500);
