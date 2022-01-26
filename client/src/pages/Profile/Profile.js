@@ -56,6 +56,7 @@ function UserDetail() {
   }
 
   const updateUserInfo = (userInfo) => {
+    console.log(userInfo);
     const object1 = {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,

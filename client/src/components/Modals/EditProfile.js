@@ -68,7 +68,10 @@ export default function EditProfile(props) {
           <Grid>
             <Box
               component="form"
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={(e) => {
+                e.preventDefault();
+                props.handleSubmit();
+              }}
               margin="auto"
               sx={style}
               onSubmit={props.handleSubmit}
@@ -223,10 +226,10 @@ export default function EditProfile(props) {
                 variant="contained"
                 color="secondary"
                 sx={{ marginTop: "10px" }}
-                onClick={(e) => {
-                  // e.preventDefault();
-                  props.handleSubmit(userInfo);
-                }}
+                // onClick={(e) => {
+                //   // e.preventDefault();
+                //   props.handleSubmit(userInfo);
+                // }}
               >
                 Update
               </Button>

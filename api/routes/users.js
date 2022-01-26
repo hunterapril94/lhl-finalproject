@@ -289,7 +289,9 @@ module.exports = (db) => {
   //-----------------------------------------------------------------
 
   router.post("/edit", (req, res) => {
-    const { isLoggedIn, userID } = req; //gets this from middleware
+    const { isLoggedIn, userID } = req; //gets this from middleware'
+
+    console.log("in route");
 
     if (!isLoggedIn) {
       return res.json({

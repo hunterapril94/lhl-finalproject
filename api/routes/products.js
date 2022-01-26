@@ -249,9 +249,6 @@ module.exports = (db) => {
         isShown: true,
       });
     }
-<<<<<<< HEAD
-    console.log("request received");
-=======
     console.log(req.body.stars);
 
     if (req.body.stars == 0) {
@@ -271,7 +268,6 @@ module.exports = (db) => {
         isShown: true,
       });
     }
->>>>>>> 15175a291aa6d258dd5f80b049b7f6ba4dee537a
     db.addNewReview(
       req.body.product_id,
       userID,
@@ -284,24 +280,17 @@ module.exports = (db) => {
         res.json({
           auth: true,
           message: "successfully added review",
-<<<<<<< HEAD
-=======
           severity: "success",
           isShown: true,
->>>>>>> 15175a291aa6d258dd5f80b049b7f6ba4dee537a
         });
       })
       .catch((err) => {
         console.log(err.message);
         res.status(500).json({
           auth: isLoggedIn,
-<<<<<<< HEAD
-          message: err.message,
-=======
           message: "could not create new review",
           severity: "error",
           isShown: true,
->>>>>>> 15175a291aa6d258dd5f80b049b7f6ba4dee537a
         });
       });
   });
