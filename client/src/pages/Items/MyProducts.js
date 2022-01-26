@@ -51,11 +51,11 @@ const MyProducts = () => {
       image: data.get("imageUrl"),
     };
 
-    console.log(object1);
+    //console.log(object1);
     axios
       .post("http://localhost:8001/api/products/", object1)
       .then((res) => {
-        console.log("responsre form server");
+        // console.log("responsre form server");
         console.log(res);
         setAppState((prev) => {
           return {
@@ -67,10 +67,22 @@ const MyProducts = () => {
             },
           };
         });
+        //  console.log("products");
+        //  console.log(products);
+        setProducts((prev) => [...prev, res.data.product]);
         handleClose();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setAppState((prev) => {
+          return {
+            ...prev,
+            snackBar: {
+              isShown: true,
+              severity: "error",
+              message: "error: cannot add new product",
+            },
+          };
+        });
       });
   };
   // console.log(appState);
