@@ -141,7 +141,8 @@ module.exports = (db) => {
         `SELECT * , users.first_name, users.last_name, users.neighborhood
         FROM reviews
         JOIN users ON reviews.user_id = users.id
-      WHERE product_id = $1;
+      WHERE product_id = $1
+      ORDER BY reviews.id;
     `,
         [Number(id)]
       )
