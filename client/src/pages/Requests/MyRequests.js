@@ -45,7 +45,7 @@ export default function MyRequests() {
   const [isLoading, setIsLoading] = useState(true);
   const [IncomingRequests, setIncomingRequests] = useState([]);
   const [OutgoingRequests, setOutgoingRequests] = useState([]);
-  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = useState(1);
   const [messageDisplay, setMessageDisplay] = useState("none");
   const [messages, setMessages] = useState([]);
   //const [transactionId, setTransactionId] = useState();
@@ -74,7 +74,6 @@ export default function MyRequests() {
           setIncomingRequests(pendingIncommingLendRequests);
           setOutgoingRequests(pendingOutgoingBorrowRequests);
           setUnread(unreadMessages);
-
           setIsLoading(false);
           setAppState((prev) => {
             return { ...prev, auth: res.data.auth };
