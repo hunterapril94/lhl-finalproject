@@ -28,7 +28,7 @@ function Product(props) {
           <Card sx={{ width: 345, height: 360 }}>
             <CardMedia
               component="img"
-              alt="green iguana"
+              alt={props.name}
               height="205.44"
               width="307"
               image={props.image}
