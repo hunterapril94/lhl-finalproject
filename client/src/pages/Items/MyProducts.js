@@ -11,7 +11,8 @@ import { Button, Typography, Box } from "@mui/material";
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
   const [appState, setAppState] = useOutletContext();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -21,6 +22,7 @@ const MyProducts = () => {
       .then((res) => {
         //console.log(res.data.myProducts);
         setProducts(res.data.myProducts);
+        setIsLoading(false);
         setAppState((prev) => {
           return {
             ...prev,
@@ -48,7 +50,7 @@ const MyProducts = () => {
     axios
       .post("http://localhost:8001/api/products/", object1)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setAppState((prev) => {
           return {
             ...prev,
@@ -88,7 +90,7 @@ const MyProducts = () => {
           open={open}
         ></CreateItem>
       </Box>
-      <Products products={products} isMyProducts={true} />
+      {isLoading ? <></> : <Products products={products} isMyProducts={true} />}
     </>
   );
 };
