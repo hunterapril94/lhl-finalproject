@@ -403,7 +403,13 @@ export default function MyRequests() {
       </Box>
 
       <TableContainer
-        sx={{ position: "fixed", bottom: "0", right: "0", width: "300px" }}
+        sx={{
+          zIndex: 5,
+          position: "fixed",
+          bottom: "0",
+          right: "0",
+          width: "300px",
+        }}
       >
         <Table sx={{ width: "300px" }}>
           <TableHead
