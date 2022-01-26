@@ -48,78 +48,114 @@ export default function MyRequests() {
   const [selectedTab, setSelectedTab] = React.useState(0);
   const [messageDisplay, setMessageDisplay] = useState("none");
   const [messages, setMessages] = useState([]);
-  const [transactionId, setTransactionId] = useState();
+  //const [transactionId, setTransactionId] = useState();
   const [unread, setUnread] = useState([]);
+  const [count, setCount] = useState(0);
+  const [currentSelectedID, setCurrentSelectedID] = useState(null);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8001/api/requests/pending")
-      .then((res) => {
-        const {
-          pendingIncommingLendRequests,
-          pendingOutgoingBorrowRequests,
-          unreadMessages,
-        } = res.data;
-        //  console.log(res.data);
-        setIncomingRequests(pendingIncommingLendRequests);
-        setOutgoingRequests(pendingOutgoingBorrowRequests);
-        setUnread(unreadMessages);
-        // console.log(unreadMessages);
-        setIsLoading(false);
-        setAppState((prev) => {
-          return { ...prev, auth: res.data.auth };
-        });
-      })
+    const timeout = setTimeout(() => {
+      setCount((prev) => prev + 1);
+      // console.log("oneloop");
+      message(currentSelectedID);
+      axios
+        .get("http://localhost:8001/api/requests/pending")
+        .then((res) => {
+          const {
+            pendingIncommingLendRequests,
+            pendingOutgoingBorrowRequests,
+            unreadMessages,
+          } = res.data;
+          //  console.log(res.data);
+          setIncomingRequests(pendingIncommingLendRequests);
+          setOutgoingRequests(pendingOutgoingBorrowRequests);
+          setUnread(unreadMessages);
 
-      .catch((err) => console.log(err.message));
-  }, [setAppState]);
+          setIsLoading(false);
+          setAppState((prev) => {
+            return { ...prev, auth: res.data.auth };
+          });
+        })
 
-  const message = function (event, id) {
-    event.preventDefault();
-    axios
-      .get(`http://localhost:8001/api/requests/messages/${id}`)
-      .then((res) => {
-        // console.log(res.data);
-        setMessages(res.data.messages);
-        for (const message of res.data.messages) {
-          //  console.log(message.first_name);
-          if (
-            !message.is_read &&
-            message.first_name !== appState.profile.first_name
-          ) {
-            axios
-              .post(
-                `http://localhost:8001/api/requests/messages/${message.id}/is-read`
-              )
-              .then((res) => {
-                setUnread((prev) => {
-                  const newUnread = [];
-                  prev.forEach((pre) => {
-                    if (pre.products_tx_id === id) {
-                      newUnread.push({ products_tx_id: 0 });
-                    } else {
-                      newUnread.push(pre);
-                    }
+        .catch((err) => console.log(err.message));
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [count, currentSelectedID]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8001/api/requests/pending")
+  //     .then((res) => {
+  //       const {
+  //         pendingIncommingLendRequests,
+  //         pendingOutgoingBorrowRequests,
+  //         unreadMessages,
+  //       } = res.data;
+  //       //  console.log(res.data);
+  //       setIncomingRequests(pendingIncommingLendRequests);
+  //       setOutgoingRequests(pendingOutgoingBorrowRequests);
+  //       setUnread(unreadMessages);
+  //       // console.log(unreadMessages);
+  //       setIsLoading(false);
+  //       setAppState((prev) => {
+  //         return { ...prev, auth: res.data.auth };
+  //       });
+  //     })
+
+  //     .catch((err) => console.log(err.message));
+  // }, [setAppState]);
+
+  function message(id) {
+    //event.preventDefault();
+    if (id) {
+      axios
+        .get(`http://localhost:8001/api/requests/messages/${id}`)
+        .then((res) => {
+          // console.log(res.data);
+          setMessages(res.data.messages);
+          for (const message of res.data.messages) {
+            //  console.log(message.first_name);
+            if (
+              !message.is_read &&
+              message.first_name !== appState.profile.first_name
+            ) {
+              axios
+                .post(
+                  `http://localhost:8001/api/requests/messages/${message.id}/is-read`
+                )
+                .then((res) => {
+                  setUnread((prev) => {
+                    const newUnread = [];
+                    prev.forEach((pre) => {
+                      if (pre.products_tx_id === id) {
+                        newUnread.push({ products_tx_id: 0 });
+                      } else {
+                        newUnread.push(pre);
+                      }
+                    });
+                    return newUnread;
                   });
-                  return newUnread;
+                  //you need to set the state here to read so it
                 });
-                //you need to set the state here to read so it
-              });
+            }
           }
-        }
-      });
-
-    if (messageDisplay === "none") {
-      setMessageDisplay("inline-block");
+        });
     } else {
-      setMessageDisplay("none");
+      setMessages([]);
     }
-    setTransactionId(id);
-  };
+
+    // if (messageDisplay === "none") {
+    //   setMessageDisplay("inline-block");
+    // } else {
+    //   setMessageDisplay("none");
+    // }
+    //  setTransactionId(id);
+  }
   const send = function (event, transactionId, firstName) {
     event.preventDefault();
     const time = Date.now();
@@ -141,6 +177,8 @@ export default function MyRequests() {
   const paperOrNot = OutgoingRequests.length !== 0 ? Paper : null;
   const paperOrNot2 = IncomingRequests.length !== 0 ? Paper : null;
 
+  //console.log("mapping");
+
   const unreadFunc = function (id) {
     let amount = 0;
 
@@ -155,7 +193,11 @@ export default function MyRequests() {
 
   return (
     <>
-      <Typography variant="h4" component="h3" sx={{ marginTop: 2 }}>
+      <Typography
+        variant="h4"
+        component="h3"
+        sx={{ marginTop: 3, textAlign: "center" }}
+      >
         My Pending Requests
       </Typography>
 
@@ -178,21 +220,21 @@ export default function MyRequests() {
         {selectedTab === 0 && (
           <TableContainer component={paperOrNot2}>
             {IncomingRequests.length === 0 && (
-              <Typography sx={{ textAlign: "center", mt: 4 }}>
-                You have no pending incoming request
-              </Typography>
+              <Typography>You have no pending incoming request</Typography>
             )}
-            <Table sx={{ minWidth: 550 }} size="small">
+            <Table sx={{ minWidth: 550 }}>
               {IncomingRequests.length !== 0 && (
                 <TableHead>
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Borrower's email</TableCell>
-                    <TableCell align="center">cost/day</TableCell>
+                    <TableCell align="center">cost per day</TableCell>
                     <TableCell align="center">days requested</TableCell>
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -231,40 +273,35 @@ export default function MyRequests() {
                       )}
                     </TableCell>
                     <TableCell align="center">
+                      <AcceptButton
+                        request={request}
+                        requests={IncomingRequests}
+                        setIncomingRequests={setIncomingRequests}
+                      />
+                      <RejectButton
+                        request={request}
+                        requests={IncomingRequests}
+                        setIncomingRequests={setIncomingRequests}
+                      />
+                    </TableCell>
+                    <TableCell>
                       <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
+                        component="form"
+                        //</TableCell>handleSubmit={(event) => {
+                        // message(event, request.products_transactions_id);
+                        // }}
                       >
-                        <Box sx={{ display: "flex", flexDirection: "column" }}>
-                          <AcceptButton
-                            request={request}
-                            requests={IncomingRequests}
-                            setIncomingRequests={setIncomingRequests}
-                          />
-                          <RejectButton
-                            request={request}
-                            requests={IncomingRequests}
-                            setIncomingRequests={setIncomingRequests}
-                          />
-                        </Box>
-                        <Box
-                          component="form"
+                        <MessageButton
                           handleSubmit={(event) => {
-                            message(event, request.products_transactions_id);
-                          }}
-                        >
-                          <MessageButton
-                            handleSubmit={(event) => {
-                              message(event, request.products_transactions_id);
-                            }}
-                            unread={unreadFunc(
+                            event.preventDefault();
+                            setCurrentSelectedID(
                               request.products_transactions_id
-                            )}
-                          />
-                        </Box>
+                            );
+                            setMessageDisplay("inline-block");
+                            message(request.products_transactions_id);
+                          }}
+                          unread={unreadFunc(request.products_transactions_id)}
+                        />
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -276,9 +313,7 @@ export default function MyRequests() {
         {selectedTab === 1 && (
           <TableContainer component={paperOrNot}>
             {OutgoingRequests.length === 0 && (
-              <Typography sx={{ textAlign: "center", mt: 4 }}>
-                You have no pending outgoing request
-              </Typography>
+              <Typography>You have no pending outgoing request</Typography>
             )}
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               {OutgoingRequests.length !== 0 && (
@@ -286,11 +321,13 @@ export default function MyRequests() {
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Owner's Email</TableCell>
-                    <TableCell align="center">cost/day</TableCell>
+                    <TableCell align="center">cost per day</TableCell>
                     <TableCell align="center">days requested</TableCell>
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
                     <TableCell align="center">total revenue</TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -334,7 +371,12 @@ export default function MyRequests() {
                     <TableCell>
                       <MessageButton
                         handleSubmit={(event) => {
-                          message(event, request.products_transactions_id);
+                          event.preventDefault();
+                          setCurrentSelectedID(
+                            request.products_transactions_id
+                          );
+                          setMessageDisplay("inline-block");
+                          message(request.products_transactions_id);
                         }}
                         unread={unreadFunc(request.products_transactions_id)}
                       />
@@ -355,12 +397,14 @@ export default function MyRequests() {
             sx={{ backgroundColor: theme.palette.primary.main, color: "white" }}
             onClick={() => {
               setMessageDisplay("none");
+              setCurrentSelectedID(null);
             }}
           >
             <TableRow>
               <TableCell sx={{ color: "white" }}>Messages</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody
             sx={{
               display: messageDisplay,
@@ -371,18 +415,19 @@ export default function MyRequests() {
               overflowY: "auto",
             }}
           >
-            {messages.map((message, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell sx={{ display: "flex" }}>
-                    <AvatarWithColor firstName={message.first_name} />
-                    <Typography sx={{ margin: "10px" }}>
-                      {message.text}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {currentSelectedID &&
+              messages.map((message, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell sx={{ display: "flex" }}>
+                      <AvatarWithColor firstName={message.first_name} />
+                      <Typography sx={{ margin: "10px" }}>
+                        {message.text}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
           <TableFooter
             sx={{
@@ -396,7 +441,7 @@ export default function MyRequests() {
                 <Box
                   component="form"
                   onSubmit={(event) => {
-                    send(event, transactionId, appState.profile.first_name);
+                    send(event, currentSelectedID, appState.profile.first_name);
                   }}
                 >
                   <TextField id="text" name="text" />

@@ -285,6 +285,76 @@ module.exports = (db) => {
   });
 
   //-----------------------------------------------------------------
+  // /api/users/edit
+  //-----------------------------------------------------------------
+
+  router.post("/edit", (req, res) => {
+    const { isLoggedIn, userID } = req; //gets this from middleware
+
+    if (!isLoggedIn) {
+      return res.json({
+        auth: false,
+        message: "not logged in",
+      });
+    }
+
+    const user = {
+      first_name: req.body.firstName,
+      last_name: req.body.lastName,
+      address: req.body.address,
+      neighborhood: req.body.neighborhood,
+      email: req.body.email,
+      phone: req.body.phone,
+    };
+
+    console.log(user);
+
+    //makes sure the edit form is complete
+
+    if (
+      !(
+        user.first_name &&
+        user.last_name &&
+        user.email &&
+        user.neighborhood &&
+        user.address &&
+        user.phone
+      )
+    ) {
+      return res.json({
+        auth: false,
+        message: "Please fill in all required fields",
+        severity: "error",
+        isShown: true,
+      });
+    }
+
+    db.updateUserInfo(userID, user)
+      .then((result) => {
+        if (!result) {
+          return res.json({
+            auth: true,
+            message: "unable to update profile",
+            severity: "error",
+            isShown: true,
+          });
+        }
+        res.json({
+          auth: true,
+          message: "succesful update of user info",
+          severity: "success",
+          isShown: true,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          auth: false,
+          message: "internal server error",
+        });
+      });
+  });
+
+  //-----------------------------------------------------------------
   // GET /api/users/balance
   //-----------------------------------------------------------------
 
