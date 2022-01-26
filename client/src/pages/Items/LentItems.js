@@ -25,7 +25,6 @@ const LentItems = () => {
   return (
     <>
       <Typography variant="h4" sx={{ mt: 2 }}>
-        {" "}
         Lent Items
       </Typography>
       <Typography sx={{ textAlign: "center" }}>

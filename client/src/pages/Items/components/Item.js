@@ -45,14 +45,6 @@ export default function Item(props) {
               you need it.
             </Typography>
           </CardContent>
-          <CardActions>
-            <ReturnButton
-              size="small"
-              item={item}
-              items={items}
-              setProducts={setProducts}
-            ></ReturnButton>
-          </CardActions>
         </Card>
       </Box>
     );
