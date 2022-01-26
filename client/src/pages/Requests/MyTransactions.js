@@ -8,14 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
-import { Box, flexbox } from "@mui/system";
+import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { useOutletContext } from "react-router";
 import { dayFormater, dayCalulator } from "./MyRequests";
-import { Link } from "react-router-dom";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import ReviewNew from '../../components/Reviews/ReviewNew'
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
@@ -23,8 +20,6 @@ import Fade from "@mui/material/Fade";
 import { Grid } from "@mui/material";
 import { TextField } from "@mui/material";
 import { Rating } from "@mui/material";
-
-import InputAdornment from "@mui/material/InputAdornment";
 
 const style = {
   position: "absolute",

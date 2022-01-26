@@ -3,8 +3,6 @@ import React from "react";
 import axios from "axios";
 import {
   Grid,
-  CardMedia,
-  CardContent,
   Button,
   Box,
   Typography,
@@ -12,14 +10,11 @@ import {
   Chip,
 } from "@mui/material";
 import { useOutletContext } from "react-router";
-import EditIcon from "@mui/icons-material/Edit";
-import theme from "../../components/styles";
-import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
 import EditProfile from "./EditProfile";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 axios.defaults.withCredentials = true;
 
