@@ -34,7 +34,6 @@ const MyProducts = () => {
             },
           };
         });
-        handleClose();
       })
       .catch((err) => console.log(err.message));
   }, []);
@@ -52,10 +51,11 @@ const MyProducts = () => {
       image: data.get("imageUrl"),
     };
 
-    // console.log(object1);
+    console.log(object1);
     axios
       .post("http://localhost:8001/api/products/", object1)
       .then((res) => {
+        console.log("responsre form server");
         console.log(res);
         setAppState((prev) => {
           return {
@@ -67,6 +67,7 @@ const MyProducts = () => {
             },
           };
         });
+        handleClose();
       })
       .catch((err) => {
         console.log(err);

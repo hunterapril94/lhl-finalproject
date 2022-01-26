@@ -56,16 +56,8 @@ module.exports = (db) => {
         isApproved: false,
       });
     }
-    console.log(req.body);
 
-    const test = {
-      category: "test",
-      name: "blender",
-      price_per_day_cents: 1000,
-      description: "some thing",
-      deposit_amount_cents: 1000,
-      image: "",
-    };
+    console.log("here");
 
     newProduct = {
       userId: userID,
@@ -80,12 +72,13 @@ module.exports = (db) => {
     //  console.log(newProduct);
 
     db.createProduct(userID, newProduct)
-      .then(() => {
+      .then((product) => {
         res.json({
           auth: isLoggedIn,
           message: "successfully created new product",
           severity: "success",
           isShown: true,
+          product,
         });
       })
       .catch((err) => {
