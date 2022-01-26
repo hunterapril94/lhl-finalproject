@@ -133,7 +133,9 @@ export default function MyTransactions() {
                     align="center"
                     sx={{
                       color:
-                        transaction.status === "returned" ? "green" : "red",
+                        transaction.status === "Returned" || "returned"
+                          ? "green"
+                          : "red",
                     }}
                   >
                     $
@@ -150,7 +152,9 @@ export default function MyTransactions() {
                   <TableCell
                     sx={{
                       color:
-                        transaction.status === "returned" ? "green" : "red",
+                        transaction.status === "Returned" || "returned"
+                          ? "green"
+                          : "red",
                     }}
                     align="center"
                   >
