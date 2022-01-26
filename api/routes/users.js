@@ -68,7 +68,6 @@ module.exports = (db) => {
 
     db.getTransactionHistoryByUserID(userID)
       .then((transactionHistory) => {
-        //console.log(transactionHistory);
         return res.json({
           auth: true,
           message: "successfully got my products",
@@ -286,7 +285,6 @@ module.exports = (db) => {
 
         req.session.user_id = result.id; //set the cookie according to the userid returned from the database
 
-        console.log(result);
         res.json({
           auth: true,
           message: "succesful registration",
@@ -312,8 +310,6 @@ module.exports = (db) => {
   router.post("/edit", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware'
 
-    console.log("in route");
-
     if (!isLoggedIn) {
       return res.json({
         auth: false,
@@ -331,8 +327,6 @@ module.exports = (db) => {
       lender: req.body.lender,
       borrower: req.body.borrower,
     };
-
-    console.log(userInfo, userID);
 
     //makes sure the edit form is complete
 

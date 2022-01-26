@@ -23,7 +23,7 @@ function UserDetail() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(appState);
+
   const user = appState.profile;
 
   function stringAvatar(name) {
@@ -63,8 +63,6 @@ function UserDetail() {
     let lender = data.get("lender");
     let borrower = data.get("borrower");
 
-    console.log(lender);
-
     const object1 = {
       firstName: data.get("firstName"),
       lastName: data.get("lastName"),
@@ -76,11 +74,10 @@ function UserDetail() {
       lender: true,
       borrower: true,
     };
-    console.log(object1);
+
     axios
       .post(`http://localhost:8001/api/users/edit`, object1)
       .then((res) => {
-        console.log(res.data);
         setAppState((prev) => {
           return {
             ...prev,

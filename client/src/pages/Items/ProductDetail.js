@@ -35,7 +35,6 @@ const ProductDetail = () => {
   const handleClose = () => setOpen(false);
   useEffect(() => {
     axios.get(`http://localhost:8001/api/products/${id}`).then((res) => {
-      console.log(res.data.product);
       setProduct(res.data.product);
       setAppState((prev) => {
         return {
