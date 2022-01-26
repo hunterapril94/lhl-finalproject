@@ -8,7 +8,6 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActionArea,
   Typography,
   CardActions,
   CardHeader,
@@ -17,9 +16,6 @@ import {
   Box,
   Fade,
   Button,
-  Stack,
-  TextField,
-  ThemeProvider,
 } from "@mui/material";
 // import theme from "../../components/styles";
 import ReviewsList from "../../components/Reviews/ReviewsList";
@@ -39,6 +35,7 @@ const ProductDetail = () => {
   const handleClose = () => setOpen(false);
   useEffect(() => {
     axios.get(`http://localhost:8001/api/products/${id}`).then((res) => {
+      console.log(res.data.product);
       setProduct(res.data.product);
       setAppState((prev) => {
         return {
@@ -80,30 +77,52 @@ const ProductDetail = () => {
     }
   };
 
-  const updateItem = (itemInfo) => {
+  const updateItem = (e) => {
+    const data = new FormData(e.currentTarget);
+
+    // console.log(data.get("name"));
     const object1 = {
-      category: itemInfo.category,
-      name: itemInfo.name,
-      price_per_day_cents: Number(itemInfo.price) * 100,
-      description: itemInfo.description,
-      deposit_amount_cents: Number(itemInfo.deposit) * 100,
-      image: itemInfo.imageUrl,
-      id: itemInfo.id,
+      category: data.get("category"),
+      name: data.get("name"),
+      price_per_day_cents: Number(data.get("price")) * 100,
+      description: data.get("description"),
+      deposit_amount_cents: Number(data.get("deposit")) * 100,
+      image: data.get("imageUrl"),
     };
+
     axios
-      .post(`http://localhost:8001/api/products/${object1.id}/edit`, object1)
+      .post(`http://localhost:8001/api/products/${id}/edit`, object1)
       .then((res) => {
-        console.log(res);
+        // console.log("responsre form server");
+
+        setAppState((prev) => {
+          return {
+            ...prev,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
+        });
+
+        setProduct({ ...res.data.product, avg_stars });
+        handleClose();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setAppState((prev) => {
+          return {
+            ...prev,
+            snackBar: {
+              isShown: true,
+              severity: "error",
+              message: "error: cannot  edit product",
+            },
+          };
+        });
       });
     // navigate("/my-products");
   };
-  console.log("product");
-  console.log(product.user_id);
-  console.log("appState");
-  console.log(appState.profile.id);
 
   return isLoading ? (
     <div />
