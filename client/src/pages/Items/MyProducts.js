@@ -34,23 +34,29 @@ const MyProducts = () => {
             },
           };
         });
+        handleClose();
       })
       .catch((err) => console.log(err.message));
   }, []);
 
-  const handleSubmit = (itemInfo) => {
+  const handleSubmit = (e) => {
+    const data = new FormData(e.currentTarget);
+
+    // console.log(data.get("name"));
     const object1 = {
-      category: itemInfo.category,
-      name: itemInfo.name,
-      price_per_day_cents: Number(itemInfo.price) * 100,
-      description: itemInfo.description,
-      deposit_amount_cents: Number(itemInfo.deposit) * 100,
-      image: itemInfo.imageUrl,
+      category: data.get("category"),
+      name: data.get("name"),
+      price_per_day_cents: Number(data.get("price")) * 100,
+      description: data.get("description"),
+      deposit_amount_cents: Number(data.get("deposit")) * 100,
+      image: data.get("imageUrl"),
     };
+
+    // console.log(object1);
     axios
       .post("http://localhost:8001/api/products/", object1)
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setAppState((prev) => {
           return {
             ...prev,
@@ -65,7 +71,6 @@ const MyProducts = () => {
       .catch((err) => {
         console.log(err);
       });
-    // navigate("/my-products");
   };
   // console.log(appState);
   return (
