@@ -55,27 +55,47 @@ function UserDetail() {
     return color;
   }
 
-  const updateUserInfo = (userInfo) => {
-    console.log(userInfo);
+  const updateUserInfo = (e) => {
+    // console.log(userInfo);
+
+    // lender: data.get("lender"),
+    // borrower: data.get("borrower"),
+
+    const data = new FormData(e.currentTarget);
+
     const object1 = {
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      email: userInfo.email,
-      phone: userInfo.phone,
-      neighborhood: userInfo.neighborhood,
-      address: userInfo.address,
-      lender: userInfo.lender,
-      borrower: userInfo.borrower,
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+      phone: data.get("phone"),
+      neighborhood: data.get("neighborhood"),
+      address: data.get("address"),
+
+      lender: true,
+      borrower: true,
     };
     axios
       .post(`http://localhost:8001/api/users/edit`, object1)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+        setAppState((prev) => {
+          return {
+            ...prev,
+            auth: true,
+            profile: res.data.userProfile,
+            snackBar: {
+              isShown: res.data.isShown,
+              severity: res.data.severity,
+              message: res.data.message,
+            },
+          };
+        });
+        setOpen(false);
       })
       .catch((err) => {
         console.log(err);
       });
-    // navigate("/my-products");
+    //  navigate("/my-products");
   };
   return (
     <>

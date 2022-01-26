@@ -69,12 +69,13 @@ export default function EditProfile(props) {
             <Box
               component="form"
               onSubmit={(e) => {
+                console.log("submit");
                 e.preventDefault();
-                props.handleSubmit();
+                props.handleSubmit(e);
               }}
               margin="auto"
               sx={style}
-              onSubmit={props.handleSubmit}
+              //onSubmit={props.handleSubmit}
             >
               <Typography
                 id="transition-modal-title"

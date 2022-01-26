@@ -345,7 +345,9 @@ module.exports = (db) => {
             isShown: true,
           });
         }
+        console.log("success in updating");
         res.json({
+          userProfile: result,
           auth: true,
           message: "succesful update of user info",
           severity: "success",
