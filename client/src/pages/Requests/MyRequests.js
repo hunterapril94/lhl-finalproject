@@ -58,29 +58,29 @@ export default function MyRequests() {
   };
 
   useEffect(() => {
+    axios
+      .get("http://localhost:8001/api/requests/pending")
+      .then((res) => {
+        const {
+          pendingIncommingLendRequests,
+          pendingOutgoingBorrowRequests,
+          unreadMessages,
+        } = res.data;
+        //  console.log(res.data);
+        setIncomingRequests(pendingIncommingLendRequests);
+        setOutgoingRequests(pendingOutgoingBorrowRequests);
+        setUnread(unreadMessages);
+        setIsLoading(false);
+        setAppState((prev) => {
+          return { ...prev, auth: res.data.auth };
+        });
+      })
+
+      .catch((err) => console.log(err.message));
     const timeout = setTimeout(() => {
       setCount((prev) => prev + 1);
       // console.log("oneloop");
       message(currentSelectedID);
-      axios
-        .get("http://localhost:8001/api/requests/pending")
-        .then((res) => {
-          const {
-            pendingIncommingLendRequests,
-            pendingOutgoingBorrowRequests,
-            unreadMessages,
-          } = res.data;
-          //  console.log(res.data);
-          setIncomingRequests(pendingIncommingLendRequests);
-          setOutgoingRequests(pendingOutgoingBorrowRequests);
-          setUnread(unreadMessages);
-          setIsLoading(false);
-          setAppState((prev) => {
-            return { ...prev, auth: res.data.auth };
-          });
-        })
-
-        .catch((err) => console.log(err.message));
     }, 1000);
 
     return () => clearTimeout(timeout);
