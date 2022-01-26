@@ -557,6 +557,8 @@ module.exports = (db) => {
         JOIN users ON products.user_id = users.id
         
         WHERE (products_transactions.status = 'rejected' OR products_transactions.status = 'returned' OR products_transactions.status = 'canceled' OR products.user_id = $1 OR transactions.user_id = $1)
+
+        AND products_transactions.status != 'pending'
        ;`,
         [userId]
       )
@@ -569,7 +571,7 @@ module.exports = (db) => {
       });
   };
 
-  //getTransactionHistoryByUserID(3).then((res) => console.log(res));
+  getTransactionHistoryByUserID(3).then((res) => console.log(res));
 
   // REVIEW QUERIES
   const getStarsByProductId = function (id) {
