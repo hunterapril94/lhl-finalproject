@@ -225,13 +225,11 @@ export default function MyRequests() {
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Borrower's email</TableCell>
-                    <TableCell align="center">cost per day</TableCell>
-                    <TableCell align="center">days requested</TableCell>
+                    <TableCell align="center">cost/day</TableCell>
+                    <TableCell align="center">Days</TableCell>
                     <TableCell align="center">From</TableCell>
-                    <TableCell align="center">to</TableCell>
-                    <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">To</TableCell>
+                    <TableCell align="center">Total</TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -252,13 +250,13 @@ export default function MyRequests() {
                     <TableCell align="center">
                       ${request.price_per_day_cents / 100}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" padding="none">
                       {dayCalulator(request.start_time, request.end_time)}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" padding="none">
                       {dayFormater(request.start_time)}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" padding="none">
                       {dayFormater(request.end_time)}
                     </TableCell>
                     <TableCell align="center">
@@ -270,35 +268,55 @@ export default function MyRequests() {
                       )}
                     </TableCell>
                     <TableCell align="center">
-                      <AcceptButton
-                        request={request}
-                        requests={IncomingRequests}
-                        setIncomingRequests={setIncomingRequests}
-                      />
-                      <RejectButton
-                        request={request}
-                        requests={IncomingRequests}
-                        setIncomingRequests={setIncomingRequests}
-                      />
-                    </TableCell>
-                    <TableCell>
                       <Box
-                        component="form"
-                        //</TableCell>handleSubmit={(event) => {
-                        // message(event, request.products_transactions_id);
-                        // }}
+                        sx={{
+                          mr: 0,
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
                       >
-                        <MessageButton
-                          handleSubmit={(event) => {
-                            event.preventDefault();
-                            setCurrentSelectedID(
-                              request.products_transactions_id
-                            );
-                            setMessageDisplay("inline-block");
-                            message(request.products_transactions_id);
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            mr: 0,
                           }}
-                          unread={unreadFunc(request.products_transactions_id)}
-                        />
+                        >
+                          <AcceptButton
+                            size="small"
+                            request={request}
+                            requests={IncomingRequests}
+                            setIncomingRequests={setIncomingRequests}
+                          />
+                          <RejectButton
+                            size="small"
+                            request={request}
+                            requests={IncomingRequests}
+                            setIncomingRequests={setIncomingRequests}
+                          />
+                        </Box>
+                        <Box
+                          component="form"
+                          sx={{ mr: 0 }}
+                          //</TableCell>handleSubmit={(event) => {
+                          // message(event, request.products_transactions_id);
+                          // }}
+                        >
+                          <MessageButton
+                            handleSubmit={(event) => {
+                              event.preventDefault();
+                              setCurrentSelectedID(
+                                request.products_transactions_id
+                              );
+                              setMessageDisplay("inline-block");
+                              message(request.products_transactions_id);
+                            }}
+                            unread={unreadFunc(
+                              request.products_transactions_id
+                            )}
+                          />
+                        </Box>
                       </Box>
                     </TableCell>
                   </TableRow>
@@ -320,13 +338,11 @@ export default function MyRequests() {
                   <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="center">Owner's Email</TableCell>
-                    <TableCell align="center">cost per day</TableCell>
+                    <TableCell align="center">cost/day</TableCell>
                     <TableCell align="center">days requested</TableCell>
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">to</TableCell>
-                    <TableCell align="center">total revenue</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">total</TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -366,8 +382,6 @@ export default function MyRequests() {
                         requests={OutgoingRequests}
                         setIncomingRequests={setOutgoingRequests}
                       />
-                    </TableCell>
-                    <TableCell>
                       <MessageButton
                         handleSubmit={(event) => {
                           event.preventDefault();
