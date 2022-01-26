@@ -230,7 +230,7 @@ export default function MyRequests() {
                     <TableCell align="center">From</TableCell>
                     <TableCell align="center">To</TableCell>
                     <TableCell align="center">Total</TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell align="center"> </TableCell>
                   </TableRow>
                 </TableHead>
               )}
@@ -250,13 +250,13 @@ export default function MyRequests() {
                     <TableCell align="center">
                       ${request.price_per_day_cents / 100}
                     </TableCell>
-                    <TableCell align="center" padding="none">
+                    <TableCell align="center">
                       {dayCalulator(request.start_time, request.end_time)}
                     </TableCell>
                     <TableCell align="center" padding="none">
                       {dayFormater(request.start_time)}
                     </TableCell>
-                    <TableCell align="center" padding="none">
+                    <TableCell align="center">
                       {dayFormater(request.end_time)}
                     </TableCell>
                     <TableCell align="center">
@@ -274,6 +274,7 @@ export default function MyRequests() {
                           display: "flex",
                           flexDirection: "row",
                           alignItems: "center",
+                          justifyContent: "center",
                         }}
                       >
                         <Box
