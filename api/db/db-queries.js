@@ -549,7 +549,7 @@ module.exports = (db) => {
         
         WHERE (products_transactions.status = 'rejected' OR products_transactions.status = 'returned' OR products_transactions.status = 'canceled' OR products.user_id = $1 OR transactions.user_id = $1)
 
-        AND products_transactions.status != 'pending'
+        AND (products_transactions.status != 'pending') AND (products_transactions.status != 'activate')
        ;`,
         [userId]
       )
