@@ -99,6 +99,7 @@ export default function Order(props) {
                 }}
               />
               <Button
+                onSubmit={props.handleSubmit}
                 color="secondary"
                 type="submit"
                 fullWidth

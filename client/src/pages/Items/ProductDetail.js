@@ -8,6 +8,7 @@ import {
   Card,
   CardMedia,
   CardContent,
+  CardActionArea,
   Typography,
   CardActions,
   CardHeader,
@@ -16,6 +17,9 @@ import {
   Box,
   Fade,
   Button,
+  Stack,
+  TextField,
+  ThemeProvider,
 } from "@mui/material";
 // import theme from "../../components/styles";
 import ReviewsList from "../../components/Reviews/ReviewsList";
@@ -77,7 +81,6 @@ const ProductDetail = () => {
   };
 
   const updateItem = (itemInfo) => {
-    //no default prevented
     const object1 = {
       category: itemInfo.category,
       name: itemInfo.name,
@@ -90,13 +93,17 @@ const ProductDetail = () => {
     axios
       .post(`http://localhost:8001/api/products/${object1.id}/edit`, object1)
       .then((res) => {
-        //  console.log(res);
+        console.log(res);
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
       });
     // navigate("/my-products");
   };
+  console.log("product");
+  console.log(product.user_id);
+  console.log("appState");
+  console.log(appState.profile.id);
 
   return isLoading ? (
     <div />

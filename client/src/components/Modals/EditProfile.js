@@ -42,6 +42,7 @@ export default function EditProfile(props) {
 
   const handleOnChange = (e) => {
     const name = e.target.name;
+    console.log(userInfo);
 
     setUserInfo({
       ...userInfo,
@@ -200,26 +201,7 @@ export default function EditProfile(props) {
                   label="Lender"
                 />
               </FormGroup>
-              {/* <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="borrower"
-                label="Borrower"
-                name="borrower"
-                value={userInfo.borrower}
-                onChange={handleOnChange}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="lender"
-                label="Lender"
-                name="lender"
-                value={userInfo.lender}
-                onChange={handleOnChange}
-              /> */}
+
               <Button
                 type="submit"
                 fullWidth
@@ -227,10 +209,6 @@ export default function EditProfile(props) {
                 variant="contained"
                 color="secondary"
                 sx={{ marginTop: "10px" }}
-                // onClick={(e) => {
-                //   // e.preventDefault();
-                //   props.handleSubmit(userInfo);
-                // }}
               >
                 Update
               </Button>

@@ -39,7 +39,7 @@ export default function CreateItem(props) {
     description: props.product?.description ?? "",
     id: props.product?.id ?? "",
   });
-  // console.log(props.product);
+  console.log(props.product);
   const handleOnChange = (e) => {
     const name = e.target.name;
     setItemInfo({
