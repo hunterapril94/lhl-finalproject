@@ -127,17 +127,6 @@ module.exports = (db) => {
       });
     }
 
-    //console.log(req.params.id);
-    // console.log(userID);
-    if (userID !== Number(req.params.id)) {
-      return res.status(401).json({
-        auth: true,
-        message: "not authorized to edit other users items",
-      });
-    }
-
-    console.log("here");
-
     const editProduct = {
       userId: userID,
       category: req.body.category,
@@ -149,13 +138,14 @@ module.exports = (db) => {
       id: req.params.id,
     };
 
-    //console.log(editProduct);
-
     db.updateProductInfo(userID, editProduct)
-      .then(() => {
+      .then((product) => {
         res.json({
           auth: isLoggedIn,
-          message: "successfully added new product",
+          message: "successfully updated product",
+          isShown: true,
+          severity: "success",
+          product,
         });
       })
       .catch((err) => {

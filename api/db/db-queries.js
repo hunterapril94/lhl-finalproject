@@ -460,7 +460,7 @@ module.exports = (db) => {
       )
       .then((result) => {
         if (result) {
-          return result.rows;
+          return result.rows[0];
         } else {
           return null;
         }
