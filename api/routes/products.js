@@ -57,8 +57,6 @@ module.exports = (db) => {
       });
     }
 
-    console.log("here");
-
     newProduct = {
       userId: userID,
       category: req.body.category,
@@ -68,8 +66,6 @@ module.exports = (db) => {
       deposit_amount_cents: req.body.deposit_amount_cents,
       image: req.body.image,
     };
-
-    //  console.log(newProduct);
 
     db.createProduct(userID, newProduct)
       .then((product) => {
@@ -232,7 +228,6 @@ module.exports = (db) => {
         isShown: true,
       });
     }
-    console.log(req.body.stars);
 
     if (req.body.stars == 0) {
       return res.json({
@@ -259,7 +254,6 @@ module.exports = (db) => {
       req.body.text
     )
       .then(() => {
-        console.log("sucessfully added");
         res.json({
           auth: true,
           message: "successfully added review",
@@ -268,7 +262,6 @@ module.exports = (db) => {
         });
       })
       .catch((err) => {
-        console.log(err.message);
         res.status(500).json({
           auth: isLoggedIn,
           message: "could not create new review",

@@ -68,7 +68,6 @@ module.exports = (db) => {
 
     db.getTransactionHistoryByUserID(userID)
       .then((transactionHistory) => {
-        //console.log(transactionHistory);
         return res.json({
           auth: true,
           message: "successfully got my products",
@@ -241,10 +240,22 @@ module.exports = (db) => {
 
     //makes sure the sign up form is complete
 
-    if (!(user.first_name && user.last_name && user.email && user.password)) {
+    if (
+      !(
+        user.first_name &&
+        user.last_name &&
+        user.email &&
+        user.password &&
+        user.neighborhood &&
+        user.address &&
+        user.phone
+      )
+    ) {
       return res.json({
         auth: false,
         message: "Please fill in all required fields",
+        isShown: true,
+        severity: "error",
       });
     }
 
@@ -267,19 +278,27 @@ module.exports = (db) => {
           return res.json({
             auth: false,
             message: "Email already in use",
+            isShown: true,
+            severity: "error",
           });
         }
 
         req.session.user_id = result.id; //set the cookie according to the userid returned from the database
+
         res.json({
           auth: true,
           message: "succesful registration",
+          profile: result,
+          isShown: true,
+          severity: "success",
         });
       })
       .catch((err) => {
         res.status(500).json({
           auth: false,
           message: "internal server error",
+          isShown: true,
+          severity: "error",
         });
       });
   });
@@ -290,8 +309,6 @@ module.exports = (db) => {
 
   router.post("/edit", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware'
-
-    console.log("in route");
 
     if (!isLoggedIn) {
       return res.json({
@@ -310,8 +327,6 @@ module.exports = (db) => {
       lender: req.body.lender,
       borrower: req.body.borrower,
     };
-
-    console.log(userInfo, userID);
 
     //makes sure the edit form is complete
 

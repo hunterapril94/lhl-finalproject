@@ -55,12 +55,12 @@ export default function MyTransactions() {
       text: data.get("text"),
       stars: value,
     });
-    console.log({
-      product_id: itemInfo.product_id,
-      title: data.get("title"),
-      text: data.get("text"),
-      stars: value,
-    });
+    // console.log({
+    //   product_id: itemInfo.product_id,
+    //   title: data.get("title"),
+    //   text: data.get("text"),
+    //   stars: value,
+    // });
   };
   const handleOpen = function (product_id) {
     setOpen(true);

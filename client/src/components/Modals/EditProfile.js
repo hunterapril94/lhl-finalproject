@@ -42,7 +42,6 @@ export default function EditProfile(props) {
 
   const handleOnChange = (e) => {
     const name = e.target.name;
-    console.log(userInfo);
 
     setUserInfo({
       ...userInfo,
@@ -70,7 +69,6 @@ export default function EditProfile(props) {
             <Box
               component="form"
               onSubmit={(e) => {
-                console.log("submit");
                 e.preventDefault();
                 props.handleSubmit(e);
               }}

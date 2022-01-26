@@ -75,13 +75,30 @@ export default function SignUp() {
       })
       .then((res) => {
         if (res.data.auth) {
-          setAppState(prev => {
-            return {...prev, auth: true}
+          setAppState((prev) => {
+            return {
+              ...prev,
+              auth: true,
+              snackBar: {
+                isShown: res.data.isShown,
+                severity: res.data.severity,
+                message: res.data.message,
+              },
+              profile: res.data.profile,
+            };
           });
           navigate("/");
         } else {
-          setAppState(prev => {
-            return {...prev, auth: false}
+          setAppState((prev) => {
+            return {
+              ...prev,
+              auth: false,
+              snackBar: {
+                isShown: res.data.isShown,
+                severity: res.data.severity,
+                message: res.data.message,
+              },
+            };
           });
         }
       });
@@ -173,6 +190,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="email"
+                type="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
@@ -205,7 +223,7 @@ export default function SignUp() {
                   </Link>
                 </Grid> */}
                 <Grid item xs={12} style={{ textAlign: "center" }}>
-                  <Link href="/signin" variant="body2">
+                  <Link href="/signup" variant="body2">
                     {"Already have an account? Sign In"}
                   </Link>
                 </Grid>
