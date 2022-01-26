@@ -237,37 +237,62 @@ module.exports = (db) => {
   // post /api/products/reviews/new
   //-----------------------------------------------------------------
 
-  router.post("/reviews/new", (req, res) =>{
+  router.post("/reviews/new", (req, res) => {
     const { isLoggedIn, userID } = req; //gets this from middleware
     // createProduct;
     if (!isLoggedIn) {
       return res.status(401).json({
         auth: false,
         message: "not authorized",
-        isApproved: false,
+
+        severity: "error",
+        isShown: true,
       });
     }
-    console.log('request received')
-    db
-    .addNewReview(req.body.product_id, 
-      userID, 
-      req.body.stars, 
-      req.body.title, 
-      req.body.text)
-    .then(() => {
-      console.log('sucessfully added')
-      res.json({
+    console.log(req.body.stars);
+
+    if (req.body.stars == 0) {
+      return res.json({
         auth: true,
-        message: "successfully added review"
+        message: "please leave a rating",
+        severity: "error",
+        isShown: true,
       });
-    })
-    .catch((err) => {
-      console.log(err.message)
-      res.status(500).json({
-        auth: isLoggedIn,
-        message: err.message,
+    }
+
+    if (!req.body.stars || !req.body.title || !req.body.text) {
+      return res.json({
+        auth: true,
+        message: "incomplete form",
+        severity: "error",
+        isShown: true,
       });
-    });
+    }
+    db.addNewReview(
+      req.body.product_id,
+      userID,
+      req.body.stars,
+      req.body.title,
+      req.body.text
+    )
+      .then(() => {
+        console.log("sucessfully added");
+        res.json({
+          auth: true,
+          message: "successfully added review",
+          severity: "success",
+          isShown: true,
+        });
+      })
+      .catch((err) => {
+        console.log(err.message);
+        res.status(500).json({
+          auth: isLoggedIn,
+          message: "could not create new review",
+          severity: "error",
+          isShown: true,
+        });
+      });
   });
 
   return router;
