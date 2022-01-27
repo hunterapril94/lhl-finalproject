@@ -19,7 +19,6 @@ VALUES
 (3, 'Other', 'Golf Clubs', 1500, 'Set of nice clubs like new with a sturdy bag', 3500, 'https://images.unsplash.com/photo-1596333466392-8d33960440f0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=811&q=80'),
 (1, 'Craft Equipment', 'Quilting Frames', 1000, 'Solid quilting frame that has been my best friend through some great pieces', 1000, 'https://images.unsplash.com/photo-1570362685387-3cf5499c3fdc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'),
 (6, 'Craft Equipment', '3D Printer', 3000, '3D Printer, you will need to supply your own materials to print.', 5000, 'https://images.unsplash.com/photo-1563520239648-a24e51d4b570?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'),
-(6, 'Other', 'Canoe', 2000, 'Sturdy Canoe, great for one or two people. Paddles included', 3000, 'https://images.unsplash.com/photo-1516471835429-167f83503f4b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80'),
-(4, 'Other', 'Arch', 1000, 'Foldable arch. Great for outdoor weddings.', 1500, 'https://images.unsplash.com/photo-1629744418692-345355518e78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
-
+(6, 'Other', 'Canoe', 2000, 'Sturdy Canoe, great for one or two people. Paddles included', 3000, 'https://images.unsplash.com/photo-1516471835429-167f83503f4b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80');
+-- (4, 'Other', 'Arch', 1000, 'Foldable arch. Great for outdoor weddings.', 1500, 'https://images.unsplash.com/photo-1629744418692-345355518e78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
 

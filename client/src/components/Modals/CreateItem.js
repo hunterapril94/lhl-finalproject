@@ -47,7 +47,6 @@ export default function CreateItem(props) {
       [name]: e.target.value,
     });
   };
-  const createOrNot = props.product ? "Save" : "Create";
   return (
     <div>
       <Modal
@@ -78,7 +77,7 @@ export default function CreateItem(props) {
                 component="h2"
                 sx={{ mb: 2, textAlign: "center" }}
               >
-                Create new item
+                {props.product ? "Edit your item" : "Create new item"}
               </Typography>
               <TextField
                 margin="normal"
