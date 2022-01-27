@@ -1,7 +1,7 @@
--- INSERT INTO products_transactions (transaction_id, product_id, start_time, end_time, status)
--- VALUES
--- (1, 1, 'January 17, 2019', 'January 19, 2019', 'Returned'),
--- (2, 2, 'July 18, 2020', 'July 21, 2020', 'returned'),
+INSERT INTO products_transactions (transaction_id, product_id, start_time, end_time, status)
+VALUES
+(1, 1, 'January 17, 2019', 'January 19, 2019', 'rejected'),
+(2, 2, 'July 18, 2020', 'July 21, 2020', 'returned');
 -- (2, 3, 'July 18, 2020', 'July 21, 2020', 'returned'),
 -- (3, 5, 'April 1, 2018', 'April 4, 2018', 'returned'),
 -- (4, 7, 'June 18, 2020', 'June 19, 2020', 'returned'),
